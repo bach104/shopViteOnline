@@ -1,0 +1,148 @@
+[
+  {
+    "user": "64a5c2f0d3546a2b8e4db001",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c001",
+        "quantity": 2
+      },
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c002",
+        "quantity": 1
+      }
+    ],
+    "status": "Chờ xác nhận đơn hàng",
+    "totalPrice": 1200000,
+    "shippingAddress": "Số 15, Đường Láng, Hà Nội",
+    "phoneNumber": "0912345678"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db002",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c003",
+        "quantity": 1
+      }
+    ],
+    "status": "Xác nhận thành công",
+    "totalPrice": 450000,
+    "shippingAddress": "Số 10, Phạm Ngũ Lão, Đà Nẵng",
+    "phoneNumber": "0987654321"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db003",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c004",
+        "quantity": 3
+      },
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c005",
+        "quantity": 1
+      }
+    ],
+    "status": "Đang vận chuyển",
+    "totalPrice": 1400000,
+    "shippingAddress": "Khu phố 5, Quận 7, TP. HCM",
+    "phoneNumber": "0908765432"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db004",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c006",
+        "quantity": 2
+      }
+    ],
+    "status": "Đã vận chuyển",
+    "totalPrice": 900000,
+    "shippingAddress": "Tầng 3, Tòa nhà A, Hải Phòng",
+    "phoneNumber": "0934567890"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db005",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c007",
+        "quantity": 1
+      },
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c008",
+        "quantity": 2
+      }
+    ],
+    "status": "Đã thanh toán",
+    "totalPrice": 1600000,
+    "shippingAddress": "Số 45, Cầu Giấy, Hà Nội",
+    "phoneNumber": "0987656789"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db006",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c009",
+        "quantity": 2
+      }
+    ],
+    "status": "Chờ xác nhận đơn hàng",
+    "totalPrice": 800000,
+    "shippingAddress": "Số 12, Nguyễn Văn Linh, Cần Thơ",
+    "phoneNumber": "0978765432"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db007",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c010",
+        "quantity": 1
+      }
+    ],
+    "status": "Xác nhận thành công",
+    "totalPrice": 500000,
+    "shippingAddress": "Số 19, Lê Lợi, Huế",
+    "phoneNumber": "0967654321"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db008",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c011",
+        "quantity": 4
+      }
+    ],
+    "status": "Đang vận chuyển",
+    "totalPrice": 1800000,
+    "shippingAddress": "Số 50, Láng Hạ, Hà Nội",
+    "phoneNumber": "0945678901"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db009",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c012",
+        "quantity": 1
+      },
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c013",
+        "quantity": 2
+      }
+    ],
+    "status": "Đã thanh toán",
+    "totalPrice": 1550000,
+    "shippingAddress": "Tầng 2, Tòa nhà B, Hải Phòng",
+    "phoneNumber": "0909876543"
+  },
+  {
+    "user": "64a5c2f0d3546a2b8e4db010",
+    "products": [
+      {
+        "product": "64b6e9a9c8d5a2a1b4f4c014",
+        "quantity": 1
+      }
+    ],
+    "status": "Chờ xác nhận đơn hàng",
+    "totalPrice": 750000,
+    "shippingAddress": "Số 35, Trần Phú, Đà Nẵng",
+    "phoneNumber": "0987658765"
+  }
+]

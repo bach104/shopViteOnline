@@ -1,0 +1,10 @@
+@use "../../../variables/variables.scss" as *;
+@use "../../../variables/mixins.scss" as *;
+@use "../../../font/fonts.scss" as *;
+
+@media (max-width:600px){
+    .p-mobile{
+        padding: 0.2rem;
+    }
+
+}

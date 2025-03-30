@@ -1,0 +1,38 @@
+@import './sass/index.scss';
+
+@media (width < 600px) {
+
+    /* .instagram__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    } */
+}
+.comment-root {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .comment-reply {
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px; 
+  }
+.nav__icons span a.dropdown-items {
+    font-size: 16px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.add-product-InputCSS {
+    @apply mt-1 block py-2.5 px-4 w-full rounded-md bg-gray-100 border-gray-300 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm
+}
+
+.add-product-btn {
+    @apply mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+}

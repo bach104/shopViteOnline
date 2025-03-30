@@ -1,0 +1,37 @@
+@use "../../variables/variables.scss" as *;
+@use "../../variables/mixins.scss" as *;
+@use "../../font/fonts.scss" as *;
+.store__list,
+.section__container {
+    max-width: $max-width-1400;
+    margin: auto;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background: $primary-color-gray;
+    min-height: 1300px;
+    margin-bottom: 2rem;
+}
+.section__container {
+    margin-top: 2rem;
+}
+
+.section__header {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family:$font-text3;
+    color:$bg-black;
+    text-align: center;
+}
+.store__list{
+    min-height: 1150px;
+    margin-bottom: 0;
+}
+.section__body {
+    margin-bottom: 1rem;
+    font-family:$font-text2;
+    max-width: $max-width-1400;
+    margin: 0 auto;
+}
+

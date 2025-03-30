@@ -1,0 +1,9 @@
+@use "../../../variables/variables.scss" as *;
+.box {
+    background: var(--primary-color-gray);
+    >nav {
+        height: 320px;
+        margin: 0 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    }
+} 

@@ -1,0 +1,8 @@
+@use "../../../../variables/variables.scss" as *;
+@use "../../../../variables/mixins.scss" as *;
+@use "../../../../font/fonts.scss" as *;
+.btn-comeBack{
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1rem;
+}

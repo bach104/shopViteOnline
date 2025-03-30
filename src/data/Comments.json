@@ -1,0 +1,122 @@
+[
+  {
+    "userId": "64a5c2f0d3546a2b8e4db001",
+    "productId": "64c6f12c9e7d5a2a1f5a001",
+    "content": "Sản phẩm rất tốt, chất lượng hơn mong đợi!",
+    "parentId": null,
+    "status": "approved",
+    "isAdmin": false,
+    "images": ["image1.jpg", "image2.jpg"],
+    "videos": ["video1.mp4"]
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db002",
+    "productId": "64c6f12c9e7d5a2a1f5a002",
+    "content": "Giao hàng nhanh, sản phẩm đúng như mô tả.",
+    "parentId": null,
+    "status": "approved",
+    "isAdmin": false,
+    "images": ["image3.jpg"],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db003",
+    "productId": "64c6f12c9e7d5a2a1f5a003",
+    "content": "Mình rất hài lòng với chất lượng sản phẩm này.",
+    "parentId": null,
+    "status": "approved",
+    "isAdmin": false,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db004",
+    "productId": "64c6f12c9e7d5a2a1f5a004",
+    "content": "Có vấn đề nhỏ khi sử dụng, mong shop phản hồi.",
+    "parentId": null,
+    "status": "pending",
+    "isAdmin": false,
+    "images": ["image4.jpg"],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db005",
+    "productId": "64c6f12c9e7d5a2a1f5a005",
+    "content": "Nhân viên hỗ trợ rất nhiệt tình, cảm ơn shop.",
+    "parentId": null,
+    "status": "approved",
+    "isAdmin": false,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db006",
+    "productId": "64c6f12c9e7d5a2a1f5a006",
+    "content": "Mình không hài lòng, sản phẩm không như kỳ vọng.",
+    "parentId": null,
+    "status": "rejected",
+    "isAdmin": false,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db007",
+    "productId": "64c6f12c9e7d5a2a1f5a007",
+    "content": "Shop có bán thêm màu khác không?",
+    "parentId": null,
+    "status": "pending",
+    "isAdmin": false,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db008",
+    "productId": "64c6f12c9e7d5a2a1f5a008",
+    "content": "Sản phẩm này có bảo hành không?",
+    "parentId": null,
+    "status": "pending",
+    "isAdmin": true,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db009",
+    "productId": "64c6f12c9e7d5a2a1f5a009",
+    "content": "Giá cả hợp lý, sản phẩm đáng tiền.",
+    "parentId": null,
+    "status": "approved",
+    "isAdmin": false,
+    "images": ["image5.jpg"],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db010",
+    "productId": "64c6f12c9e7d5a2a1f5a010",
+    "content": "Shop gửi thiếu phụ kiện đi kèm, mong xử lý sớm.",
+    "parentId": null,
+    "status": "pending",
+    "isAdmin": false,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db001",
+    "productId": "64c6f12c9e7d5a2a1f5a001",
+    "content": "Cảm ơn shop, mình sẽ tiếp tục ủng hộ!",
+    "parentId": "64c6f12c9e7d5a2a1f5a001",
+    "status": "approved",
+    "isAdmin": true,
+    "images": [],
+    "videos": []
+  },
+  {
+    "userId": "64a5c2f0d3546a2b8e4db002",
+    "productId": "64c6f12c9e7d5a2a1f5a002",
+    "content": "Shop tư vấn rất nhiệt tình, cảm ơn nhiều.",
+    "parentId": "64c6f12c9e7d5a2a1f5a002",
+    "status": "approved",
+    "isAdmin": true,
+    "images": [],
+    "videos": []
+  }
+]

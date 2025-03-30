@@ -1,0 +1,67 @@
+@use "../../../variables/variables.scss" as *;
+@use "../../../variables/mixins.scss" as *;
+@use "../../../font/fonts.scss" as *;
+.introduce {
+    display: grid;
+    max-width: $max-width-1400;
+    background: $primary-color-gray;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    grid-template-columns: 2fr 1fr;
+    .introduce__content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+
+        .introduce__images {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+            img {
+                height: 240px;
+                object-fit: cover;
+                border-radius: 8px;
+                &.introduce__image--large {
+                    grid-column: span 1;
+                }
+            }
+        }
+        .introduce__text {
+            text-align: justify;
+            font-family: $font-text3;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+    }
+    .introduce__sidebar {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        gap: 16px;
+        justify-content: center;
+        justify-content: space-between;
+
+        .introduce__title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            width: 130px;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .introduce__button {
+            max-width: 200px;
+           
+        }
+
+        .introduce__image--bottom {
+            height: 200px;
+            // margin-top: 15px;
+        }
+    }
+}
