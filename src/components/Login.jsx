@@ -11,16 +11,17 @@ const Login = () => {
   const passwordRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [loginUser] = useLoginUserMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const validateInputs = () => {
     const newErrors = {};
-    if (!usernameOrEmailRef.current.value) {
+    if (!usernameOrEmailRef.current?.value) {
       newErrors.usernameOrEmail = "Vui lòng nhập tên đăng nhập hoặc email";
     }
-    if (!passwordRef.current.value) {
+    if (!passwordRef.current?.value) {
       newErrors.password = "Vui lòng nhập mật khẩu";
     }
     setErrors(newErrors);
@@ -31,9 +32,8 @@ const Login = () => {
     e.preventDefault();
     if (!validateInputs()) return;
 
-    // Tắt console.error tạm thời
-    const originalConsoleError = console.error;
-    console.error = () => {};
+    setIsLoading(true);
+    setErrors({});
 
     try {
       const result = await loginUser({
@@ -41,38 +41,34 @@ const Login = () => {
         password: passwordRef.current.value,
       }).unwrap();
 
-      if (!result.success) {
-        // Xử lý các trường hợp lỗi
-        if (result.message.includes("Tên đăng nhập") || 
-            result.message.includes("Không tìm thấy")) {
-          setErrors({
-            usernameOrEmail: "Tên đăng nhập hoặc email không đúng",
-            password: ""
-          });
-        } else if (result.message.includes("Mật khẩu")) {
-          setErrors({
-            usernameOrEmail: "",
-            password: "Mật khẩu không đúng"
-          });
-        }
-        return;
-      }
-
-      // Xử lý đăng nhập thành công
+      // Successful login
       dispatch(setUser({ user: result.user }));
       localStorage.setItem("user", JSON.stringify(result.user));
       localStorage.setItem("token", result.token);
       toast.success("Đăng nhập thành công!");
-      setTimeout(() => navigate("/"), 1000);
+      navigate("/");
 
-    } catch  {
-      setErrors({
-        usernameOrEmail: "Có lỗi xảy ra, vui lòng thử lại",
-        password: ""
-      });
+    } catch (error) {
+      // Handle specific error cases from backend
+      if (error.data) {
+        if (error.data.message === "Tên đăng nhập hoặc email không tồn tại") {
+          setErrors({
+            usernameOrEmail: "Tên đăng nhập hoặc email không tồn tại",
+            password: ""
+          });
+        } else if (error.data.message === "Sai mật khẩu") {
+          setErrors({
+            usernameOrEmail: "",
+            password: "Sai mật khẩu"
+          });
+        } else {
+          toast.error(error.data.message || "Đăng nhập thất bại");
+        }
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại");
+      }
     } finally {
-      // Khôi phục console.error
-      console.error = originalConsoleError;
+      setIsLoading(false);
     }
   };
 
@@ -85,13 +81,15 @@ const Login = () => {
             <label htmlFor="usernameOrEmail">Tên đăng nhập hoặc email:</label>
             <input
               ref={usernameOrEmailRef}
-              className="p-2 rounded-md mt-2 w-full"
+              className={`p-2 rounded-md mt-2 w-full ${errors.usernameOrEmail ? "border border-red-500" : ""}`}
               type="text"
               id="usernameOrEmail"
               placeholder="Nhập email hoặc tên đăng nhập"
               onBlur={() => validateInputs()}
             />
-            {errors.usernameOrEmail && <p className="text-red-500 mt-1">{errors.usernameOrEmail}</p>}
+            {errors.usernameOrEmail && (
+              <p className="text-red-500 mt-1">{errors.usernameOrEmail}</p>
+            )}
           </div>
 
           <div className="form-control mb-3">
@@ -99,7 +97,7 @@ const Login = () => {
             <div className="relative w-full">
               <input
                 ref={passwordRef}
-                className="p-2 w-full rounded-md mt-2 pr-10"
+                className={`p-2 w-full rounded-md mt-2 pr-10 ${errors.password ? "border border-red-500" : ""}`}
                 type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Nhập mật khẩu"
@@ -116,11 +114,20 @@ const Login = () => {
             </div>
             {errors.password && <p className="text-red-500 mt-1">{errors.password}</p>}
           </div>
+          
           <button
             type="submit"
             className="bg-black text-white px-3 py-2 rounded-md w-full mt-3 flex justify-center items-center"
+            disabled={isLoading}
           >
-            Đăng nhập
+            {isLoading ? (
+              <>
+                <span className="loading loading-spinner loading-sm mr-2"></span>
+                Đang đăng nhập...
+              </>
+            ) : (
+              "Đăng nhập"
+            )}
           </button>
 
           <button
@@ -146,4 +153,4 @@ const Login = () => {
   );
 };
 
-export default Login; 
+export default Login;

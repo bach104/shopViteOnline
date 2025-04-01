@@ -29,6 +29,14 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setCredentials: (state, action) => {
+      const { user, token } = action.payload;
+      state.user = user;
+      state.token = token;
+      state.error = null;
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
+    },
     setUser: (state, action) => {
       state.user = action.payload.user;
       if (action.payload.token) {
@@ -58,7 +66,6 @@ const authSlice = createSlice({
       }
       state.error = null;
     },
-    
     setUsersList: (state, action) => {
       state.usersList = action.payload.users;
       state.pagination = {
@@ -85,6 +92,7 @@ const authSlice = createSlice({
 });
 
 export const { 
+  setCredentials,
   setUser, 
   logout, 
   updateUserInfo, 
@@ -93,4 +101,8 @@ export const {
   clearError,
   removeUsersFromList,
 } = authSlice.actions;
+
 export default authSlice.reducer;
+
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectCurrentToken = (state) => state.auth.token;

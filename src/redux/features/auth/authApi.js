@@ -1,28 +1,41 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getBaseUrl } from '../../../utils/baseURL';
+import { logout } from './authSlice'; 
 
-// Tạo custom fetchBaseQuery
 const customFetchBaseQuery = fetchBaseQuery({
-  baseUrl: `${getBaseUrl()}/api/auth`,
+  baseUrl: `${getBaseUrl()}/api`,
   credentials: 'include',
+  prepareHeaders: (headers, { getState, dispatch }) => {
+    const token = getState().auth?.token || localStorage.getItem('token');
+    
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const exp = payload.exp * 1000;
+        
+        if (Date.now() >= exp) {
+          dispatch(logout());
+          return headers;
+        }
+        
+        headers.set('Authorization', `Bearer ${token}`);
+      } catch (error) {
+        console.error('Error processing token:', error);
+        dispatch(logout());
+      }
+    }
+    return headers;
+  },
 });
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: async (args, api, extraOptions) => {
-    try {
-      const result = await customFetchBaseQuery(args, api, extraOptions);
-      return { data: result.data };
-    } catch {
-      return { data: { success: false, message: 'Lỗi kết nối' } };
-    }
-  },
-  
+  baseQuery: customFetchBaseQuery,
   tagTypes: ['Users'],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (newUser) => ({
-        url: '/register',
+        url: '/auth/register',
         method: 'POST',
         body: newUser,
       }),
@@ -34,26 +47,24 @@ export const authApi = createApi({
         return response;
       },
       transformErrorResponse: (response) => {
-        const errorMessage = response.data?.message || 'Đăng ký thất bại. Vui lòng thử lại!';
+        const errorMessage = response.data?.message || 
+                          (response.status === 400 ? 'Thông tin không hợp lệ' : 'Đăng ký thất bại. Vui lòng thử lại!');
         return {
           status: response.status,
-          data: errorMessage,
+          message: errorMessage,
+          data: response.data,
         };
       },
     }),
     loginUser: builder.mutation({
       query: (credentials) => ({
-        url: '/login',
+        url: '/auth/login',
         method: 'POST',
         body: credentials
       }),
     }),
     updateUser: builder.mutation({
       query: ({ userData }) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token không tồn tại. Vui lòng đăng nhập lại!');
-        }
         const formData = new FormData();
         Object.keys(userData).forEach((key) => {
           if (userData[key]) {
@@ -61,12 +72,9 @@ export const authApi = createApi({
           }
         });
         return {
-          url: '/update-info',
+          url: '/auth/update-info',
           method: 'PUT',
           body: formData,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         };
       },
       transformResponse: (response) => {
@@ -96,11 +104,6 @@ export const authApi = createApi({
         sortBy = 'createdAt', 
         sortOrder = -1 
       }) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token không tồn tại. Vui lòng đăng nhập lại!');
-        }
-        
         const params = new URLSearchParams();
         params.append('page', page);
         params.append('limit', limit);
@@ -110,11 +113,8 @@ export const authApi = createApi({
         params.append('sortOrder', sortOrder);
         
         return {
-          url: '/',
+          url: '/auth/',
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           params,
         };
       },
@@ -129,20 +129,11 @@ export const authApi = createApi({
       providesTags: ['Users'],
     }),
     removeUser: builder.mutation({
-      query: (userData) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token không tồn tại. Vui lòng đăng nhập lại!');
-        }
-        return {
-          url: '/remove-users',
-          method: 'DELETE',
-          body: userData,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-      },
+      query: (userData) => ({
+        url: '/auth/remove-users',
+        method: 'DELETE',
+        body: userData,
+      }),
       transformResponse: (response) => response,
       transformErrorResponse: (response) => {
         const errorMessage = response.data?.message || 'Xóa người dùng thất bại. Vui lòng thử lại!';
