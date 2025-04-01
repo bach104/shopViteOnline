@@ -9,6 +9,8 @@ import { commentApi } from './features/comment/commentApi';
 import commentReducer from './features/comment/commentSlice';
 import { bankApi } from './features/bank/bankApi';
 import bankReducer from './features/bank/bankSlice';
+import { orderApi } from './features/order/orderApi'; 
+import orderReducer from './features/order/orderSlice';
 
 export default configureStore({
   reducer: {
@@ -22,6 +24,8 @@ export default configureStore({
     comments: commentReducer,
     [bankApi.reducerPath]: bankApi.reducer,
     bank: bankReducer,
+    [orderApi.reducerPath]: orderApi.reducer, 
+    order: orderReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -29,7 +33,7 @@ export default configureStore({
       authApi.middleware,
       productApi.middleware,
       commentApi.middleware,
-      // Thêm bankApi middleware
-      bankApi.middleware
+      bankApi.middleware,
+      orderApi.middleware 
     ),
 });

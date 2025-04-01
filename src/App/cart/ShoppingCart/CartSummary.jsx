@@ -1,21 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCreateVnpayPaymentMutation } from '../../../redux/features/bank/bankApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { paymentStart, selectPaymentStatus } from '../../../redux/features/bank/bankSlice';
+import { useDispatch } from 'react-redux';
+import { paymentStart } from '../../../redux/features/bank/bankSlice';
+import { useCreateOrderMutation } from '../../../redux/features/order/orderApi';
 import Loader from './Loader';
 import { toast } from 'react-hot-toast';
 
-const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
+const CartSummary = ({ totalQuantity, totalPrice, onClearSelection, selectedItems, onOrderSuccess }) => {
   const [paymentMethod, setPaymentMethod] = useState(null);
-  const [createPayment, { isLoading }] = useCreateVnpayPaymentMutation();
+  const [createPayment, { isLoading: isPaymentLoading }] = useCreateVnpayPaymentMutation();
+  const [createOrder, { isLoading: isOrderLoading }] = useCreateOrderMutation();
+  const [orderSuccess, setOrderSuccess] = useState(false);
   const dispatch = useDispatch();
-  const paymentStatus = useSelector(selectPaymentStatus);
+
+  useEffect(() => {
+    let timer;
+    if (orderSuccess) {
+      timer = setTimeout(() => {
+        setOrderSuccess(false);
+        setPaymentMethod(null);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [orderSuccess]);
 
   const price = Number(totalPrice) || 0;
   const shippingFee = price * 0.05;
   const finalAmount = Math.round(price + shippingFee);
 
   const handlePayment = async () => {
+    if (orderSuccess) return;
+
     if (finalAmount < 10000) {
       toast.error('Số tiền thanh toán tối thiểu là 10,000 VND');
       return;
@@ -23,6 +38,24 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
 
     if (!paymentMethod) {
       toast.error('Vui lòng chọn phương thức thanh toán');
+      return;
+    }
+
+    if (paymentMethod === 'cod') {
+      try {
+        await createOrder({
+          cartIds: selectedItems,
+          paymentMethod: 'thanh toán khi nhận hàng'
+        }).unwrap();
+        
+        setOrderSuccess(true);
+        onOrderSuccess();
+        toast.success('Đặt hàng thành công!', { duration: 3000 });
+        onClearSelection();
+      } catch (error) {
+        console.error('Order creation error:', error);
+        toast.error(error.data?.message || 'Đặt hàng thất bại. Vui lòng thử lại.');
+      }
       return;
     }
 
@@ -35,10 +68,7 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
         orderInfo: `Thanh toán ${totalQuantity} sản phẩm`
       }).unwrap();
 
-      console.log('Payment response:', response); // For debugging
-
       if (response.code === '00' && response.data?.paymentUrl) {
-        // Lưu thông tin giao dịch vào localStorage
         localStorage.setItem('currentPayment', JSON.stringify({
           amount: finalAmount,
           items: totalQuantity,
@@ -46,7 +76,6 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
           timestamp: new Date().toISOString()
         }));
         
-        // Redirect to VNPay payment page
         window.location.href = response.data.paymentUrl;
       } else {
         toast.error(response.message || 'Khởi tạo thanh toán thất bại');
@@ -60,7 +89,17 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
   const paymentMethods = [
     { id: 'vnpay_qr', label: 'VNPay QR', icon: 'qr_code' },
     { id: 'vnpay_card', label: 'Thẻ ngân hàng', icon: 'credit_card' },
+    { id: 'cod', label: 'Thanh toán khi nhận hàng', icon: 'local_shipping' }
   ];
+
+  const getButtonText = () => {
+    if (orderSuccess) return 'ĐẶT HÀNG THÀNH CÔNG';
+    if (!paymentMethod) return 'THANH TOÁN';
+    if (paymentMethod === 'cod') return 'ĐẶT HÀNG';
+    return `THANH TOÁN ${finalAmount.toLocaleString('vi-VN')} ₫`;
+  };
+
+  const isLoading = isPaymentLoading || isOrderLoading;
 
   return (
     <div className="mx-auto cart__Pay p-4 mt-6 bg-black bg-opacity-90 text-white rounded-lg shadow-lg">
@@ -100,12 +139,12 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
           {paymentMethods.map((method) => (
             <div 
               key={method.id}
-              className={`p-3 border rounded-lg cursor-pointer transition-all ${
+              className={`p-3 border rounded-lg transition-all ${
                 paymentMethod === method.id 
                   ? 'border-yellow-400 bg-gray-800' 
                   : 'border-gray-700 hover:border-gray-600'
-              }`}
-              onClick={() => setPaymentMethod(method.id)}
+              } ${orderSuccess ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              onClick={() => !orderSuccess && setPaymentMethod(method.id)}
             >
               <div className="flex items-center">
                 <span className="material-icons-round mr-3">{method.icon}</span>
@@ -122,25 +161,31 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection }) => {
       <div className="flex flex-col space-y-3">
         <button
           onClick={onClearSelection}
-          className="py-2 px-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+          disabled={orderSuccess}
+          className={`py-2 px-4 bg-gray-700 rounded-lg transition ${
+            orderSuccess ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-600'
+          }`}
         >
           Xóa lựa chọn
         </button>
-        
         <button
           onClick={handlePayment}
-          disabled={!paymentMethod || isLoading || finalAmount === 0}
-          className={`py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-bold rounded-lg transition flex items-center justify-center ${
-            (!paymentMethod || finalAmount === 0) ? 'opacity-50 cursor-not-allowed' : ''
+          disabled={!paymentMethod || isLoading || finalAmount === 0 || orderSuccess}
+          className={`py-3 font-bold rounded-lg transition flex items-center justify-center ${
+            orderSuccess
+              ? 'bg-green-500 text-white cursor-default'
+              : (!paymentMethod || finalAmount === 0) 
+                ? 'bg-yellow-500 opacity-50 cursor-not-allowed text-black' 
+                : 'bg-yellow-500 hover:bg-yellow-400 text-black'
           }`}
         >
-          {isLoading || paymentStatus === 'loading' ? (
+          {isLoading ? (
             <>
               <Loader size="small" className="mr-2" />
               ĐANG XỬ LÝ...
             </>
           ) : (
-            `THANH TOÁN ${finalAmount.toLocaleString('vi-VN')} ₫`
+            getButtonText()
           )}
         </button>
       </div>

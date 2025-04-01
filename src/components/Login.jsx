@@ -27,7 +27,6 @@ const Login = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!validateInputs()) return;

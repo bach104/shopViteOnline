@@ -18,7 +18,7 @@ const ShoppingCart = () => {
   const { user } = useSelector((state) => state.auth);
   const isLoggedIn = !!user;
 
-  const { data: cartData, isLoading, isError } = useFetchCartQuery(
+  const { data: cartData, isLoading, isError, refetch } = useFetchCartQuery(
     {
       page: currentPage,
       limit: itemsPerPage,
@@ -27,6 +27,11 @@ const ShoppingCart = () => {
   );
 
   const [removeFromCart] = useRemoveFromCartMutation();
+
+  const handleOrderSuccess = () => {
+    refetch(); // Làm mới danh sách giỏ hàng
+  };
+
   const handleNextPage = () => setCurrentPage(currentPage + 1);
   const handlePrevPage = () => setCurrentPage(currentPage - 1);
   const handleSelectItem = (itemId) => {
@@ -42,10 +47,12 @@ const ShoppingCart = () => {
     try {
       await removeFromCart({ cartItemIds: selectedItems }).unwrap();
       setSelectedItems([]);
+      refetch();
     } catch (error) {
       console.error("Failed to remove items:", error);
     }
   };
+
   const selectedProducts = cartData?.cartItems?.filter((item) => selectedItems.includes(item._id)) || [];
   const totalQuantity = selectedProducts.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = selectedProducts.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -84,10 +91,9 @@ const ShoppingCart = () => {
             </div>
           ) : (
             cartData.cartItems.map((item) => {
-              // Xử lý đường dẫn hình ảnh
               const imageUrl = item.image
                 ? `${getBaseUrl()}/${item.image.replace(/\\/g, "/")}`
-                : "https://via.placeholder.com/112"; // Placeholder nếu không có hình ảnh
+                : "https://via.placeholder.com/112"; 
 
               return (
                 <div
@@ -174,6 +180,8 @@ const ShoppingCart = () => {
           totalQuantity={totalQuantity}
           totalPrice={totalPrice}
           onClearSelection={handleClearSelection}
+          selectedItems={selectedItems}
+          onOrderSuccess={handleOrderSuccess}
         />
       </section>
 
