@@ -5,17 +5,14 @@ import { useRef, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAddToCartMutation } from "../../../redux/features/cart/cartApi";
 import { selectAllCartItems } from "../../../redux/features/cart/cartSlice";
-import { getBaseUrl } from "../../../utils/baseURL"; // Import hàm getBaseUrl
-
+import { getBaseUrl } from "../../../utils/baseURL"; 
 const ViewProducts = () => {
   const { id } = useParams();
   const [addToCart] = useAddToCartMutation();
   const cartItems = useSelector(selectAllCartItems);
   const { user } = useSelector((state) => state.auth); 
-
   const [cachedProduct, setCachedProduct] = useState(null);
   const { data, refetch } = useGetProductByIdQuery(id, { skip: !id });
-
   useEffect(() => {
     if (id) {
       refetch();
@@ -51,7 +48,6 @@ const ViewProducts = () => {
       scrollRef.current.scrollBy({ left: direction * 150, behavior: "smooth" });
     }
   };
-
   const addToCartHandler = async () => {
     if (!user) {
       toast.warning("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
@@ -179,9 +175,9 @@ const ViewProducts = () => {
               <p>{product?.description}</p>
             </div>
           </div>
-          <div className="mt-4 flex items-end gap-4">
+          <div className="mt-4 gap-4">
             <p className="text-sm font-semibold">Size:</p>
-            <div className="flex gap-2 mt-1">
+            <div className="flex flex-wrap gap-2 mt-1">
               {product?.size?.map((size) => (
                 <button
                   key={size}
@@ -195,7 +191,6 @@ const ViewProducts = () => {
               ))}
             </div>
           </div>
-
           <div className="mt-2 gap-4">
             <p className="text-sm w-36 font-semibold">Màu sắc:</p>
             <div className="flex flex-wrap gap-2 mt-1">

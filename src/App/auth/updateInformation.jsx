@@ -13,7 +13,6 @@ const UpdateInformation = () => {
     email: '',
     avatar: null,
   });
-
   const [emailError, setEmailError] = useState(''); 
   const [phoneNumberError, setPhoneNumberError] = useState(''); 
   const [updateUser] = useUpdateUserMutation();

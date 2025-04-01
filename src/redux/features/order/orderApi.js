@@ -25,7 +25,6 @@ export const orderApi = createApi({
       invalidatesTags: ['Order']
     }),
 
-    // Lấy danh sách đơn hàng của người dùng
     getUserOrders: builder.query({
       query: () => '/api/orders/user',
       transformResponse: (response) => response.orders,
