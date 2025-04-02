@@ -1,4 +1,4 @@
-import { faFile,faTruck,faChartLine, faHouse, faShop, faUsers } from "@fortawesome/free-solid-svg-icons"
+import { faFile,faTruck,faBox,faChartLine, faHouse, faShop, faUsers } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link, Outlet } from "react-router"
 
@@ -32,9 +32,15 @@ const AdminManager = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="managerCart" className="p-4 flex items-center gap-2 ">
+                        <Link to="managerOrderConfirmnit" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon className="w-4"  icon={faFile} />
-                        Quản lý đơn hàng
+                        Đơn chờ xác nhận
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="managerOrderPack" className="p-4 flex items-center gap-2 ">
+                        <FontAwesomeIcon icon={faBox} />
+                        Đơn chờ đóng gói
                         </Link>
                     </li>
                     <li>

@@ -149,7 +149,7 @@ const ManagerAuths = () => {
           </div>
         ) : (
           displayUsers.map((user) => (
-            <nav key={user._id} className="Manager__display--product h-36 justify-between p-2">
+            <nav key={user._id} className="Manager__display--product rounded-md h-36 justify-between p-2">
               <div className="flex gap-2">
                 <img
                   src={getAvatarUrl(user)}

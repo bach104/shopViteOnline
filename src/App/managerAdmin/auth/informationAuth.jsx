@@ -20,7 +20,7 @@ const InformationAuth = ({ user, onBack }) => {
           placeholder="Tìm kiếm sản phẩm"
         />
       </div>
-      <div className="Manager__display--Box p-4">
+      <div className="Manager__display--Box p-4 ">
         <div className="flex gap-6">
           <img 
             src={getAvatarUrl()} 

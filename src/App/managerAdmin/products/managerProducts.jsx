@@ -87,10 +87,8 @@ const ManagerProducts = () => {
 
       await deleteProduct(deleteData).unwrap();
       
-      // Show success button
       setDeleteSuccess(true);
       
-      // Hide after 1 second and reset
       setTimeout(() => {
         setDeleteSuccess(false);
         setSelectedProducts([]);
@@ -135,7 +133,7 @@ const ManagerProducts = () => {
               : "https://via.placeholder.com/112";
 
             return (
-              <nav key={index} className="Manager__display--product h-36 justify-between p-2">
+              <nav key={index} className="Manager__display--product rounded-md h-36 justify-between p-2">
                 <div className="flex w-2/3 gap-2">
                   <img
                     src={imageUrl}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ConfirmationInformation from "./ConfirmationInformation";
+import ConfirmationInformation from "../delivery/DeliveryInformation";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";
@@ -31,7 +31,7 @@ const Confirmation = () => {
   // Lọc các đơn hàng theo trạng thái mong muốn
   const filteredOrders = orders.filter(order => 
     order.status === 'đang chờ xác nhận' || 
-    order.status === 'Shop đang đóng gói'
+    order.status === 'hết hàng'
   );
 
   if (showDetails) {
@@ -90,7 +90,6 @@ const Confirmation = () => {
   );
 };
 
-// Component con để hiển thị từng đơn hàng
 const OrderItem = ({ order, getProductImage, onViewDetails }) => {
   const firstProductImage = order.items[0]?.image || '';
   const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
@@ -122,8 +121,8 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
         <p>
           <b>Trạng thái đơn hàng:</b> 
           <span className={`ml-1 ${
-            order.status === 'đang chờ xác nhận' ? 'text-black' : 
-            order.status === 'Shop đang đóng gói' ? 'text-blue-600' : ''
+            order.status === 'đang chờ xác nhận' ? 'text-yellow-500' : 
+            order.status === 'hết hàng' ? 'text-red-400' : ''
           }`}>
             {order.status}
           </span>

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const ManagerOrderPack = () => {
   const [page, setPage] = useState(1);
-  const [statusFilter] = useState("đã giao cho bên vận chuyển");
+  const [statusFilter] = useState("Shop đang đóng gói");
   
   const { data, isLoading, isError, refetch } = useGetAllOrdersQuery({
     page,
@@ -37,7 +37,7 @@ const ManagerOrderPack = () => {
     try {
       await updateStatus({ 
         orderId, 
-        status: "đang giao" 
+        status: "đã giao cho bên vận chuyển" 
       }).unwrap();
       
       toast.success("Xác nhận đơn hàng thành công");
@@ -69,7 +69,7 @@ const ManagerOrderPack = () => {
   return (
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
-        <h2 className="text-xl p-4">Quản lý giao hàng</h2>
+        <h2 className="text-xl p-4">Các đơn hàng đang chờ xác nhận</h2>
         {pagination.totalOrders > 0 && (
           <p className="text-white p-4">
             Hiển thị {showingFrom}-{showingTo} trong tổng số {pagination.totalOrders} đơn hàng
@@ -180,7 +180,7 @@ const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
         <p>
           <span className="text-gray-600">Trạng thái:</span> 
           <span className={`ml-1 font-medium ${
-            order.status === 'đã giao cho bên vận chuyển' ? 'text-purple-500' : 
+            order.status === 'Shop đang đóng gói' ? 'text-blue-500' : 
             'text-gray-600'
           }`}>
             {order.status}

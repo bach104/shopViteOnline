@@ -12,7 +12,6 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection, selectedItem
   const [createOrder, { isLoading: isOrderLoading }] = useCreateOrderMutation();
   const [orderSuccess, setOrderSuccess] = useState(false);
   const dispatch = useDispatch();
-
   useEffect(() => {
     let timer;
     if (orderSuccess) {
@@ -23,9 +22,8 @@ const CartSummary = ({ totalQuantity, totalPrice, onClearSelection, selectedItem
     }
     return () => clearTimeout(timer);
   }, [orderSuccess]);
-
   const price = Number(totalPrice) || 0;
-  const shippingFee = price * 0.05;
+  const shippingFee = price * 0.15;
   const finalAmount = Math.round(price + shippingFee);
 
   const handlePayment = async () => {

@@ -45,7 +45,7 @@ const Auth = () => {
 
   const adminDropDownMenus = [
     { label: "Quản lý mục", path: "/admin-manager" },
-    { label: "Tất cả đơn hàng", path: "/dashboard/manage-orders" },
+    { label: "Tất cả đơn hàng", path: "/admin-manager/managerOrderConfirmnit" },
     { label: "Thông tin cá nhân", path: "/informations" },
   ];    
   const userDropDownMenus = [

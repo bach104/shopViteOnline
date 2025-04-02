@@ -15,7 +15,6 @@ export const orderApi = createApi({
   }),
   tagTypes: ['Order'],
   endpoints: (builder) => ({
-    // Tạo đơn hàng mới
     createOrder: builder.mutation({
       query: ({ cartIds, paymentMethod }) => ({
         url: '/api/orders',
@@ -37,37 +36,80 @@ export const orderApi = createApi({
           : [{ type: 'Order', id: 'LIST' }]
     }),
 
-    // Huỷ đơn hàng
     cancelOrder: builder.mutation({
-      query: ({ orderId, reason }) => ({
+      query: ({ orderId, reason, status }) => ({
         url: '/api/orders/cancel',
         method: 'PUT',
-        body: { orderId, reason }
+        body: { 
+          orderId, 
+          ...(status !== 'hết hàng' && { reason }) // Only include reason if not "out of stock"
+        }
       }),
       invalidatesTags: (result, error, { orderId }) => [
         { type: 'Order', id: orderId }
       ]
     }),
 
-    // Lấy tất cả đơn hàng (admin)
     getAllOrders: builder.query({
-      query: () => '/api/orders/admin',
-      transformResponse: (response) => response.orders,
+      query: (params = {}) => {
+        const { 
+          page = 1, 
+          status, 
+          username, 
+          paymentMethod,
+          startDate,
+          endDate,
+          minAmount,
+          maxAmount 
+        } = params;
+        
+        const searchParams = new URLSearchParams();
+        searchParams.append('page', page);
+        if (status) searchParams.append('status', status);
+        if (username) searchParams.append('username', username);
+        if (paymentMethod) searchParams.append('paymentMethod', paymentMethod);
+        if (startDate) searchParams.append('startDate', startDate);
+        if (endDate) searchParams.append('endDate', endDate);
+        if (minAmount) searchParams.append('minAmount', minAmount);
+        if (maxAmount) searchParams.append('maxAmount', maxAmount);
+        
+        return `/api/orders/admin?${searchParams.toString()}`;
+      },
+      transformResponse: (response) => ({
+        orders: response.orders,
+        pagination: {
+          currentPage: response.currentPage,
+          totalPages: response.totalPages,
+          totalOrders: response.totalOrders,
+          ordersPerPage: response.ordersPerPage,
+          pageOrdersCount: response.pageOrdersCount
+        },
+        filters: response.filters || {
+          status: 'all',
+          username: '',
+          paymentMethod: 'all',
+          dateRange: { startDate: null, endDate: null },
+          amountRange: { minAmount: null, maxAmount: null }
+        }
+      }),
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ _id }) => ({ type: 'Order', id: _id })),
+              ...result.orders.map(({ _id }) => ({ type: 'Order', id: _id })),
               { type: 'Order', id: 'ADMIN_LIST' }
             ]
           : [{ type: 'Order', id: 'ADMIN_LIST' }]
     }),
 
-    // Cập nhật trạng thái đơn hàng (admin)
     updateOrderStatus: builder.mutation({
-      query: ({ orderId, status }) => ({
+      query: ({ orderId, status, cancelledReason }) => ({
         url: '/api/orders/admin/status',
         method: 'PUT',
-        body: { orderId, status }
+        body: { 
+          orderId, 
+          status,
+          ...(status === 'hết hàng' && { cancelledReason }) 
+        }
       }),
       invalidatesTags: (result, error, { orderId }) => [
         { type: 'Order', id: orderId },
@@ -75,7 +117,6 @@ export const orderApi = createApi({
       ]
     }),
 
-    // Lấy chi tiết đơn hàng
     getOrderDetails: builder.query({
       query: (orderId) => `/api/orders/${orderId}`,
       providesTags: (result, error, id) => [{ type: 'Order', id }]

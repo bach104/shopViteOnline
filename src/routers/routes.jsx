@@ -17,7 +17,8 @@ import Delivered from "../App/cart/delivered/Delivered";
 import AdminManager from "../App/auth/managerAdmin/AdminManager";
 import ManagerProducts from "../App/managerAdmin/products/managerProducts";
 import ManagerAuths from "../App/managerAdmin/auth/managerAuths";
-import ManagerCart from "../App/managerAdmin/cart/managerCart";
+import ManagerOrderConfirmnit from "../App/managerAdmin/order/managerOrderConfirmnit";
+import ManagerOrderPack from "../App/managerAdmin/order/managerOrderPack"
 import ManagerTransport from "../App/managerAdmin/transport/managerTransport";
 import ManagerStatistical from "../App/managerAdmin/statistical/managerStatistical";
 import InformationProducts from "../App/managerAdmin/products/informationProducts";
@@ -100,7 +101,8 @@ const router = createBrowserRouter([
                 ]
             },
             {path:"managerAuths", element:<ManagerAuths/>},
-            {path:"managerCart", element:<ManagerCart/>},
+            {path:"managerOrderConfirmnit", element:<ManagerOrderConfirmnit/>},
+            {path:"managerOrderPack", element:<ManagerOrderPack/>},
             {path:"managerTransport", element:<ManagerTransport/>},
             {path:"managerStatistical", element:<ManagerStatistical/>},
         ]

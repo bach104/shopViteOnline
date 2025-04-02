@@ -1,70 +1,92 @@
+// orderSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-
+import { orderApi } from './orderApi';
 const initialState = {
   orders: [],
-  adminOrders: [],
+  adminOrders: {
+    data: [],
+    pagination: {
+      currentPage: 1,
+      totalPages: 1,
+      totalOrders: 0,
+      ordersPerPage: 20,
+      pageOrdersCount: 0
+    },
+    filters: {
+      status: 'all',
+      username: '',
+      paymentMethod: 'all',
+      dateRange: { startDate: null, endDate: null },
+      amountRange: { minAmount: null, maxAmount: null }
+    }
+  },
   currentOrder: null,
   loading: false,
-  error: null,
-  statusFilter: 'all',
-  paymentMethodFilter: 'all'
+  error: null
 };
 
 const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    // Set đơn hàng hiện tại
     setCurrentOrder: (state, action) => {
       state.currentOrder = action.payload;
     },
-
-    // Xoá đơn hàng hiện tại
     clearCurrentOrder: (state) => {
       state.currentOrder = null;
     },
-
-    // Set trạng thái loading
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
-
-    // Set lỗi
     setError: (state, action) => {
       state.error = action.payload;
     },
-
-    setStatusFilter: (state, action) => {
-      state.statusFilter = action.payload;
+    setAdminOrdersPage: (state, action) => {
+      state.adminOrders.pagination.currentPage = action.payload;
     },
-
-    setPaymentMethodFilter: (state, action) => {
-      state.paymentMethodFilter = action.payload;
+    setAdminOrdersFilter: (state, action) => {
+      state.adminOrders.filters = {
+        ...state.adminOrders.filters,
+        ...action.payload
+      };
+      // Reset to first page when filters change
+      state.adminOrders.pagination.currentPage = 1;
     },
-
+    resetAdminOrdersFilters: (state) => {
+      state.adminOrders.filters = initialState.adminOrders.filters;
+      state.adminOrders.pagination.currentPage = 1;
+    },
     resetOrderState: () => initialState
   },
-
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      orderApi.endpoints.getUserOrders.matchFulfilled,
+      (state, { payload }) => {
+        state.orders = payload;
+      }
+    );
+  }
 });
 
-// Export actions
+// Export actionsa
 export const {
   setCurrentOrder,
   clearCurrentOrder,
   setLoading,
   setError,
-  setStatusFilter,
-  setPaymentMethodFilter,
+  setAdminOrdersPage,
+  setAdminOrdersFilter,
+  resetAdminOrdersFilters,
   resetOrderState
 } = orderSlice.actions;
 
-// Export selector
+// Export selectors
 export const selectCurrentOrder = (state) => state.order.currentOrder;
-export const selectOrders = (state) => state.order.orders;
-export const selectAdminOrders = (state) => state.order.adminOrders;
+export const selectUserOrders = (state) => state.order.orders;
+export const selectAdminOrders = (state) => state.order.adminOrders.data;
+export const selectAdminOrdersPagination = (state) => state.order.adminOrders.pagination;
+export const selectAdminOrdersFilters = (state) => state.order.adminOrders.filters;
 export const selectOrderLoading = (state) => state.order.loading;
 export const selectOrderError = (state) => state.order.error;
-export const selectStatusFilter = (state) => state.order.statusFilter;
-export const selectPaymentMethodFilter = (state) => state.order.paymentMethodFilter;
 
 export default orderSlice.reducer;
