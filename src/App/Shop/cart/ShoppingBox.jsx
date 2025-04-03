@@ -1,16 +1,7 @@
-import { useUpdateCartItemMutation, useRemoveFromCartMutation } from "../../../redux/features/cart/cartApi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { debounce } from "lodash";
 import { useSelector } from "react-redux";
 import { getBaseUrl } from "../../../utils/baseURL"; 
 
 const ShoppingBox = ({ cartItems = [] }) => {
-  const [updateCartItem] = useUpdateCartItemMutation();
-  const [removeFromCart] = useRemoveFromCartMutation();
-  const [pendingUpdates, setPendingUpdates] = useState({}); 
-
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = !!user;
 
@@ -24,36 +15,6 @@ const ShoppingBox = ({ cartItems = [] }) => {
   }
 
   const displayedItems = Array.isArray(cartItems) ? cartItems.slice(0, 20) : [];
-
-  const debouncedUpdate = debounce(async (updates) => {
-    try {
-      await Promise.all(updates.map(updateCartItem)); 
-      setPendingUpdates({}); 
-    } catch (error) {
-      console.error("Lỗi khi cập nhật giỏ hàng:", error);
-    }
-  }, 300); 
-
-  const handleUpdateQuantity = (item, newQuantity) => {
-    if (newQuantity < 1) newQuantity = 1; 
-    const updatedItem = {
-      cartItemId: item._id,
-      size: item.size,
-      color: item.color,
-      quantity: newQuantity,
-    };
-    setPendingUpdates((prev) => ({ ...prev, [item._id]: updatedItem })); 
-    debouncedUpdate(Object.values({ ...pendingUpdates, [item._id]: updatedItem })); 
-  };
-
-  const handleRemoveItem = async (cartItemId, event) => {
-    event.stopPropagation(); 
-    try {
-      await removeFromCart({ cartItemId }); 
-    } catch (error) {
-      console.error("Lỗi khi xóa sản phẩm:", error);
-    }
-  };
 
   return (
     <div className="shoppingBox w-80 border bg-white p-2 absolute top-10 -right-5 rounded-lg shadow-lg">
@@ -79,31 +40,8 @@ const ShoppingBox = ({ cartItems = [] }) => {
                     <p className="text-sm">{Number(item.price).toLocaleString("vi-VN")}đ</p>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    className="px-2 py-1 rounded bg-gray-300 hover:bg-gray-400 transition-colors"
-                    onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
-                    disabled={item.quantity <= 1}
-                  >
-                    -
-                  </button>
-
-                  <span className="w-5 text-center">{item.quantity}</span>
-
-                  <button
-                    className="px-2 py-1 rounded bg-gray-300 hover:bg-gray-400 transition-colors"
-                    onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
-                  >
-                    +
-                  </button>
-
-                  <button
-                    className="hover:text-red-600 text-black px-2 transition-colors"
-                    onClick={(event) => handleRemoveItem(item._id, event)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
+                <div className="">
+                  <span className="w-5 text-center mr-3">Số lượng: {item.quantity}</span>
                 </div>
               </div>
             );

@@ -67,8 +67,8 @@ const Delivery = () => {
           ) : error ? (
             <p>Có lỗi khi tải đơn hàng: {error.message}</p>
           ) : filteredOrders.length === 0 ? (
-            <div className="text-center py-8">
-              <p>Bạn không có đơn hàng nào đang chờ xử lý.</p>
+            <div className="text-center py-4 text-lg font-semibold text-gray-500">
+              Bạn không có đơn hàng nào đang chờ xử lý.
             </div>
           ) : (
             filteredOrders.map((order) => (

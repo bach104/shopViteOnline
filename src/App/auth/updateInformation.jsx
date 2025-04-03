@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useUpdateUserMutation } from '../../redux/features/auth/authApi';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/features/auth/authSlice';
+import { updateUserInfo } from '../../redux/features/auth/authSlice'; // Thay setUser bằng updateUserInfo
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 const UpdateInformation = () => {
   const [userData, setUserData] = useState({
     yourname: '',
@@ -58,7 +57,11 @@ const UpdateInformation = () => {
       }
 
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      dispatch(setUser({ user: updatedUser, token: response.token || localStorage.getItem('token') }));
+      // Sử dụng updateUserInfo thay vì setUser
+      dispatch(updateUserInfo({ 
+        user: updatedUser, 
+        token: response.token || localStorage.getItem('token') 
+      }));
 
       toast.success('Cập nhật thông tin thành công!', { position: 'top-center' });
     } catch (error) {
@@ -115,7 +118,6 @@ const UpdateInformation = () => {
         <div className="flex items-center">
           <label className="w-1/6">Email:</label>
           <div className="w-2/6">
-
             <input
               type="email"
               name="email"

@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, setUser } from "../../redux/features/auth/authSlice"; 
-import { resetCart } from "../../redux/features/cart/cartSlice"; 
+import { logout, setCredentials } from "../../redux/features/auth/authSlice"; // Thay setUser bằng setCredentials
+import { resetCart } from "../../redux/features/cart/cartSlice";
 import avatarImg from "../../assets/img/avatar.png";
-import { getBaseUrl } from "../../utils/baseURL"; 
+import { getBaseUrl } from "../../utils/baseURL";
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,11 @@ const Auth = () => {
       const storedToken = localStorage.getItem("token");
       if (storedUser && storedToken) {
         try {
-          dispatch(setUser({ user: JSON.parse(storedUser) }));
+          // Sử dụng setCredentials thay vì setUser
+          dispatch(setCredentials({ 
+            user: JSON.parse(storedUser), 
+            token: storedToken 
+          }));
         } catch (error) {
           console.error("Error parsing user from localStorage", error);
         }

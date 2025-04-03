@@ -9,19 +9,32 @@ const loadUserFromLocalStorage = () => {
       token: token || null,
       error: null,
       usersList: null, 
-      pagination: null, 
+      pagination: null,
+      isAuthenticated: !!token && !isTokenExpired(token),
     };
   } catch (err) {
-    console.error('Error deserializing user from localStorage:', err);
+    console.error('Error loading user from localStorage:', err);
     return { 
       user: null, 
       token: null, 
       error: null,
       usersList: null,
       pagination: null,
+      isAuthenticated: false,
     };
   }
 };
+
+function isTokenExpired(token) {
+  if (!token) return true;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch (error) {
+    console.error('Error checking token expiration:', error);
+    return true;
+  }
+}
 
 const initialState = loadUserFromLocalStorage();
 
@@ -34,17 +47,9 @@ const authSlice = createSlice({
       state.user = user;
       state.token = token;
       state.error = null;
+      state.isAuthenticated = true;
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
-    },
-    setUser: (state, action) => {
-      state.user = action.payload.user;
-      if (action.payload.token) {
-        state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token);
-      }
-      state.error = null;
-      localStorage.setItem('user', JSON.stringify(state.user));
     },
     logout: (state) => {
       state.user = null;
@@ -52,8 +57,10 @@ const authSlice = createSlice({
       state.error = null;
       state.usersList = null;
       state.pagination = null;
+      state.isAuthenticated = false;
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+      window.location.href = '/?sessionExpired=true';
     },
     updateUserInfo: (state, action) => {
       if (action.payload.user) {
@@ -62,47 +69,51 @@ const authSlice = createSlice({
       }
       if (action.payload.token) {
         state.token = action.payload.token;
+        state.isAuthenticated = true;
         localStorage.setItem('token', action.payload.token);
       }
       state.error = null;
     },
-    setUsersList: (state, action) => {
-      state.usersList = action.payload.users;
-      state.pagination = {
-        totalPages: action.payload.totalPages,
-        totalUsers: action.payload.totalUsers,
-        currentPage: action.payload.currentPage,
-        usersPerPage: action.payload.usersPerPage,
-      };
-    },
-    removeUsersFromList: (state, action) => {
-      if (state.usersList && Array.isArray(action.payload)) {
-        state.usersList = state.usersList.filter(
-          user => !action.payload.includes(user._id)
-        );
+    checkTokenExpiration: (state) => {
+      if (state.token && isTokenExpired(state.token)) {
+        state.user = null;
+        state.token = null;
+        state.isAuthenticated = false;
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = '/?sessionExpired=true';
       }
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
-    },
-    clearError: (state) => {
-      state.error = null;
-    },
+    }
   },
 });
 
 export const { 
   setCredentials,
-  setUser, 
   logout, 
-  updateUserInfo, 
-  setUsersList,
-  setError, 
-  clearError,
-  removeUsersFromList,
+  updateUserInfo,
+  checkTokenExpiration
 } = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const selectCurrentUser = (state) => state.auth.user;
-export const selectCurrentToken = (state) => state.auth.token;
+export const selectCurrentUser = (state) => {
+  // Kiểm tra token hết hạn mỗi khi select user
+  if (state.auth.token && isTokenExpired(state.auth.token)) {
+    return null;
+  }
+  return state.auth.user;
+};
+
+export const selectCurrentToken = (state) => {
+  if (state.auth.token && isTokenExpired(state.auth.token)) {
+    return null;
+  }
+  return state.auth.token;
+};
+
+export const selectIsAuthenticated = (state) => {
+  if (state.auth.token && isTokenExpired(state.auth.token)) {
+    return false;
+  }
+  return state.auth.isAuthenticated;
+};

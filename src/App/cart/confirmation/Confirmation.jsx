@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ConfirmationInformation from "../delivery/DeliveryInformation";
+import ConfirmationInformation from "./ConfirmInformation";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";
@@ -28,7 +28,6 @@ const Confirmation = () => {
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
 
-  // Lọc các đơn hàng theo trạng thái mong muốn
   const filteredOrders = orders.filter(order => 
     order.status === 'đang chờ xác nhận' || 
     order.status === 'hết hàng'
@@ -71,8 +70,8 @@ const Confirmation = () => {
           ) : error ? (
             <p>Có lỗi khi tải đơn hàng: {error.message}</p>
           ) : filteredOrders.length === 0 ? (
-            <div className="text-center py-8">
-              <p>Bạn không có đơn hàng nào đang chờ xử lý.</p>
+            <div className="text-center py-4 text-lg font-semibold text-gray-500">
+              Bạn không có đơn hàng nào đang chờ xử lý.
             </div>
           ) : (
             filteredOrders.map((order) => (

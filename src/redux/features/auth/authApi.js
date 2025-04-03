@@ -1,36 +1,52 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getBaseUrl } from '../../../utils/baseURL';
-import { logout } from './authSlice'; 
+import { logout } from './authSlice';
 
-const customFetchBaseQuery = fetchBaseQuery({
+const isTokenExpired = (token) => {
+  if (!token) return true;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch (error) {
+    console.error('Error checking token expiration:', error);
+    return true;
+  }
+};
+
+const baseQuery = fetchBaseQuery({
   baseUrl: `${getBaseUrl()}/api`,
   credentials: 'include',
   prepareHeaders: (headers, { getState, dispatch }) => {
     const token = getState().auth?.token || localStorage.getItem('token');
     
+    if (token && isTokenExpired(token)) {
+      dispatch(logout());
+      window.location.href = '/?sessionExpired=true';
+      return headers;
+    }
+    
     if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const exp = payload.exp * 1000;
-        
-        if (Date.now() >= exp) {
-          dispatch(logout());
-          return headers;
-        }
-        
-        headers.set('Authorization', `Bearer ${token}`);
-      } catch (error) {
-        console.error('Error processing token:', error);
-        dispatch(logout());
-      }
+      headers.set('Authorization', `Bearer ${token}`);
     }
     return headers;
   },
 });
 
+// Thêm interceptor cho response
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  
+  if (result?.error?.status === 401 && !args.url.includes('/auth/login')) {
+    api.dispatch(logout());
+    window.location.href = '/?sessionExpired=true';
+  }
+  
+  return result;
+};
+
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: customFetchBaseQuery,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Users'],
   endpoints: (builder) => ({
     registerUser: builder.mutation({
@@ -46,15 +62,6 @@ export const authApi = createApi({
         }
         return response;
       },
-      transformErrorResponse: (response) => {
-        const errorMessage = response.data?.message || 
-                          (response.status === 400 ? 'Thông tin không hợp lệ' : 'Đăng ký thất bại. Vui lòng thử lại!');
-        return {
-          status: response.status,
-          message: errorMessage,
-          data: response.data,
-        };
-      },
     }),
     loginUser: builder.mutation({
       query: (credentials) => ({
@@ -62,6 +69,16 @@ export const authApi = createApi({
         method: 'POST',
         body: credentials
       }),
+      transformResponse: (response) => {
+        if (response?.user && response?.token) {
+          localStorage.setItem('user', JSON.stringify(response.user));
+          localStorage.setItem('token', response.token);
+        }
+        return response;
+      },
+    }),
+    checkSession: builder.query({
+      query: () => '/auth/check-session',
     }),
     updateUser: builder.mutation({
       query: ({ userData }) => {
@@ -77,23 +94,6 @@ export const authApi = createApi({
           body: formData,
         };
       },
-      transformResponse: (response) => {
-        if (response?.token) {
-          localStorage.setItem('token', response.token);
-        }
-        if (response?.user) {
-          localStorage.setItem('user', JSON.stringify(response.user));
-        }
-        return response;
-      },
-      transformErrorResponse: (response) => {
-        const errorMessage = response.data?.message || 'Cập nhật thông tin thất bại. Vui lòng thử lại!';
-        return {
-          status: response.status,
-          data: errorMessage,
-        };
-      },
-      invalidatesTags: ['Users'],
     }),
     getUsers: builder.query({
       query: ({ 
@@ -118,15 +118,6 @@ export const authApi = createApi({
           params,
         };
       },
-      transformResponse: (response) => response,
-      transformErrorResponse: (response) => {
-        const errorMessage = response.data?.message || 'Lỗi khi tải danh sách người dùng';
-        return {
-          status: response.status,
-          data: errorMessage,
-        };
-      },
-      providesTags: ['Users'],
     }),
     removeUser: builder.mutation({
       query: (userData) => ({
@@ -134,15 +125,6 @@ export const authApi = createApi({
         method: 'DELETE',
         body: userData,
       }),
-      transformResponse: (response) => response,
-      transformErrorResponse: (response) => {
-        const errorMessage = response.data?.message || 'Xóa người dùng thất bại. Vui lòng thử lại!';
-        return {
-          status: response.status,
-          data: errorMessage,
-        };
-      },
-      invalidatesTags: ['Users'],
     }),
   }),
 });
@@ -150,9 +132,9 @@ export const authApi = createApi({
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
+  useCheckSessionQuery,
   useUpdateUserMutation,
   useGetUsersQuery,
   useRemoveUserMutation
 } = authApi;
-
 export default authApi;

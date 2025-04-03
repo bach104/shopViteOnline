@@ -4,7 +4,9 @@ import { useLoginUserMutation } from "../redux/features/auth/authApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/features/auth/authSlice";
+import { setCredentials } from "../redux/features/auth/authSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const usernameOrEmailRef = useRef(null);
@@ -12,6 +14,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginUser] = useLoginUserMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,6 +30,7 @@ const Login = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!validateInputs()) return;
@@ -40,16 +44,21 @@ const Login = () => {
         password: passwordRef.current.value,
       }).unwrap();
 
-      // Successful login
-      dispatch(setUser({ user: result.user }));
+      dispatch(setCredentials({ 
+        user: result.user, 
+        token: result.token 
+      }));
       localStorage.setItem("user", JSON.stringify(result.user));
       localStorage.setItem("token", result.token);
-      toast.success("Đăng nhập thành công!");
-      navigate("/");
+      
+      setLoginSuccess(true);
+      
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
 
     } catch (error) {
-      // Handle specific error cases from backend
-      if (error.data) {
+      if (error?.data) {
         if (error.data.message === "Tên đăng nhập hoặc email không tồn tại") {
           setErrors({
             usernameOrEmail: "Tên đăng nhập hoặc email không tồn tại",
@@ -62,6 +71,13 @@ const Login = () => {
           });
         } else {
           toast.error(error.data.message || "Đăng nhập thất bại");
+        }
+      } else if (error?.status === 401) {
+        const message = error.data?.message || "Đăng nhập thất bại";
+        if (message.includes("mật khẩu")) {
+          setErrors({ password: message });
+        } else {
+          setErrors({ usernameOrEmail: message });
         }
       } else {
         toast.error("Có lỗi xảy ra, vui lòng thử lại");
@@ -90,7 +106,6 @@ const Login = () => {
               <p className="text-red-500 mt-1">{errors.usernameOrEmail}</p>
             )}
           </div>
-
           <div className="form-control mb-3">
             <label htmlFor="password">Mật khẩu:</label>
             <div className="relative w-full">
@@ -114,21 +129,31 @@ const Login = () => {
             {errors.password && <p className="text-red-500 mt-1">{errors.password}</p>}
           </div>
           
-          <button
-            type="submit"
-            className="bg-black text-white px-3 py-2 rounded-md w-full mt-3 flex justify-center items-center"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <>
-                <span className="loading loading-spinner loading-sm mr-2"></span>
-                Đang đăng nhập...
-              </>
-            ) : (
-              "Đăng nhập"
-            )}
-          </button>
-
+          {loginSuccess ? (
+            <button
+              type="button"
+              className="bg-black gap-2 text-white px-3 py-2 rounded-md w-full mt-3 flex justify-center items-center"
+            >
+              <FontAwesomeIcon className="text-green-600 font-bold  text-2xl" icon={faCheck} />
+              Đăng nhập thành công
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="bg-black text-white px-3 py-2 rounded-md w-full mt-3 flex justify-center items-center"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="loading loading-spinner loading-sm mr-2"></span>
+                  Đang đăng nhập...
+                </>
+              ) : (
+                "Đăng nhập"
+              )}
+            </button>
+          )}
+          
           <button
             type="button"
             className="bg-black text-white px-3 py-2 rounded-md w-full mt-3 gap-2 flex items-center justify-center"
@@ -139,7 +164,6 @@ const Login = () => {
             Đăng nhập bằng Google
           </button>
         </form>
-
         <p className="p-3">
           Bạn chưa có tài khoản? Ấn{" "}
           <Link className="font-bold" to="/register">
@@ -151,5 +175,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;

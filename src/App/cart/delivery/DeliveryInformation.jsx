@@ -23,7 +23,6 @@ const DeliveryInformation = ({ order, onClose }) => {
         </div>
 
         <div className="space-y-4">
-          {/* Order Items */}
           <div className="space-y-3 shoppingContainer">
             {order.items.map((item, index) => (
               <div key={index} className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm shadow-sm">

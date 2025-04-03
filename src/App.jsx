@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./sass/index.scss";
 import './App.css'
 
-export default function Dashboard() {
+export default function App() {
   return (
     <div>
       <ToastContainer />
