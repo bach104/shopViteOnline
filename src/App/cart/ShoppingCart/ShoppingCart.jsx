@@ -106,7 +106,7 @@ const ShoppingCart = () => {
                     className="w-28 border border-black h-full object-cover rounded-s"
                   />
                   <div className="flex-1 shoppingItems__technology">
-                    <h3 className="font-semibold">{item.name}</h3>
+                    <h3 className="truncate font-semibold">{item.name}</h3>
                     <p className="text-sm">Số lượng: {item.quantity}</p>
                     <p className="text-sm">Kích thước: {item.size}</p>
                     <p className="text-sm">Màu sắc: {item.color}</p>

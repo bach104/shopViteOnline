@@ -53,7 +53,7 @@ const ProductCards = ({ products, gridCols }) => {
               name={product.name}
               price={product.price}
               oldPrice={product.oldPrice}
-              image={imageUrl} // Truyền imageUrl vào AddToCart
+              image={imageUrl}
               size={product.size?.[0]}
               color={product.color?.[0]}
               setCartCount={setCartCount}
@@ -64,5 +64,4 @@ const ProductCards = ({ products, gridCols }) => {
     </div>
   );
 };
-
 export default ProductCards;
