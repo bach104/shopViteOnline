@@ -46,7 +46,6 @@ const ManagerOrderInformation = ({ order, onClose }) => {
       alert(error.data?.message || 'Có lỗi xảy ra khi cập nhật đơn hàng');
     }
   };
-
   return (
     <div> 
         <div className="Manager__display--Title flex justify-items-center justify-between">

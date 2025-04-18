@@ -12,16 +12,18 @@ import Register from "../components/Register";
 import CartManager from "../components/CartNavbar";
 import ShoppingCart from "../App/cart/ShoppingCart/ShoppingCart";
 import Confirmation from "../App/cart/confirmation/Confirmation";
-import Delivery from "../App/cart/delivery/Delivery";
-import Delivered from "../App/cart/delivered/Delivered";
+import OnDelivery from "../App/cart/onDelivery/onDelivered";
+import Delivery from "../App/cart/waitDelivery/Delivery";
+import Delivered from "../App/cart/receivedTheGoods/Delivered";
 import AdminManager from "../App/auth/managerAdmin/AdminManager";
 import ManagerProducts from "../App/managerAdmin/products/managerProducts";
 import ManagerAuths from "../App/managerAdmin/auth/managerAuths";
 import ManagerOrderConfirmnit from "../App/managerAdmin/order/managerOrderConfirmnit";
 import ManagerOrderPack from "../App/managerAdmin/order/managerOrderPack"
-import ManagerTransport from "../App/managerAdmin/transport/managerTransport";
+import ManagerTransport from "../App/managerAdmin/order/managerTransport";
 import ManagerStatistical from "../App/managerAdmin/statistical/managerStatistical";
 import InformationProducts from "../App/managerAdmin/products/informationProducts";
+import ManagerOrderDelivery from "../App/managerAdmin/order/managerOrderDelivery";
 import VnpayReturnHandler from "../App/cart/ShoppingCart/VnpayReturnHandler";
 const router = createBrowserRouter([
   {
@@ -84,6 +86,7 @@ const router = createBrowserRouter([
       { path: "confirmation", element: <Confirmation /> },
       { path: "delivery", element: <Delivery /> },
       { path: "delivered", element: <Delivered /> },
+      { path: "onDelivery", element: <OnDelivery /> },
     ],
     },
     {
@@ -105,7 +108,8 @@ const router = createBrowserRouter([
             {path:"managerOrderPack", element:<ManagerOrderPack/>},
             {path:"managerTransport", element:<ManagerTransport/>},
             {path:"managerStatistical", element:<ManagerStatistical/>},
+            {path:"managerOrderDelivery", element:<ManagerOrderDelivery/>},
         ]
     }
-]);
+])
 export default router;

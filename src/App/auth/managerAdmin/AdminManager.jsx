@@ -22,31 +22,37 @@ const AdminManager = () => {
                     <li>
                         <Link to="" className="p-4 flex items-center gap-2">
                         <FontAwesomeIcon className="w-4"  icon={faShop} />
-                        Quản lý sản phẩm
+                            Quản lý sản phẩm
                         </Link>
                     </li>
                     <li>
                         <Link to="managerAuths" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon className="w-4"  icon={faUsers} />
-                        Quản lý khách hàng
+                            Quản lý khách hàng
                         </Link>
                     </li>
                     <li>
                         <Link to="managerOrderConfirmnit" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon className="w-4"  icon={faFile} />
-                        Đơn chờ xác nhận
+                            Đơn chờ xác nhận
                         </Link>
                     </li>
                     <li>
                         <Link to="managerOrderPack" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon icon={faBox} />
-                        Đơn chờ đóng gói
+                            Đơn chờ đóng gói
                         </Link>
                     </li>
                     <li>
                         <Link to="managerTransport" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon className="w-4"  icon={faTruck} />
-                        Giao hàng
+                            Đơn chờ giao hàng
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="managerOrderDelivery" className="p-4 flex items-center gap-2 ">
+                        <FontAwesomeIcon className="w-4"  icon={faTruck} />
+                            Đang giao
                         </Link>
                     </li>
                     <li>

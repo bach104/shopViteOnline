@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeliveredInformation from "./deliveredInformation";
+import DeliveredInformation from "./onDeliveredInformation";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";
@@ -12,25 +12,21 @@ const Delivery = () => {
   const { data: orders = [], isLoading, error } = useGetUserOrdersQuery(undefined, {
     skip: !isLoggedIn
   });
-
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
     setShowDetails(true);
   };
-
   const handleCloseDetails = () => {
     setShowDetails(false);
   };
-
   const getProductImage = (image) => {
     if (!image) return "";
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
   const filteredOrders = orders.filter(order => 
-    order.status === 'Shop đang đóng gói' || 
-    order.status === 'đã giao cho bên vận chuyển'
+    order.status === 'đang giao' || 
+    order.status === 'đã giao đến tay khách hàng'
   );
-
   if (showDetails) {
     return (
       <div className="my-4 shoppingCart relative">
@@ -43,12 +39,11 @@ const Delivery = () => {
       </div>
     );
   }
-
   return (
     <div className="my-4 shoppingCart relative">
       <section className="container-width p-4">
         <div className="flex justify-between pb-2">
-          <h2 className="text-2xl">Đơn hàng đã giao</h2>
+          <h2 className="text-2xl">Giao thành công</h2>
           {isLoggedIn && filteredOrders.length > 0 && (
             <p className="text-gray-500">
               Hiển thị {filteredOrders.length} đơn hàng đang xử lý
@@ -117,8 +112,8 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
         <p>
           <b>Trạng thái đơn hàng:</b> 
           <span className={`ml-1 ${
-            order.status === 'Shop đang đóng gói' ? 'text-blue-500' : 
-            order.status === 'đã giao cho bên vận chuyển' ? 'text-purple-600' : ''
+            order.status === 'đang giao' ? 'text-green-500' : 
+            order.status === 'đã giao đến tay khách hàng' ? 'text-yellow-600' : ''
           }`}>
             {order.status}
           </span>

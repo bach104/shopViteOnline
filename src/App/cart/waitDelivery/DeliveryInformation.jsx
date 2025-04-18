@@ -18,10 +18,8 @@ const DeliveryInformation = ({ order, onClose }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl"
           >
-            ✕
           </button>
         </div>
-
         <div className="space-y-4">
           <div className="space-y-3 shoppingContainer">
             {order.items.map((item, index) => (

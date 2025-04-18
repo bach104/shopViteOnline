@@ -30,7 +30,6 @@ const Delivery = () => {
     order.status === 'Shop đang đóng gói' || 
     order.status === 'đã giao cho bên vận chuyển'
   );
-
   if (showDetails) {
     return (
       <div className="my-4 shoppingCart relative">

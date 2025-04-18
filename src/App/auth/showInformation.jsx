@@ -44,5 +44,4 @@ const ShowInformation = () => {
     </>
   );
 };
-
 export default ShowInformation;

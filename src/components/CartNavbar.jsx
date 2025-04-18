@@ -26,7 +26,10 @@ const CartManager = () => {
           <Link to="delivery" className="w-full block p-2">Chờ giao hàng</Link>
         </li>
         <li className="w-full btn__li text-center">
-          <Link to="delivered" className="w-full block p-2">Đã giao</Link>
+          <Link to="onDelivery" className="w-full block p-2">Đang giao</Link>
+        </li>
+        <li className="w-full btn__li text-center">
+          <Link to="delivered" className="w-full block p-2">Các đơn hàng đã nhận</Link>
         </li>
       </ul>
     </header>

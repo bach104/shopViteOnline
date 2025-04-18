@@ -5,16 +5,11 @@ import { useUpdateProductMutation } from "../../../redux/features/shop/productsA
 import { getBaseUrl } from "../../../utils/baseURL";
 
 const UpdateProducts = ({ product, onClose }) => {
-  // Danh sách các option có sẵn
   const categoryOptions = ["Quần bò", "Váy", "Áo", "Quần"];
   const materialOptions = ["Vải", "Kaki", "Cotton"];
   const seasonOptions = ["Đông", "Thu", "Hạ", "Xuân"];
-
-  // Kiểm tra xem giá trị hiện tại có trong danh sách option không
   const isCategoryInOptions = categoryOptions.includes(product.category);
   const isMaterialInOptions = materialOptions.includes(product.material);
-
-  // Khởi tạo state
   const [updateProduct, { isLoading }] = useUpdateProductMutation();
   const [formData, setFormData] = useState({
     name: product.name,
@@ -41,7 +36,6 @@ const UpdateProducts = ({ product, onClose }) => {
   const [customMaterial, setCustomMaterial] = useState(
     !isMaterialInOptions ? product.material : ""
   );
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -49,11 +43,9 @@ const UpdateProducts = ({ product, onClose }) => {
       [name]: value,
     });
   };
-
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     const totalImages = formData.images.length + newImages.length + files.length;
-
     if (totalImages > 15) {
       setError("Bạn chỉ có thể tải lên tối đa 15 hình ảnh.");
       return;

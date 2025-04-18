@@ -16,11 +16,9 @@ const UpdateInformation = () => {
   const [phoneNumberError, setPhoneNumberError] = useState(''); 
   const [updateUser] = useUpdateUserMutation();
   const dispatch = useDispatch();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
-
     if (name === 'email') {
       setEmailError('');
     }
@@ -28,12 +26,10 @@ const UpdateInformation = () => {
       setPhoneNumberError('');
     }
   };
-
   const handleFileChange = (e) => {
     const { files } = e.target;
     setUserData({ ...userData, avatar: files[0] });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const phoneNumberRegex = /^[0-9]{10}$/; 

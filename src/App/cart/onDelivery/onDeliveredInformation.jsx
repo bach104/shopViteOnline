@@ -1,13 +1,10 @@
 import { getBaseUrl } from "../../../utils/baseURL";
-
 const DeliveredInformation = ({ order, onClose }) => {
   const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
-
   const getProductImage = (image) => {
     if (!image) return "https://via.placeholder.com/150";
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
-
   return (
     <div className="my-4 shoppingCart relative">
       <section className="container-width p-4">
@@ -20,7 +17,6 @@ const DeliveredInformation = ({ order, onClose }) => {
             ✕
           </button>
         </div>
-
         <div className="space-y-4">
           <div className="space-y-3 shoppingContainer">
             {order.items.map((item, index) => (
@@ -46,7 +42,6 @@ const DeliveredInformation = ({ order, onClose }) => {
               </div>
             ))}
           </div>
-          
           <div className="bg__select p-4 rounded-sm shadow-sm">
             <h3 className="text-lg font-semibold mb-3">Thông tin thanh toán</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -71,7 +66,6 @@ const DeliveredInformation = ({ order, onClose }) => {
               </div>
             </div>
           </div>
-
           <div className="bg__select p-4 rounded-sm shadow-sm">
             <h3 className="text-lg font-semibold mb-3">Thông tin giao hàng</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -85,7 +79,6 @@ const DeliveredInformation = ({ order, onClose }) => {
               </div>
             </div>
           </div>
-
           <div className="flex justify-start gap-3 pt-4">
             <button
               onClick={onClose}
@@ -99,5 +92,4 @@ const DeliveredInformation = ({ order, onClose }) => {
     </div>
   );
 };
-
 export default DeliveredInformation;

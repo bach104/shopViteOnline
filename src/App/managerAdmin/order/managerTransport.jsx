@@ -1,23 +1,18 @@
-import { useGetAllOrdersQuery, useUpdateOrderStatusMutation } from "../../../redux/features/order/orderApi";
+import { useGetAllOrdersQuery } from "../../../redux/features/order/orderApi";
 import { useState, useMemo } from "react";
 import { getBaseUrl } from "../../../utils/baseURL";
-import { toast } from "react-toastify";
 
 const ManagerOrderPack = () => {
   const [page, setPage] = useState(1);
-  const [statusFilter] = useState("Shop đang đóng gói");
+  const [statusFilter] = useState("đã giao cho bên vận chuyển");
   
-  const { data, isLoading, isError, refetch } = useGetAllOrdersQuery({
+  const { data, isLoading, isError } = useGetAllOrdersQuery({
     page,
     status: statusFilter
   });
-
-  const [updateStatus, { isLoading: isUpdating }] = useUpdateOrderStatusMutation();
-
   const pendingOrders = useMemo(() => {
     return data?.orders || [];
   }, [data]);
-
   const pagination = useMemo(() => {
     return data?.pagination || {
       currentPage: 1,
@@ -31,21 +26,6 @@ const ManagerOrderPack = () => {
   const getProductImage = (image) => {
     if (!image) return "";
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
-  };
-
-  const handleConfirmOrder = async (orderId) => {
-    try {
-      await updateStatus({ 
-        orderId, 
-        status: "đã giao cho bên vận chuyển" 
-      }).unwrap();
-      
-      toast.success("Xác nhận đơn hàng thành công");
-      refetch(); 
-    } catch (error) {
-      console.error('Error updating order:', error);
-      toast.error(error.data?.message || 'Có lỗi xảy ra khi xác nhận đơn hàng');
-    }
   };
 
   const handleNextPage = () => {
@@ -69,13 +49,14 @@ const ManagerOrderPack = () => {
   return (
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
-        <h2 className="text-xl p-4">Các đơn hàng đang chờ đóng gói</h2>
+        <h2 className="text-xl p-4">Đã giao cho bên vận chuyển</h2>
         {pagination.totalOrders > 0 && (
           <p className="text-white p-4">
             Hiển thị {showingFrom}-{showingTo} trong tổng số {pagination.totalOrders} đơn hàng
           </p>
         )}
       </div>
+      
       <div className="Manager__display--Box">
         <div className="shoppingCart relative">
           <section className="container-width p-4">
@@ -97,8 +78,6 @@ const ManagerOrderPack = () => {
                   key={order._id}
                   order={order}
                   getProductImage={getProductImage}
-                  onConfirmOrder={handleConfirmOrder}
-                  isUpdating={isUpdating}
                 />
               ))
             )}
@@ -134,7 +113,8 @@ const ManagerOrderPack = () => {
     </>
   );
 };
-const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
+
+const OrderItem = ({ order, getProductImage }) => {
   const firstProduct = order.items[0];
   const firstProductImage = firstProduct?.image ? getProductImage(firstProduct.image) : '';
   const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
@@ -178,24 +158,12 @@ const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
         <p>
           <span className="text-gray-600">Trạng thái:</span> 
           <span className={`ml-1 font-medium ${
-            order.status === 'Shop đang đóng gói' ? 'text-blue-500' : 
+            order.status === 'đã giao cho bên vận chuyển' ? 'text-purple-500' : 
             'text-gray-600'
           }`}>
             {order.status}
           </span>
         </p>
-      </div>
-      
-      <div className="flex items-end h-full">
-        <button
-          className={`flex bg-black bg-opacity-70 hover:bg-opacity-90 transition items-center text-white px-4 py-2 rounded-sm ${
-            isUpdating ? 'opacity-70 cursor-not-allowed' : ''
-          }`}
-          onClick={() => onConfirmOrder(order._id)}
-          disabled={isUpdating}
-        >
-          {isUpdating ? 'Đang xử lý...' : 'Xác nhận'}
-        </button>
       </div>
     </div>
   );
