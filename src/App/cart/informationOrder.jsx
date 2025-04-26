@@ -1,7 +1,7 @@
-import { useCancelOrderMutation } from "../../../redux/features/order/orderApi";
+import { useCancelOrderMutation } from "../../redux/features/order/orderApi";
 import { useState, useEffect } from "react";
-import avatarImg from "../../../assets/img/avatar.png";
-import { getBaseUrl } from "../../../utils/baseURL";
+import avatarImg from "../../assets/img/avatar.png";
+import { getBaseUrl } from "../../utils/baseURL";
 
 const DeliveredInformation = ({ order, onClose }) => {
   const [cancelReason, setCancelReason] = useState('');
@@ -56,7 +56,6 @@ const DeliveredInformation = ({ order, onClose }) => {
         </div>
 
         <div className="space-y-4">
-          {/* Order Items */}
           <div className="space-y-3 shoppingContainer">
             {order.items.map((item, index) => (
               <div key={index} className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm shadow-sm">
@@ -82,7 +81,6 @@ const DeliveredInformation = ({ order, onClose }) => {
             ))}
           </div>
           
-          {/* Payment Information */}
           <div className="bg__select p-4 rounded-sm shadow-sm">
             <h3 className="text-lg font-semibold mb-3">Thông tin thanh toán</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -108,7 +106,6 @@ const DeliveredInformation = ({ order, onClose }) => {
             </div>
           </div>
 
-          {/* Shipping Information */}
           <div className="bg__select p-4 rounded-sm shadow-sm">
             <h3 className="text-lg font-semibold mb-3">Thông tin giao hàng</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -123,7 +120,6 @@ const DeliveredInformation = ({ order, onClose }) => {
             </div>
           </div>
 
-          {/* Cancellation Section */}
           {isOutOfStock ? (
             <div className="bg__select p-4 rounded-sm shadow-sm">
               <h3 className="text-lg font-semibold mb-3">Hủy đơn hàng hết hàng</h3>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeliveryInformation from "./DeliveryInformation";
+import DeliveryInformation from "../informationOrder";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";

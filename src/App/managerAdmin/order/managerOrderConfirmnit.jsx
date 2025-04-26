@@ -11,7 +11,6 @@ const ManagerOrder = () => {
     page,
     status: statusFilter
   });
-
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const pendingOrders = useMemo(() => {
@@ -135,7 +134,6 @@ const ManagerOrder = () => {
     </>
   );
 };
-
 const OrderItem = ({ order, getProductImage, onViewDetails }) => {
   const firstProduct = order.items[0];
   const firstProductImage = firstProduct?.image ? getProductImage(firstProduct.image) : '';
@@ -161,7 +159,6 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
           </div>
         )}
       </div>
-      
       <div className="flex-1 flex flex-col justify-center">
         <h3 className="font-semibold">
           <span className="text-gray-600">Đơn hàng:</span> #{order._id.slice(-6).toUpperCase()}
@@ -188,7 +185,6 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
           </span>
         </p>
       </div>
-      
       <div className="flex items-end h-full">
         <button
           className="flex bg-black bg-opacity-70 hover:bg-opacity-90 transition items-center text-white px-4 py-2 rounded-sm"

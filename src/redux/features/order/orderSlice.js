@@ -22,7 +22,8 @@ const initialState = {
   },
   currentOrder: null,
   loading: false,
-  error: null
+  error: null,
+  momoPayUrl: null
 };
 
 const orderSlice = createSlice({
@@ -49,26 +50,27 @@ const orderSlice = createSlice({
         ...state.adminOrders.filters,
         ...action.payload
       };
-      // Reset to first page when filters change
-      state.adminOrders.pagination.currentPage = 1;
     },
-    resetAdminOrdersFilters: (state) => {
-      state.adminOrders.filters = initialState.adminOrders.filters;
-      state.adminOrders.pagination.currentPage = 1;
+    setMomoPayUrl: (state, action) => {
+      state.momoPayUrl = action.payload;
     },
-    resetOrderState: () => initialState
+    clearMomoPayUrl: (state) => {
+      state.momoPayUrl = null;
+    }
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      orderApi.endpoints.getUserOrders.matchFulfilled,
-      (state, { payload }) => {
-        state.orders = payload;
-      }
-    );
+    builder
+      .addMatcher(
+        orderApi.endpoints.createOrder.matchFulfilled,
+        (state, action) => {
+          if (action.payload?.payUrl) {
+            state.momoPayUrl = action.payload.payUrl;
+          }
+        }
+      );
   }
 });
 
-// Export actionsa
 export const {
   setCurrentOrder,
   clearCurrentOrder,
@@ -76,17 +78,8 @@ export const {
   setError,
   setAdminOrdersPage,
   setAdminOrdersFilter,
-  resetAdminOrdersFilters,
-  resetOrderState
+  setMomoPayUrl,
+  clearMomoPayUrl
 } = orderSlice.actions;
-
-// Export selectors
-export const selectCurrentOrder = (state) => state.order.currentOrder;
-export const selectUserOrders = (state) => state.order.orders;
-export const selectAdminOrders = (state) => state.order.adminOrders.data;
-export const selectAdminOrdersPagination = (state) => state.order.adminOrders.pagination;
-export const selectAdminOrdersFilters = (state) => state.order.adminOrders.filters;
-export const selectOrderLoading = (state) => state.order.loading;
-export const selectOrderError = (state) => state.order.error;
 
 export default orderSlice.reducer;

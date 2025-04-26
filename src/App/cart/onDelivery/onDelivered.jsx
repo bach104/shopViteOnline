@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeliveredInformation from "./onDeliveredInformation";
+import DeliveredInformation from "../informationOrder";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";
@@ -24,8 +24,7 @@ const Delivery = () => {
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
   const filteredOrders = orders.filter(order => 
-    order.status === 'đang giao' || 
-    order.status === 'đã giao đến tay khách hàng'
+    order.status === 'đang giao' 
   );
   if (showDetails) {
     return (
@@ -112,8 +111,7 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
         <p>
           <b>Trạng thái đơn hàng:</b> 
           <span className={`ml-1 ${
-            order.status === 'đang giao' ? 'text-green-500' : 
-            order.status === 'đã giao đến tay khách hàng' ? 'text-yellow-600' : ''
+            order.status === 'đang giao' ? 'text-green-500' : ""
           }`}>
             {order.status}
           </span>

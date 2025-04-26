@@ -4,8 +4,7 @@ import Footer from './components/footer'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./sass/index.scss";
-import './App.css'
-
+import './App.css';
 export default function App() {
   return (
     <div>

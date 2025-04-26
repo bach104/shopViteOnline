@@ -5,7 +5,7 @@ import { useFetchCartQuery, useRemoveFromCartMutation } from "../../../redux/fea
 import CartSummary from "./CartSummary";
 import CartUpdate from "./CartUpdate";
 import { useSelector } from "react-redux";
-import { getBaseUrl } from "../../../utils/baseURL"; 
+import { getBaseUrl } from "../../../utils/baseURL";
 
 const ShoppingCart = () => {
   const [showUpdate, setShowUpdate] = useState(false);
@@ -29,11 +29,12 @@ const ShoppingCart = () => {
   const [removeFromCart] = useRemoveFromCartMutation();
 
   const handleOrderSuccess = () => {
-    refetch(); // Làm mới danh sách giỏ hàng
+    refetch();
   };
 
   const handleNextPage = () => setCurrentPage(currentPage + 1);
   const handlePrevPage = () => setCurrentPage(currentPage - 1);
+  
   const handleSelectItem = (itemId) => {
     setSelectedItems((prevSelected) =>
       prevSelected.includes(itemId)
@@ -41,6 +42,7 @@ const ShoppingCart = () => {
         : [...prevSelected, itemId]
     );
   };
+
   const handleClearSelection = () => setSelectedItems([]);
 
   const handleRemoveSelected = async () => {
@@ -53,9 +55,17 @@ const ShoppingCart = () => {
     }
   };
 
-  const selectedProducts = cartData?.cartItems?.filter((item) => selectedItems.includes(item._id)) || [];
-  const totalQuantity = selectedProducts.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = selectedProducts.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Calculate totals directly without intermediate variable
+  const { totalQuantity, totalPrice } = cartData?.cartItems?.reduce(
+    (acc, item) => {
+      if (selectedItems.includes(item._id)) {
+        acc.totalQuantity += item.quantity;
+        acc.totalPrice += item.price * item.quantity;
+      }
+      return acc;
+    },
+    { totalQuantity: 0, totalPrice: 0 }
+  ) || { totalQuantity: 0, totalPrice: 0 };
 
   return (
     <div className="my-4 shoppingCart relative">
@@ -93,7 +103,7 @@ const ShoppingCart = () => {
             cartData.cartItems.map((item) => {
               const imageUrl = item.image
                 ? `${getBaseUrl()}/${item.image.replace(/\\/g, "/")}`
-                : "https://via.placeholder.com/112"; 
+                : "https://via.placeholder.com/112";
 
               return (
                 <div
@@ -112,7 +122,7 @@ const ShoppingCart = () => {
                     <p className="text-sm">Màu sắc: {item.color}</p>
                     <p className="text-sm shoppingItems__technology--price gap-2 font-semibold">
                       {item.price}đ
-                      <s className="pl-2  opacity-50">{item.oldPrice}đ</s>
+                      <s className="pl-2 opacity-50">{item.oldPrice}đ</s>
                     </p>
                   </div>
                   <div className="flex flex-col shoppingItems__click items-end justify-between">
@@ -125,7 +135,7 @@ const ShoppingCart = () => {
                     <button
                       className="bg-black hover:opacity-70 opacity-80 transition text-white rounded-lg"
                       onClick={() => {
-                        setSelectedItemId(item._id); 
+                        setSelectedItemId(item._id);
                         setShowUpdate(true);
                       }}
                     >

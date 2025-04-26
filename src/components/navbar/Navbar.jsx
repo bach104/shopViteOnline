@@ -8,7 +8,7 @@ const Navbar = () => {
       <nav className="max-w-screen-2xl mx-auto px-4 flex items-center justify-between">
         <nav className="nav__logo">
           <Link className="transition" to="/">
-            Shoponline
+            ShopVite
           </Link>
         </nav>
         <ul className="nav__links md:flex-none">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeliveredInformation from "../waitDelivery/DeliveryInformation";
+import DeliveredInformation from "../informationOrder";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";
@@ -24,8 +24,7 @@ const Delivery = () => {
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
   const filteredOrders = orders.filter(order => 
-    order.status === 'Shop đang đóng gói' || 
-    order.status === 'đã giao cho bên vận chuyển'
+    order.status === 'đã nhận được hàng'
   );
 
   if (showDetails) {
@@ -113,8 +112,7 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
         <p>
           <b>Trạng thái đơn hàng:</b> 
           <span className={`ml-1 ${
-            order.status === 'Shop đang đóng gói' ? 'text-blue-500' : 
-            order.status === 'đã giao cho bên vận chuyển' ? 'text-purple-600' : ''
+            order.status === 'đã nhận được hàng' ? 'text-green-700': ''
           }`}>
             {order.status}
           </span>

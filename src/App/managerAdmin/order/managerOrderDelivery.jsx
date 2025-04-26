@@ -1,18 +1,22 @@
 import { useGetAllOrdersQuery } from "../../../redux/features/order/orderApi";
 import { useState, useMemo } from "react";
+import ManagerOrderInformation from "./managerOrderInformation";
 import { getBaseUrl } from "../../../utils/baseURL";
 
-const ManagerOrderPack = () => {
+const ManagerOrder = () => {
   const [page, setPage] = useState(1);
-  const [statusFilter] = useState("đang giao");
+  const [statusFilter] = useState("đang giao"); 
   
   const { data, isLoading, isError } = useGetAllOrdersQuery({
     page,
     status: statusFilter
   });
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
   const pendingOrders = useMemo(() => {
     return data?.orders || [];
   }, [data]);
+
   const pagination = useMemo(() => {
     return data?.pagination || {
       currentPage: 1,
@@ -28,6 +32,14 @@ const ManagerOrderPack = () => {
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
 
+  const handleViewDetails = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
+  };
+
   const handleNextPage = () => {
     if (page < pagination.totalPages) {
       setPage(page + 1);
@@ -39,17 +51,25 @@ const ManagerOrderPack = () => {
       setPage(page - 1);
     }
   };
-
   const showingFrom = (page - 1) * pagination.ordersPerPage + 1;
   const showingTo = Math.min(
     page * pagination.ordersPerPage,
     pagination.totalOrders
   );
-
+  if (selectedOrder) {
+    return (
+      <div className="shoppingCart relative">
+        <ManagerOrderInformation 
+          order={selectedOrder} 
+          onClose={handleCloseDetails}
+        />
+      </div>
+    );
+  }
   return (
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
-        <h2 className="text-xl p-4">đang giao</h2>
+        <h2 className="text-xl p-4">Các đơn hàng đã giao thành công</h2>
         {pagination.totalOrders > 0 && (
           <p className="text-white p-4">
             Hiển thị {showingFrom}-{showingTo} trong tổng số {pagination.totalOrders} đơn hàng
@@ -70,7 +90,7 @@ const ManagerOrderPack = () => {
               </div>
             ) : pendingOrders.length === 0 ? (
               <div className="text-center py-8">
-                <p>Không có đơn hàng nào đang chờ xác nhận.</p>
+                <p>Không có đơn hàng nào đã giao đến tay khách</p>
               </div>
             ) : (
               pendingOrders.map((order) => (
@@ -78,6 +98,7 @@ const ManagerOrderPack = () => {
                   key={order._id}
                   order={order}
                   getProductImage={getProductImage}
+                  onViewDetails={handleViewDetails}
                 />
               ))
             )}
@@ -113,12 +134,12 @@ const ManagerOrderPack = () => {
     </>
   );
 };
-
-const OrderItem = ({ order, getProductImage }) => {
+const OrderItem = ({ order, getProductImage, onViewDetails }) => {
   const firstProduct = order.items[0];
   const firstProductImage = firstProduct?.image ? getProductImage(firstProduct.image) : '';
   const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
   const orderDate = new Date(order.createdAt).toLocaleDateString('vi-VN');
+
   return (
     <div className="Manager__display--product flex h-36 gap-4 justify-between p-2 mb-4 bg-white rounded-md shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-center">
@@ -138,7 +159,6 @@ const OrderItem = ({ order, getProductImage }) => {
           </div>
         )}
       </div>
-      
       <div className="flex-1 flex flex-col justify-center">
         <h3 className="font-semibold">
           <span className="text-gray-600">Đơn hàng:</span> #{order._id.slice(-6).toUpperCase()}
@@ -158,15 +178,23 @@ const OrderItem = ({ order, getProductImage }) => {
         <p>
           <span className="text-gray-600">Trạng thái:</span> 
           <span className={`ml-1 font-medium ${
-            order.status === 'đang giao' ? 'text-green-500' :
+            order.status === 'đang giao' ? 'text-purple-600' : 
             'text-gray-600'
           }`}>
             {order.status}
           </span>
         </p>
       </div>
+      <div className="flex items-end h-full">
+        <button
+          className="flex bg-black bg-opacity-70 hover:bg-opacity-90 transition items-center text-white px-4 py-2 rounded-sm"
+          onClick={() => onViewDetails(order)}
+        >
+          Xem thông tin
+        </button>
+      </div>
     </div>
   );
 };
 
-export default ManagerOrderPack;
+export default ManagerOrder;

@@ -5,7 +5,7 @@ import { getBaseUrl } from "../../../utils/baseURL";
 
 const ManagerOrder = () => {
   const [page, setPage] = useState(1);
-  const [statusFilter] = useState("đã giao cho bên vận chuyển"); 
+  const [statusFilter] = useState("đã nhận được hàng"); 
   
   const { data, isLoading, isError } = useGetAllOrdersQuery({
     page,
@@ -178,7 +178,7 @@ const OrderItem = ({ order, getProductImage, onViewDetails }) => {
         <p>
           <span className="text-gray-600">Trạng thái:</span> 
           <span className={`ml-1 font-medium ${
-            order.status === 'đã giao cho bên vận chuyển' ? 'text-purple-600' : 
+            order.status === 'đã nhận được hàng' ? 'text-green-700' : 
             'text-gray-600'
           }`}>
             {order.status}

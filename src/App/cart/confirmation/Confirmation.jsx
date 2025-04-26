@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ConfirmationInformation from "./ConfirmInformation";
+import ConfirmationInformation from "../informationOrder";
 import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../../utils/baseURL";
 import { useSelector } from "react-redux";
@@ -13,7 +13,6 @@ const Confirmation = () => {
   const { data: orders = [], isLoading, error } = useGetUserOrdersQuery(undefined, {
     skip: !isLoggedIn
   });
-
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
     setShowDetails(true);

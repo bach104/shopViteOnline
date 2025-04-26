@@ -35,21 +35,19 @@ export const orderApi = createApi({
             ]
           : [{ type: 'Order', id: 'LIST' }]
     }),
-
     cancelOrder: builder.mutation({
       query: ({ orderId, reason, status }) => ({
         url: '/api/orders/cancel',
         method: 'PUT',
         body: { 
           orderId, 
-          ...(status !== 'hết hàng' && { reason }) // Only include reason if not "out of stock"
+          ...(status !== 'hết hàng' && { reason }) 
         }
       }),
       invalidatesTags: (result, error, { orderId }) => [
         { type: 'Order', id: orderId }
       ]
     }),
-
     getAllOrders: builder.query({
       query: (params = {}) => {
         const { 
@@ -72,7 +70,6 @@ export const orderApi = createApi({
         if (endDate) searchParams.append('endDate', endDate);
         if (minAmount) searchParams.append('minAmount', minAmount);
         if (maxAmount) searchParams.append('maxAmount', maxAmount);
-        
         return `/api/orders/admin?${searchParams.toString()}`;
       },
       transformResponse: (response) => ({

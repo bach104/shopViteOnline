@@ -181,25 +181,6 @@ const ManagerOrderInformation = ({ order, onClose }) => {
                     )}
                     </>
                 )}
-                {order.status === 'Shop đang đóng gói' && (
-                    <button 
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-                    onClick={() => handleStatusUpdate('đã giao cho bên vận chuyển')}
-                    disabled={isUpdating}
-                    >
-                    Đã giao cho vận chuyển
-                    </button>
-                )}
-
-                {order.status === 'đã giao cho bên vận chuyển' && (
-                    <button 
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-                    onClick={() => handleStatusUpdate('đang giao')}
-                    disabled={isUpdating}
-                    >
-                    Đang giao hàng
-                    </button>
-                )}
                 </div>
             </div>
         </section>

@@ -20,8 +20,9 @@ import ManagerProducts from "../App/managerAdmin/products/managerProducts";
 import ManagerAuths from "../App/managerAdmin/auth/managerAuths";
 import ManagerOrderConfirmnit from "../App/managerAdmin/order/managerOrderConfirmnit";
 import ManagerOrderPack from "../App/managerAdmin/order/managerOrderPack"
+import ManagerOrderSuccess from "../App/managerAdmin/order/managerOrderSuccess"
 import ManagerTransport from "../App/managerAdmin/order/managerTransport";
-import ManagerStatistical from "../App/managerAdmin/statistical/managerStatistical";
+import ManagerStatistical from "../App/managerAdmin/StatisticalDashboard/managerStatistical";
 import InformationProducts from "../App/managerAdmin/products/informationProducts";
 import ManagerOrderDelivery from "../App/managerAdmin/order/managerOrderDelivery";
 import VnpayReturnHandler from "../App/cart/ShoppingCart/VnpayReturnHandler";
@@ -62,8 +63,6 @@ const router = createBrowserRouter([
             path: "/informations",
             element: <InformationAuth />,
         },
-        
-       
         ],
     },
     {
@@ -109,6 +108,8 @@ const router = createBrowserRouter([
             {path:"managerTransport", element:<ManagerTransport/>},
             {path:"managerStatistical", element:<ManagerStatistical/>},
             {path:"managerOrderDelivery", element:<ManagerOrderDelivery/>},
+            {path:"managerOrderSuccess", element:<ManagerOrderSuccess/>},
+
         ]
     }
 ])
