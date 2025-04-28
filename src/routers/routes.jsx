@@ -23,6 +23,7 @@ import ManagerOrderPack from "../App/managerAdmin/order/managerOrderPack"
 import ManagerOrderSuccess from "../App/managerAdmin/order/managerOrderSuccess"
 import ManagerTransport from "../App/managerAdmin/order/managerTransport";
 import ManagerStatistical from "../App/managerAdmin/StatisticalDashboard/managerStatistical";
+import ManagerCanCelOrder from "../App/managerAdmin/order/managerCancelOrder";
 import InformationProducts from "../App/managerAdmin/products/informationProducts";
 import ManagerOrderDelivery from "../App/managerAdmin/order/managerOrderDelivery";
 import VnpayReturnHandler from "../App/cart/ShoppingCart/VnpayReturnHandler";
@@ -109,6 +110,7 @@ const router = createBrowserRouter([
             {path:"managerStatistical", element:<ManagerStatistical/>},
             {path:"managerOrderDelivery", element:<ManagerOrderDelivery/>},
             {path:"managerOrderSuccess", element:<ManagerOrderSuccess/>},
+            {path:"managerCancelOrder", element:<ManagerCanCelOrder/>},
 
         ]
     }

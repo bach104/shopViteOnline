@@ -1,19 +1,17 @@
-import { useGetAllOrdersQuery, useUpdateOrderStatusMutation } from "../../../redux/features/order/orderApi";
+import { useGetAllOrdersQuery } from "../../../redux/features/order/orderApi";
 import { useState, useMemo } from "react";
+import ManagerOrderInformation from "./managerOrderInformation";
 import { getBaseUrl } from "../../../utils/baseURL";
-import { toast } from "react-toastify";
 
-const ManagerOrderPack = () => {
+const ManagerOrder = () => {
   const [page, setPage] = useState(1);
-  const [statusFilter] = useState("Shop đang đóng gói");
-  const [processingOrderId, setProcessingOrderId] = useState(null);
+  const [statusFilter] = useState("đã huỷ"); 
   
-  const { data, isLoading, isError, refetch } = useGetAllOrdersQuery({
+  const { data, isLoading, isError } = useGetAllOrdersQuery({
     page,
     status: statusFilter
   });
-
-  const [updateStatus] = useUpdateOrderStatusMutation();
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const pendingOrders = useMemo(() => {
     return data?.orders || [];
@@ -34,22 +32,12 @@ const ManagerOrderPack = () => {
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
 
-  const handleConfirmOrder = async (orderId) => {
-    try {
-      setProcessingOrderId(orderId);
-      await updateStatus({ 
-        orderId, 
-        status: "đã giao cho bên vận chuyển" 
-      }).unwrap();
-      
-      toast.success("Xác nhận đơn hàng thành công");
-      refetch(); 
-    } catch (error) {
-      console.error('Error updating order:', error);
-      toast.error(error.data?.message || 'Có lỗi xảy ra khi xác nhận đơn hàng');
-    } finally {
-      setProcessingOrderId(null);
-    }
+  const handleViewDetails = (order) => {
+    setSelectedOrder(order);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedOrder(null);
   };
 
   const handleNextPage = () => {
@@ -63,17 +51,25 @@ const ManagerOrderPack = () => {
       setPage(page - 1);
     }
   };
-
   const showingFrom = (page - 1) * pagination.ordersPerPage + 1;
   const showingTo = Math.min(
     page * pagination.ordersPerPage,
     pagination.totalOrders
   );
-
+  if (selectedOrder) {
+    return (
+      <div className="shoppingCart relative">
+        <ManagerOrderInformation 
+          order={selectedOrder} 
+          onClose={handleCloseDetails}
+        />
+      </div>
+    );
+  }
   return (
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
-        <h2 className="text-xl p-4">Các đơn hàng đang chờ đóng gói</h2>
+        <h2 className="text-xl p-4">Các đơn đã huỷ</h2>
         {pagination.totalOrders > 0 && (
           <p className="text-white p-4">
             Hiển thị {showingFrom}-{showingTo} trong tổng số {pagination.totalOrders} đơn hàng
@@ -93,7 +89,7 @@ const ManagerOrderPack = () => {
               </div>
             ) : pendingOrders.length === 0 ? (
               <div className="text-center py-8">
-                <p>Không có đơn hàng nào đang chờ xác nhận.</p>
+                <p>Không có đơn hàng nào đã giao đến tay khách</p>
               </div>
             ) : (
               pendingOrders.map((order) => (
@@ -101,8 +97,7 @@ const ManagerOrderPack = () => {
                   key={order._id}
                   order={order}
                   getProductImage={getProductImage}
-                  onConfirmOrder={handleConfirmOrder}
-                  isUpdating={processingOrderId === order._id}
+                  onViewDetails={handleViewDetails}
                 />
               ))
             )}
@@ -138,8 +133,7 @@ const ManagerOrderPack = () => {
     </>
   );
 };
-
-const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
+const OrderItem = ({ order, getProductImage, onViewDetails }) => {
   const firstProduct = order.items[0];
   const firstProductImage = firstProduct?.image ? getProductImage(firstProduct.image) : '';
   const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
@@ -164,7 +158,6 @@ const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
           </div>
         )}
       </div>
-      
       <div className="flex-1 flex flex-col justify-center">
         <h3 className="font-semibold">
           <span className="text-gray-600">Đơn hàng:</span> #{order._id.slice(-6).toUpperCase()}
@@ -181,30 +174,28 @@ const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
         <p className="text-sm">
           <span className="text-gray-600">Số lượng:</span> {totalProducts} sản phẩm
         </p>
+        <p className="text-sm">
+          <span className="text-gray-600">Lý do:</span> {order.shippingInfo?.cancelledReason}
+        </p>
         <p>
           <span className="text-gray-600">Trạng thái:</span> 
           <span className={`ml-1 font-medium ${
-            order.status === 'Shop đang đóng gói' ? 'text-blue-500' : 
+            order.status === 'đã huỷ' ? 'text-red-500' : 
             'text-gray-600'
           }`}>
             {order.status}
           </span>
         </p>
       </div>
-      
       <div className="flex items-end h-full">
         <button
-          className={`flex bg-black bg-opacity-70 hover:bg-opacity-90 transition items-center text-white px-4 py-2 rounded-sm ${
-            isUpdating ? 'opacity-70 cursor-not-allowed' : ''
-          }`}
-          onClick={() => onConfirmOrder(order._id)}
-          disabled={isUpdating}
+          className="flex bg-black bg-opacity-70 hover:bg-opacity-90 transition items-center text-white px-4 py-2 rounded-sm"
+          onClick={() => onViewDetails(order)}
         >
-          {isUpdating ? 'Đang xử lý...' : 'Xác nhận'}
+          Xem thông tin
         </button>
       </div>
     </div>
   );
 };
-
-export default ManagerOrderPack;
+export default ManagerOrder;

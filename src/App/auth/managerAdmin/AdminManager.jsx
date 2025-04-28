@@ -1,4 +1,4 @@
-import { faFile,faTruck,faBox,faChartLine, faHouse, faShop,faSquareCheck, faUsers } from "@fortawesome/free-solid-svg-icons"
+import { faFile,faTruck,faBox,faChartLine, faHouse, faShop,faSquareCheck, faUsers, faFileCircleXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link, Outlet } from "react-router"
 
@@ -59,6 +59,12 @@ const AdminManager = () => {
                         <Link to="managerOrderSuccess" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon  className="w-4"  icon={faSquareCheck} />
                             Đã giao thành công 
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="managerCancelOrder" className="p-4 flex items-center gap-2 ">
+                        <FontAwesomeIcon icon={faFileCircleXmark} />
+                            Các đơn đã huỷ
                         </Link>
                     </li>
                     <li>

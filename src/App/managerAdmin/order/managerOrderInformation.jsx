@@ -119,7 +119,6 @@ const ManagerOrderInformation = ({ order, onClose }) => {
                     </div>
                     </div>
                 </div>
-
                 {showCancelledForm && (
                     <div className="bg-gray-100 p-4 rounded-sm shadow-sm">
                         <h3 className="text-lg font-semibold mb-3">Lý do hết hàng</h3>

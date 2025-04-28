@@ -58,9 +58,8 @@ export const orderApi = createApi({
           startDate,
           endDate,
           minAmount,
-          maxAmount 
+          maxAmount
         } = params;
-        
         const searchParams = new URLSearchParams();
         searchParams.append('page', page);
         if (status) searchParams.append('status', status);
