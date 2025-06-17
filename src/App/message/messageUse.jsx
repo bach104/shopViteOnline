@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useRef, useEffect } from "react";
 import { FaSmile, FaThumbsUp } from "react-icons/fa";
 import { BsFillImageFill } from "react-icons/bs";
@@ -19,6 +18,7 @@ const Messenger = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [showNameWarning, setShowNameWarning] = useState(false); // Thêm state cho cảnh báo
   const fileInputRef = useRef(null);
   const emojiPickerRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -29,6 +29,8 @@ const Messenger = () => {
   
   const messages = messagesData?.data || [];
 
+  // Kiểm tra người dùng đã cập nhật tên chưa
+  const hasUpdatedName = currentUser?.yourname && currentUser.yourname.trim() !== '';
 
   useEffect(() => {
     scrollToBottom();
@@ -101,6 +103,12 @@ const Messenger = () => {
   };
 
   const handleSendMessage = async () => {
+    if (!hasUpdatedName) {
+      setShowNameWarning(true);
+      setTimeout(() => setShowNameWarning(false), 3000); // Ẩn cảnh báo sau 3 giây
+      return;
+    }
+
     const hasText = inputValue.trim().length > 0;
     const hasImages = selectedImages.length > 0;
 
@@ -131,6 +139,12 @@ const Messenger = () => {
   };
 
   const handleSendLike = async () => {
+    if (!hasUpdatedName) {
+      setShowNameWarning(true);
+      setTimeout(() => setShowNameWarning(false), 3000);
+      return;
+    }
+
     try {
       await sendMessage({ text: "👍" }).unwrap();
     } catch (error) {
@@ -234,11 +248,16 @@ const Messenger = () => {
                       <FontAwesomeIcon icon={faTimes} />
                     </button>
                   </div>
-                ))}
+                ))} 
               </div>
             )}
           </div>
           <div className="chat-input">
+            {showNameWarning && (
+              <div className="chat-toast show">
+                Bạn cần cập nhật tên để có thể nhắn tin
+              </div>
+            )}
             <div className="relative">
               <BsFillImageFill 
                 className="btn__iconClick"
@@ -253,7 +272,6 @@ const Messenger = () => {
                 style={{ display: 'none' }}
               />
             </div>
-            
             <div className="chat-enterText">
               <input
                 type="text"
