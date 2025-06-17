@@ -27,6 +27,8 @@ import ManagerCanCelOrder from "../App/managerAdmin/order/managerCancelOrder";
 import InformationProducts from "../App/managerAdmin/products/informationProducts";
 import ManagerOrderDelivery from "../App/managerAdmin/order/managerOrderDelivery";
 import VnpayReturnHandler from "../App/cart/ShoppingCart/VnpayReturnHandler";
+import SmsAdmin from "../App/message/messageAdmin"
+import SmsUser from "../App/message/messageUse"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -77,6 +79,14 @@ const router = createBrowserRouter([
     {
         path: "payment/vnpay-return",
         element: <VnpayReturnHandler />,
+    },
+    {
+        path:"/tat_ca_tin_nhan",
+        element:<SmsAdmin/>
+    },
+    {
+        path:"/tin_nhan",
+        element:<SmsUser/>
     },
     {
     path: "/cart-manager",

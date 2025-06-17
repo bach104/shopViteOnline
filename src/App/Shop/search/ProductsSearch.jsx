@@ -7,7 +7,7 @@ const Products = () => {
   const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchQuery, setSearchQuery] = useState(""); // Thêm state này để lưu query khi ấn search
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   
@@ -24,7 +24,6 @@ const Products = () => {
       } else {
         const searchTermLower = searchQuery.toLowerCase();
         const filtered = data.products.filter(product => {
-          // Kiểm tra từng trường một cách an toàn
           const nameMatch = product.name?.toLowerCase().includes(searchTermLower) || false;
           const seasonMatch = product.season?.toString().toLowerCase().includes(searchTermLower) || false;
           const materialMatch = product.material?.toString().toLowerCase().includes(searchTermLower) || false;
@@ -61,13 +60,13 @@ const Products = () => {
   const totalPages = data?.totalPages || 1;
   return (
     <>
-      <div className="p-4 flex max-width bg__header justify-center w-full">
+      <div className="p-4 flex  max-width justify-center w-full">
         <input
           id="search-input"
           name="search"
           className="w-5/6 p-3 relative rounded-sm"
           type="text"
-          placeholder="Nhập từ khóa cần tìm kiếm (tên, chất liệu, mùa, loại)"
+          placeholder="Nhập từ khóa cần tìm kiếm (eg. tên, chất liệu, mùa, loại)"
           autoComplete="on"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -81,9 +80,9 @@ const Products = () => {
         </button>
       </div>
       
-      <div className="section__container flex-col justify-between">
+      <div className="section__container rounded-md flex-col justify-between">
         <div>
-          <h2 className="text-4xl text-center w-full rounded-ss-md rounded-se-md bg__header p-4 mb-3 font-bold">
+          <h2 className="text-2xl text-center w-full rounded-t-md bg-title-color p-2 mb-3 font-bold">
             {isSearching ? `Sản phẩm đã lọc (${filteredProducts.length} kết quả)` : "Tất cả sản phẩm"}
           </h2>
           {isLoading ? (

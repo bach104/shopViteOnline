@@ -97,7 +97,6 @@ export const {
 export default authSlice.reducer;
 
 export const selectCurrentUser = (state) => {
-  // Kiểm tra token hết hạn mỗi khi select user
   if (state.auth.token && isTokenExpired(state.auth.token)) {
     return null;
   }

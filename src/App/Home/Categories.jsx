@@ -12,7 +12,7 @@ const Categories = () => {
 
     return (
         <>
-            <div className="product__grid">
+            <div className="product__grid rounded-md">
                 <div className="box grid grid-cols-1 md:grid-cols-3 gap-4 py-6 items-center rounded-md p-4 w-full">
                     {seasons.map((season) => (
                         <nav

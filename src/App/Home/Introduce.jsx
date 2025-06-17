@@ -4,7 +4,7 @@ import introduce2 from "../../assets/img/introduce2.jpg";
 import introduce3 from "../../assets/img/introduce3.jpg";
 const Introduce = () => {
   return (
-    <section className="introduce">
+    <section className="introduce rounded-md">
       <div className="introduce__content">
         <div className="introduce__images">
           <img src={introduce1} alt="" className="introduce__image introduce__image--large" />

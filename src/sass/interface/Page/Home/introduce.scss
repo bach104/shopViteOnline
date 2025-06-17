@@ -4,11 +4,11 @@
 .introduce {
     display: grid;
     max-width: $max-width-1400;
-    background: $primary-color-gray;
     margin: auto;
     margin-top: 2rem;
     margin-bottom: 2rem;
     grid-template-columns: 2fr 1fr;
+    background:$bg-gray2;
     .introduce__content {
         display: flex;
         flex-direction: column;

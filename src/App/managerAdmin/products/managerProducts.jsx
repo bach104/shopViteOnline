@@ -192,7 +192,7 @@ const ManagerProducts = () => {
             className="text-white hover:opacity-50 px-4 py-2 rounded-sm"
             onClick={toggleEditMode}
           >
-            {isEditing ? (selectedProducts.length > 0 ? "Huỷ" : "Xong") : "Sửa"}
+            {isEditing ? (selectedProducts.length > 0 ? "Huỷ" : "Xong") : "Xoá"}
           </button>
         </div>
         {isEditing && selectedProducts.length > 0 && (

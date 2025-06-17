@@ -6,8 +6,8 @@ const FeaturedProducts = () => {
   const { data, error, isLoading } = useGetTopFeaturedProductsQuery();
 
   return (
-    <section className="introduce__grid">
-      <h2 className="section__header p-4 bg__header">Sản phẩm nổi bật</h2>
+    <section className="introduce__grid rounded-md">
+      <h2 className="text-center bg-title-color rounded-t-md font-bold p-4 text-2xl">Sản phẩm nổi bật</h2>
       {isLoading ? (
         <p className="text-center py-5">Đang tải sản phẩm...</p>
       ) : error ? (

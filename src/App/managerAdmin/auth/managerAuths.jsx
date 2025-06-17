@@ -202,7 +202,7 @@ const ManagerAuths = () => {
         >
           {isEditing ? 
             (selectedUsers.length > 0 ? "Huỷ" : "Xong") 
-            : "Sửa"}
+            : "Xoá"}
         </button>
         {isEditing && selectedUsers.length > 0 && (
           <div>

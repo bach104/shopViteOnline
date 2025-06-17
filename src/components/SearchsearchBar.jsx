@@ -1,12 +1,9 @@
 import { useState } from "react";
-
 const Search = ({ onResults }) => {
   const [query, setQuery] = useState("");
-
   const handleSearch = () => {
     onResults(query.trim());
   };
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();

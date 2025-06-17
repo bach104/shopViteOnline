@@ -81,8 +81,6 @@ const DeliveredInformation = ({ order, onClose }) => {
               </div>
             ))}
           </div>
-          
-          {/* Payment Information */}
           <div className="bg__select p-4 rounded-sm shadow-sm">
             <h3 className="text-lg font-semibold mb-3">Thông tin thanh toán</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,0 +1,76 @@
+{
+  "chats": [
+    {
+      "id": 1,
+      "name": "Phạm hồng",
+      "avatar": "https://i.pravatar.cc/150?img=10",
+      "lastMessage": "You: tin nhắn gần đây - 15p",
+      "isOnline": true
+    },
+    {
+      "id": 2,
+      "name": "Hà văn hưng",
+      "avatar": "https://i.pravatar.cc/150?img=11",
+      "lastMessage": "You: tin nhắn gần đây - 32p",
+      "isOnline": false
+    },
+    {
+      "id": 3,
+      "name": "Đỗ Bắc",
+      "avatar": "https://i.pravatar.cc/150?img=15",
+      "lastMessage": "You: tin nhắn gần đây - 45p",
+      "isOnline": true,
+      "messages": [
+        {
+          "id": 1,
+          "sender": "user",
+          "content": "Mình m87 89kg bạn tư vấn cho mình size với ạ",
+          "image": "/shirt.jpg",
+          "time": "17:20"
+        },
+        {
+          "id": 2,
+          "sender": "bot",
+          "content": "Shop sẽ liên hệ lại với bạn sớm nhất có thể",
+          "time": "17:22"
+        },
+        {
+          "id": 3,
+          "sender": "bot",
+          "content": "Dạ xin chào bạn",
+          "time": "17:23"
+        },
+        {
+          "id": 4,
+          "sender": "bot",
+          "content": "Với số liệu cân nặng chiều cao bạn cho thì size 2xl là vừa với bạn",
+          "time": "17:25"
+        },
+        {
+          "id": 5,
+          "sender": "user",
+          "content": "Mình cảm ơn bạn nha",
+          "time": "17:25"
+        },
+        {
+          "id": 6,
+          "sender": "user",
+          "content": "Thế còn các màu khác, bạn có thể tư vấn thêm cho mình không",
+          "time": "17:26"
+        },
+        {
+          "id": 7,
+          "sender": "bot",
+          "content": "Bạn cần tư vấn thêm màu nào vậy",
+          "time": "17:28"
+        },
+        {
+          "id": 8,
+          "sender": "user",
+          "content": "Để mình tìm kiếm đã ạ",
+          "time": "17:30"
+        }
+      ]
+    }
+  ]
+}

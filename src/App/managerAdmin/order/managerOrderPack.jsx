@@ -206,5 +206,4 @@ const OrderItem = ({ order, getProductImage, onConfirmOrder, isUpdating }) => {
     </div>
   );
 };
-
 export default ManagerOrderPack;

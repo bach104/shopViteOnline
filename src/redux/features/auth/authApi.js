@@ -32,7 +32,6 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// Thêm interceptor cho response
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   

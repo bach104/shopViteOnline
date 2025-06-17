@@ -37,7 +37,7 @@ input[type="checkbox"] {
 .product__grid {
     max-width: $max-width-1400;
     margin: 2rem auto;
-    background: $primary-color-gray;
+    background: $bg-gray2;
 }
 .title {
     font-family:$font-text3;
@@ -65,7 +65,7 @@ input[type="checkbox"] {
 }
 .product__list>div:nth-child(2),
 .product__list>li {
-    background: $bg-gray;
+    background: $bg-gray2;
 }
 
 .scroll__container{
@@ -86,4 +86,19 @@ input[type="checkbox"] {
     }
 }
 
+.bg-gray2{
+    background: $bg-gray2;
+}
+.bg-title-color{
+    background: $bg-title-color;
+}
 
+.btn__iconClick{
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.25s ease;
+    color:$text-light;
+}
+.btn__iconClick:hover{
+    color: $btn-click;
+}

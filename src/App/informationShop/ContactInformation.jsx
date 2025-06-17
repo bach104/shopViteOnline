@@ -3,8 +3,8 @@ import img3 from "../../assets/img/information1.jpg";
 const ContactInformation = () => {
     return (
       <div className="my-8">
-        <div className="section__body product__list">
-            <h2 className="w-full p-4 section__header bg-gray-400">Thông tin liên hệ</h2>
+        <div className="section__body rounded-md bg-gray2">
+            <h2 className="w-full rounded-t-md bg-title-color px-4 py-2 font-bold text-2xl">Thông tin liên hệ</h2>
             <div className="grid p-4 rounded-md gap-5 grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
                 <div className="order-2 lg:order-none">
                     <h2 className="w-full font-bold text-xl mt-4 md:mt-0">Liên hệ với chúng tôi</h2>

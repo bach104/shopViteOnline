@@ -1,6 +1,7 @@
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import Shoppingcart from "./Shoppingcart";
+import Messenger from "./Messenger"
 import Auth from "./Auth";
 const Navbar = () => {
   return (
@@ -38,6 +39,9 @@ const Navbar = () => {
             <Link className="hover:text-gray-400 transition" to="/products">
               <Search className="w-5 h-5 cursor-pointer" />
             </Link>
+          </span>
+          <span>
+            <Messenger/>
           </span>
           <span className="relative">
             <Shoppingcart />

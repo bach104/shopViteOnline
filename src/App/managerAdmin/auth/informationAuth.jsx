@@ -13,12 +13,6 @@ const InformationAuth = ({ user, onBack }) => {
     <>
       <div className="Manager__display--Title flex justify-between">
         <h2 className="text-xl p-4">Thông tin khách hàng</h2>
-        <input
-          type="text"
-          id="search"
-          className="w-1/3 p-2 mx-4 my-2 rounded-md"
-          placeholder="Tìm kiếm sản phẩm"
-        />
       </div>
       <div className="Manager__display--Box p-4 ">
         <div className="flex gap-6">

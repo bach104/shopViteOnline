@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './features/cart/cartSlice';
 import { cartApi } from './features/cart/cartApi';
-import  authApi  from './features/auth/authApi';
-import authReducer, { logout } from './features/auth/authSlice'; // Thêm import logout action
+import { authApi } from './features/auth/authApi';
+import authReducer, { logout } from './features/auth/authSlice';
 import { productApi } from './features/shop/productsApi';
 import productsReducer from './features/shop/productsSlice';
 import { commentApi } from './features/comment/commentApi';
@@ -11,6 +11,8 @@ import { bankApi } from './features/bank/bankApi';
 import bankReducer from './features/bank/bankSlice';
 import { orderApi } from './features/order/orderApi'; 
 import orderReducer from './features/order/orderSlice';
+import { messengerApi } from './features/messenger/messengerApi';
+import messengerReducer from './features/messenger/messengerSlice';
 
 function isTokenExpired(token) {
   if (!token) return true;
@@ -42,28 +44,40 @@ const tokenCheckMiddleware = store => next => action => {
 
 export default configureStore({
   reducer: {
+    auth: authReducer,
+    [authApi.reducerPath]: authApi.reducer,
+    
+    products: productsReducer,
+    [productApi.reducerPath]: productApi.reducer,
+    
     cart: cartReducer,
     [cartApi.reducerPath]: cartApi.reducer,
-    [authApi.reducerPath]: authApi.reducer,
-    auth: authReducer,
-    [productApi.reducerPath]: productApi.reducer,
-    products: productsReducer,
-    [commentApi.reducerPath]: commentApi.reducer,
+    
     comments: commentReducer,
-    [bankApi.reducerPath]: bankApi.reducer,
+    [commentApi.reducerPath]: commentApi.reducer,
+    
     bank: bankReducer,
-    [orderApi.reducerPath]: orderApi.reducer, 
-    order: orderReducer
+    [bankApi.reducerPath]: bankApi.reducer,
+    
+    order: orderReducer,
+    [orderApi.reducerPath]: orderApi.reducer,
+    
+    messenger: messengerReducer,
+    [messengerApi.reducerPath]: messengerApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(
+        // API middlewares
         cartApi.middleware,
         authApi.middleware,
         productApi.middleware,
         commentApi.middleware,
         bankApi.middleware,
         orderApi.middleware,
+        messengerApi.middleware,
+        
+        // Custom middlewares
         tokenCheckMiddleware
       ),
 });
