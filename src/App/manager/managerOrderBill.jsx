@@ -2,7 +2,8 @@ import { useGetAllOrdersQuery } from "../../redux/features/order/orderApi";
 import { useState, useMemo } from "react";
 import ManagerOrderInformation from "./base/managerOrderInformation";
 import { getBaseUrl } from "../../utils/baseURL";
-import OrderItem from "./base/orerItems"; 
+import OrderItem from "./base/orerItems";
+import OrderSearch from "./base/searchOrder"; // Import component tìm kiếm
 
 const statusOptions = [
   { value: "all", label: "Tất cả hoá đơn", color: "text-gray-600", bgColor: "bg-gray-100" },
@@ -15,15 +16,21 @@ const ManagerOrderBill = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   
-  const { data, isLoading, isError} = useGetAllOrdersQuery({
+  const { data, isLoading, isError } = useGetAllOrdersQuery({
     page,
     ...(statusFilter !== "all" && { paymentMethod: statusFilter })
   });
 
   const pendingOrders = useMemo(() => {
-    return data?.orders || [];
-  }, [data]);
+    const orders = data?.orders || [];
+    if (!searchTerm) return orders;
+    
+    return orders.filter(order => 
+      order._id.slice(-6).toUpperCase().includes(searchTerm.toUpperCase())
+    );
+  }, [data, searchTerm]);
 
   const pagination = useMemo(() => {
     return data?.pagination || {
@@ -64,6 +71,12 @@ const ManagerOrderBill = () => {
     setStatusFilter(status);
     setPage(1);
     setIsDropdownOpen(false);
+    setSearchTerm(""); // Reset search term khi thay đổi trạng thái
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setPage(1); // Reset về trang 1 khi tìm kiếm
   };
 
   const selectedStatusLabel = statusOptions.find(opt => opt.value === statusFilter)?.label || "Tất cả đơn hàng";
@@ -84,7 +97,7 @@ const ManagerOrderBill = () => {
       <div className="Manager__display--Title flex justify-items-center justify-between">
         <h2 className="text-xl p-4">Quản lý hoá đơn</h2>
         <div className="flex px-4 items-center gap-3 z-50">
-          <input type="text" placeholder="Tìm kiếm mã đơn hàng" className="p-1.5 outline-none text-gray-400 pl-3 rounded-md " />
+          <OrderSearch onSearch={handleSearch} /> {/* Sử dụng component OrderSearch */}
           <div className="dropdown z-50 relative">
             <div 
               className="select bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
@@ -129,7 +142,11 @@ const ManagerOrderBill = () => {
               </div>
             ) : pendingOrders.length === 0 ? (
               <div className="text-center py-8">
-                <p>Không có đơn hàng nào {statusFilter === "all" ? "" : `với phương thức ${selectedStatusLabel.toLowerCase()}`}.</p>
+                <p>
+                  {searchTerm 
+                    ? `Không tìm thấy đơn hàng nào với mã "${searchTerm}"`
+                    : `Không có đơn hàng nào ${statusFilter === "all" ? "" : `với phương thức ${selectedStatusLabel.toLowerCase()}`}.`}
+                </p>
               </div>
             ) : (
               pendingOrders.map((order) => (
@@ -145,7 +162,7 @@ const ManagerOrderBill = () => {
           </section>
         </div>
       </div>
-      {pagination.totalPages > 1 && (
+      {pagination.totalPages > 1 && !searchTerm && (
         <div className="flex bg-black bg-opacity-70 justify-between p-2 gap-2">
           <button
             onClick={handlePrevPage}

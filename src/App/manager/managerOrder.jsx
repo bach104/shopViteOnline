@@ -4,6 +4,7 @@ import ManagerOrderInformation from "./base/managerOrderInformation";
 import { getBaseUrl } from "../../utils/baseURL";
 import { toast } from "react-toastify";
 import OrderItem from "./base/orerItems";
+import OrderSearch from "./base/searchOrder";
 
 const statusOptions = [
   { value: "đang chờ xác nhận", label: "Đơn chờ xác nhận", color: "text-yellow-600", bgColor: "bg-yellow-100" },
@@ -20,6 +21,7 @@ const ManagerOrder = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [processingOrderId, setProcessingOrderId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   
   const { data, isLoading, isError, refetch } = useGetAllOrdersQuery({
     page,
@@ -29,8 +31,13 @@ const ManagerOrder = () => {
   const [updateStatus] = useUpdateOrderStatusMutation();
 
   const pendingOrders = useMemo(() => {
-    return data?.orders || [];
-  }, [data]);
+    const orders = data?.orders || [];
+    if (!searchTerm) return orders;
+    
+    return orders.filter(order => 
+      order._id.slice(-6).toUpperCase().includes(searchTerm.toUpperCase())
+    );
+  }, [data, searchTerm]);
 
   const pagination = useMemo(() => {
     return data?.pagination || {
@@ -89,9 +96,16 @@ const ManagerOrder = () => {
     setStatusFilter(status);
     setPage(1);
     setIsDropdownOpen(false);
+    setSearchTerm("");
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setPage(1);
   };
 
   const selectedStatusLabel = statusOptions.find(opt => opt.value === statusFilter)?.label || "Đơn chờ xác nhận";
+  
   if (selectedOrder) {
     return (
       <div className="shoppingCart relative">
@@ -107,8 +121,8 @@ const ManagerOrder = () => {
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
         <h2 className="text-xl p-4">Quản lý đơn hàng</h2>
-        <div className="flex px-4 items-center z-50">
-          <input type="text" placeholder="Tìm kiếm mã đơn hàng" className="p-1.5 outline-none text-gray-400 pl-3 rounded-md " />
+        <div className="flex px-4 items-center z-50 gap-4">
+          <OrderSearch onSearch={handleSearch} />
           <div className="dropdown z-50 relative">
             <div 
               className="select bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
@@ -152,7 +166,11 @@ const ManagerOrder = () => {
               </div>
             ) : pendingOrders.length === 0 ? (
               <div className="text-center py-8">
-                <p>Không có đơn hàng nào {selectedStatusLabel.toLowerCase()}.</p>
+                <p>
+                  {searchTerm 
+                    ? `Không tìm thấy đơn hàng nào với mã "${searchTerm}"`
+                    : `Không có đơn hàng nào ${selectedStatusLabel.toLowerCase()}.`}
+                </p>
               </div>
             ) : (
               pendingOrders.map((order) => (
@@ -170,7 +188,7 @@ const ManagerOrder = () => {
           </section>
         </div>
       </div>
-      {pagination.totalPages > 1 && (
+      {pagination.totalPages > 1 && !searchTerm && (
         <div className="flex bg-black bg-opacity-70 justify-between p-2 gap-2">
           <button
             onClick={handlePrevPage}

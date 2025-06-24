@@ -49,7 +49,7 @@ const OrderItem = ({
       </div>
       <div className="flex-1 flex flex-col justify-center">
         <h3 className="font-semibold">
-          <span className="text-gray-600">Đơn hàng:</span> #{order._id.slice(-6).toUpperCase()}
+          <span className="text-gray-600">Mã đơn hàng:</span> #{order._id.slice(-6).toUpperCase()}
         </h3>
         <p className="text-sm">
           <span className="text-gray-600">Khách hàng:</span> {order.shippingInfo?.yourname || 'N/A'}
