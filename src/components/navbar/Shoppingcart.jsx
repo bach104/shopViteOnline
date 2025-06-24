@@ -10,7 +10,6 @@ const Shoppingcart = () => {
   const token = useSelector((state) => state.auth.token); 
   const isLoggedIn = !!user;
   const userId = user?._id;
-
   const {
     data,
     error,

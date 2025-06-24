@@ -137,7 +137,7 @@ const UpdateProducts = ({ product, onClose }) => {
   const isMaxImagesReached = displayImages.length >= 15;
 
   return (
-    <div className="bg-gray-200 p-6 relative rounded-lg w-full max-w-4xl mx-auto">
+    <div className="bg-gray-200 p-6 relative rounded-lg w-full container-height  mx-auto">
       <FontAwesomeIcon
         icon={faXmark}
         className="absolute text-2xl transition hover:opacity-60 top-4 right-4 cursor-pointer"
@@ -155,7 +155,6 @@ const UpdateProducts = ({ product, onClose }) => {
           placeholder="Nhập tên sản phẩm"
           required
         />
-
         <div className="flex gap-4 mt-4">
           <div className="flex-1">
             <label className="font-semibold">Loại:</label>
@@ -184,7 +183,6 @@ const UpdateProducts = ({ product, onClose }) => {
               />
             )}
           </div>
-
           <div className="flex-1">
             <label className="font-semibold">Chất Liệu:</label>
             <select
@@ -292,7 +290,6 @@ const UpdateProducts = ({ product, onClose }) => {
             required
           />
         </div>
-
         <div className="mt-4">
           <label className="block font-semibold">Màu sắc (cách nhau bằng dấu phẩy):</label>
           <input

@@ -26,10 +26,12 @@ const Messenger = () => {
   const { data: messagesData, isLoading, isError } = useGetMessagesWithUserQuery(
     currentUser?.role === 'admin' ? undefined : undefined
   );
-  
-  const messages = messagesData?.data || [];
+  function getSafeData(response, defaultValue = []) {
+  return response && response.data ? response.data : defaultValue;
+}
 
-  // Kiểm tra người dùng đã cập nhật tên chưa
+  const messages = getSafeData(messagesData);
+
   const hasUpdatedName = currentUser?.yourname && currentUser.yourname.trim() !== '';
 
   useEffect(() => {

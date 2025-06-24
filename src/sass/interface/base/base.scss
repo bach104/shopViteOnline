@@ -93,12 +93,8 @@ input[type="checkbox"] {
     background: $bg-title-color;
 }
 
-.btn__iconClick{
-    cursor: pointer;
-    font-size: 20px;
-    transition: all 0.25s ease;
-    color:$text-light;
-}
-.btn__iconClick:hover{
-    color: $btn-click;
+.container-height{
+    min-height: 90vh;
+    max-height: 90vh;
+    overflow-y: scroll;
 }

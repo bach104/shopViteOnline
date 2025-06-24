@@ -5,27 +5,23 @@ import StoreName from "../App/store/Season";
 import Store from "../App/store/Store";
 import Products from "../App/Shop/search/ProductsSearch";
 import InformationShop from "../App/informationShop/information";
-import InformationAuth  from "../App/auth/Information"
+import InformationAuth  from "../App/informationAuth/Information"
 import ShowProducts from "../App/Shop/view/showProducts";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import CartManager from "../components/CartNavbar";
 import ShoppingCart from "../App/cart/ShoppingCart/ShoppingCart";
-import Confirmation from "../App/cart/confirmation/Confirmation";
-import OnDelivery from "../App/cart/onDelivery/onDelivered";
-import Delivery from "../App/cart/waitDelivery/Delivery";
-import Delivered from "../App/cart/receivedTheGoods/Delivered";
-import AdminManager from "../App/auth/managerAdmin/AdminManager";
-import ManagerProducts from "../App/managerAdmin/products/managerProducts";
-import ManagerAuths from "../App/managerAdmin/auth/managerAuths";
-import ManagerOrderConfirmnit from "../App/managerAdmin/order/managerOrderConfirmnit";
-import ManagerOrderPack from "../App/managerAdmin/order/managerOrderPack"
-import ManagerOrderSuccess from "../App/managerAdmin/order/managerOrderSuccess"
-import ManagerTransport from "../App/managerAdmin/order/managerTransport";
-import ManagerStatistical from "../App/managerAdmin/StatisticalDashboard/managerStatistical";
-import ManagerCanCelOrder from "../App/managerAdmin/order/managerCancelOrder";
-import InformationProducts from "../App/managerAdmin/products/informationProducts";
-import ManagerOrderDelivery from "../App/managerAdmin/order/managerOrderDelivery";
+import Confirmation from "../App/cart/Confirmation";
+import OnDelivery from "../App/cart/onDelivered";
+import Delivery from "../App/cart/Delivery";
+import Delivered from "../App/cart/Delivered";
+import AdminManager from "../components/manager/navabar";
+import ManagerProducts from "../App/manager/products/managerProducts";
+import ManagerBillOrder from "../App/manager/managerOrderBill";
+import ManagerAuths from "../App/manager/managerAuths";
+import ManagerOrderConfirmnit from "../App/manager/managerOrder";
+import ManagerStatistical from "../App/manager/StatisticalDashboard/managerStatistical";
+import InformationProducts from "../App/manager/products/informationProducts";
 import VnpayReturnHandler from "../App/cart/ShoppingCart/VnpayReturnHandler";
 import SmsAdmin from "../App/message/messageAdmin"
 import SmsUser from "../App/message/messageUse"
@@ -63,7 +59,7 @@ const router = createBrowserRouter([
             element: <InformationShop />,
         },
         {
-            path: "/informations",
+            path: "/thong_tin_ca_nhan",
             element: <InformationAuth />,
         },
         ],
@@ -113,14 +109,10 @@ const router = createBrowserRouter([
                     },
                 ]
             },
-            {path:"managerAuths", element:<ManagerAuths/>},
-            {path:"managerOrderConfirmnit", element:<ManagerOrderConfirmnit/>},
-            {path:"managerOrderPack", element:<ManagerOrderPack/>},
-            {path:"managerTransport", element:<ManagerTransport/>},
-            {path:"managerStatistical", element:<ManagerStatistical/>},
-            {path:"managerOrderDelivery", element:<ManagerOrderDelivery/>},
-            {path:"managerOrderSuccess", element:<ManagerOrderSuccess/>},
-            {path:"managerCancelOrder", element:<ManagerCanCelOrder/>},
+            {path:"quan_ly_tai_khoan", element:<ManagerAuths/>},
+            {path:"quan_ly_don_hang", element:<ManagerOrderConfirmnit/>},
+            {path:"quan_ly_hoa_don", element:<ManagerBillOrder/>},
+            {path:"thong_ke", element:<ManagerStatistical/>},
 
         ]
     }

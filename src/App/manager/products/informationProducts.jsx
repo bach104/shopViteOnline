@@ -25,7 +25,7 @@ const InformationProducts = () => {
   return (
     <>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="relative w-2/3 bg-gray-100 px-6 py-8 rounded-lg shadow-md">
+        <div className="relative container-height container-width bg-gray-100 px-6 py-8 rounded-lg shadow-md">
           <FontAwesomeIcon
             icon={faXmark}
             className="absolute top-4 right-4 cursor-pointer text-2xl hover:opacity-50 transition"
@@ -34,7 +34,7 @@ const InformationProducts = () => {
           <h2 className="text-xl"><b>Tên sản phẩm:</b> {product.name}</h2>
           <div className="mt-4">
             <p className="font-semibold">Ảnh</p>
-            <div className="flex scroll__listX gap-2">
+            <div className="flex flex-wrap gap-2">
               {product.images.map((img, index) => {
                 const imageUrl = img ? `${getBaseUrl()}/${img.replace(/\\/g, "/")}` : "https://via.placeholder.com/112";
                 return (

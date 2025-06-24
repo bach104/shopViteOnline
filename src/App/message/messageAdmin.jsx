@@ -31,9 +31,12 @@ const Messenger = () => {
   const emojiPickerRef = useRef(null);
   const messagesEndRef = useRef(null);
 
-  const { data: conversationsResponse, isLoading: convLoading, isError: convError } = useGetConversationListQuery();
-  const conversations = conversationsResponse?.data || [];
+  function getSafeData(response, defaultValue = []) {
+    return response && response.data ? response.data : defaultValue;
+  }
 
+  const { data: conversationsResponse, isLoading: convLoading, isError: convError } = useGetConversationListQuery();
+  
   const { 
     data: messagesData, 
     isLoading: messagesLoading, 
@@ -43,7 +46,8 @@ const Messenger = () => {
     skip: !selectedChat?.userId
   });
 
-  const messages = messagesData?.data || [];
+  const conversations = getSafeData(conversationsResponse);
+  const messages = getSafeData(messagesData);
 
   const getAvatarUrl = (avatarPath) => {
     if (!avatarPath) return avatartest;

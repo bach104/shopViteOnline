@@ -29,7 +29,14 @@
     opacity: 0.9;
     transform: scale(1.1) translateX(10px);
 }
-
+.btn__click2{
+    background:$bg-black;
+    padding: 0.5rem 1.5rem;
+    color:$text-white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
 .btn__seemore:hover,
 .btn__add:hover {
     transform: scale(1.1);
@@ -48,4 +55,16 @@
 }
 .btn__li:hover{
     background: rgba(0, 0, 0, 0.1);
+}
+.btn__click2:hover{
+    opacity: 0.8;
+}
+.btn__iconClick{
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.25s ease;
+    color:$text-light;
+}
+.btn__iconClick:hover{
+    color: $btn-click;
 }

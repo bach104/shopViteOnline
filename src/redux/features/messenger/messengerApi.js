@@ -12,7 +12,6 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
-
 export const messengerApi = createApi({
   reducerPath: 'messengerApi',
   baseQuery,

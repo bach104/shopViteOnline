@@ -1,0 +1,33 @@
+.dropdown {
+  min-width: 200px;
+}
+.select {
+  transition: all 0.2s ease;
+}
+
+.select:hover {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.caret {
+  transition: transform 0.2s ease;
+}
+
+.menu {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.menu li {
+  transition: background-color 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

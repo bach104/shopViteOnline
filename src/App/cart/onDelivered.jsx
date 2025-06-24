@@ -1,10 +1,11 @@
 import { useState } from "react";
-import DeliveredInformation from "../informationOrder";
-import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
-import { getBaseUrl } from "../../../utils/baseURL";
+import DeliveredInformation from "./base/informationOrder";
+import { useGetUserOrdersQuery } from "../../redux/features/order/orderApi";
+import { getBaseUrl } from "../../utils/baseURL";
 import { useSelector } from "react-redux";
+import OrderItem from "./base/OrderItem"; 
 
-const Delivery = () => {
+const OnDelivered = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { user } = useSelector((state) => state.auth);
@@ -24,9 +25,9 @@ const Delivery = () => {
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
   const filteredOrders = orders.filter(order => 
-    order.status === 'đã nhận được hàng'
+    order.status === 'đang giao' 
   );
-
+  
   if (showDetails) {
     return (
       <div className="my-4 shoppingCart relative">
@@ -39,11 +40,12 @@ const Delivery = () => {
       </div>
     );
   }
+  
   return (
     <div className="my-4 shoppingCart relative">
       <section className="container-width p-4">
         <div className="flex justify-between pb-2">
-          <h2 className="text-2xl">Giao thành công</h2>
+          <h2 className="text-2xl">Đang giao</h2>
           {isLoggedIn && filteredOrders.length > 0 && (
             <p className="text-gray-500">
               Hiển thị {filteredOrders.length} đơn hàng đang xử lý
@@ -81,53 +83,4 @@ const Delivery = () => {
   );
 };
 
-const OrderItem = ({ order, getProductImage, onViewDetails }) => {
-  const firstProductImage = order.items[0]?.image || '';
-  const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
-
-  return (
-    <div className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm mb-3 shadow-sm">
-      <div className="w-28 flex items-center justify-center">
-        <img 
-          src={getProductImage(firstProductImage)}
-          className="w-28 border border-black h-full object-cover rounded-s"
-          alt={order.items[0]?.name}
-          onError={(e) => {
-            e.target.src = "";
-            e.target.className += " bg-gray-200";
-          }}
-        />
-      </div>
-      <div className="flex-1 shoppingItems__technology">
-        <h3><b>Đơn hàng:</b> #{order._id.slice(-6).toUpperCase()}</h3>
-        <p className="text-sm">
-          <b>Tổng cần thanh toán:</b> {order.totalAmount.toLocaleString()}đ
-        </p>
-        <p className="text-sm">
-          <b>Số lượng sản phẩm:</b> {totalProducts}
-        </p>
-        <p className="text-sm">
-          <b>Ngày đặt:</b> {new Date(order.createdAt).toLocaleDateString()}
-        </p>
-        <p>
-          <b>Trạng thái đơn hàng:</b> 
-          <span className={`ml-1 ${
-            order.status === 'đã nhận được hàng' ? 'text-green-700': ''
-          }`}>
-            {order.status}
-          </span>
-        </p>
-      </div>
-      <div className="flex h-full shoppingItems__click items-end">
-        <button
-          className="bg-black hover:opacity-70 opacity-80 transition text-white rounded-lg px-4 py-1"
-          onClick={() => onViewDetails(order)}
-        >
-          Xem thông tin
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default Delivery;
+export default OnDelivered;

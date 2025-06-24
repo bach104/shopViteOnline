@@ -36,7 +36,7 @@ const ManagerOrderInformation = ({ order, onClose }) => {
       
       await updateStatus(updateData).unwrap();
       
-      if (newStatus === 'Shop đang đóng gói') {
+      if (newStatus === 'shop đang đóng gói') {
         setShowSuccessConfirmation(true);
       } else {
         onClose();
@@ -164,7 +164,7 @@ const ManagerOrderInformation = ({ order, onClose }) => {
                         <>
                         <button 
                             className="bg-green-600 hover:opacity-80 text-white px-4 py-2 rounded"
-                            onClick={() => handleStatusUpdate('Shop đang đóng gói')}
+                            onClick={() => handleStatusUpdate('shop đang đóng gói')}
                             disabled={isUpdating}
                         >
                             {isUpdating ? 'Đang xử lý...' : 'Xác nhận đơn hàng'}

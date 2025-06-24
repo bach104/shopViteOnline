@@ -1,8 +1,9 @@
 import { useState } from "react";
-import ConfirmationInformation from "../informationOrder";
-import { useGetUserOrdersQuery } from "../../../redux/features/order/orderApi";
-import { getBaseUrl } from "../../../utils/baseURL";
+import ConfirmationInformation from "./base/informationOrder";
+import { useGetUserOrdersQuery } from "../../redux/features/order/orderApi";
+import { getBaseUrl } from "../../utils/baseURL";
 import { useSelector } from "react-redux";
+import OrderItem from "./base/OrderItem"; 
 
 const Confirmation = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -13,6 +14,7 @@ const Confirmation = () => {
   const { data: orders = [], isLoading, error } = useGetUserOrdersQuery(undefined, {
     skip: !isLoggedIn
   });
+
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
     setShowDetails(true);
@@ -28,11 +30,16 @@ const Confirmation = () => {
   };
 
   const filteredOrders = orders.filter(order => 
-    order.status === 'đang chờ xác nhận' || 
-    order.status === 'hết hàng'
+    order?.status === 'đang chờ xác nhận' || 
+    order?.status === 'hết hàng'
   );
 
-  if (showDetails) {
+  const statusColors = {
+    'đang chờ xác nhận': 'text-yellow-500',
+    'hết hàng': 'text-red-400'
+  };
+
+  if (showDetails && selectedOrder) {
     return (
       <div className="my-4 shoppingCart relative">
         <section className="container-width p-4">
@@ -49,7 +56,7 @@ const Confirmation = () => {
     <div className="my-4 shoppingCart relative">
       <section className="container-width p-4">
         <div className="flex justify-between pb-2">
-          <h2 className="text-2xl">Đơn hàng của bạn</h2>
+          <h2 className="text-2xl">Chờ xác nhận</h2>
           {isLoggedIn && filteredOrders.length > 0 && (
             <p className="text-gray-500">
               Hiển thị {filteredOrders.length} đơn hàng đang chờ xử lý
@@ -79,61 +86,12 @@ const Confirmation = () => {
                 order={order}
                 getProductImage={getProductImage}
                 onViewDetails={handleViewDetails}
+                statusColors={statusColors}
               />
             ))
           )}
         </div>
       </section>
-    </div>
-  );
-};
-
-const OrderItem = ({ order, getProductImage, onViewDetails }) => {
-  const firstProductImage = order.items[0]?.image || '';
-  const totalProducts = order.items.reduce((sum, item) => sum + item.quantity, 0);
-
-  return (
-    <div className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm mb-3 shadow-sm">
-      <div className="w-28 flex items-center justify-center">
-        <img 
-          src={getProductImage(firstProductImage)}
-          className="w-28 border border-black h-full object-cover rounded-s"
-          alt={order.items[0]?.name}
-          onError={(e) => {
-            e.target.src = "";
-            e.target.className += " bg-gray-200";
-          }}
-        />
-      </div>
-      <div className="flex-1 shoppingItems__technology">
-        <h3><b>Đơn hàng:</b> #{order._id.slice(-6).toUpperCase()}</h3>
-        <p className="text-sm">
-          <b>Tổng cần thanh toán:</b> {order.totalAmount.toLocaleString()}đ
-        </p>
-        <p className="text-sm">
-          <b>Số lượng sản phẩm:</b> {totalProducts}
-        </p>
-        <p className="text-sm">
-          <b>Ngày đặt:</b> {new Date(order.createdAt).toLocaleDateString()}
-        </p>
-        <p>
-          <b>Trạng thái đơn hàng:</b> 
-          <span className={`ml-1 ${
-            order.status === 'đang chờ xác nhận' ? 'text-yellow-500' : 
-            order.status === 'hết hàng' ? 'text-red-400' : ''
-          }`}>
-            {order.status}
-          </span>
-        </p>
-      </div>
-      <div className="flex h-full shoppingItems__click items-end">
-        <button
-          className="bg-black hover:opacity-70 opacity-80 transition text-white rounded-lg px-4 py-1"
-          onClick={() => onViewDetails(order)}
-        >
-          Xem thông tin
-        </button>
-      </div>
     </div>
   );
 };
