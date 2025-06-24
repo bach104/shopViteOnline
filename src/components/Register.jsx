@@ -211,7 +211,7 @@ const Register = () => {
         </form>
         <p className="p-3">
           Bạn đã có tài khoản?{" "}
-          <Link className="font-bold" to="/login">
+          <Link className="font-bold" to="/dang_nhap">
             Đăng nhập
           </Link>{" "}
           để vào shop

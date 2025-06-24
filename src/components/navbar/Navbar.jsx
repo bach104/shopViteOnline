@@ -1,8 +1,14 @@
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import Shoppingcart from "./Shoppingcart";
+import MessagerIcons from "./Messager";
 import Auth from "./Auth";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 const Navbar = () => {
+  const user = useSelector(selectCurrentUser);
+  const isAdmin = user?.role === 'admin';
+
   return (
     <header className="header z-20 bg-white">
       <nav className="max-w-screen-2xl mx-auto px-4 flex items-center justify-between">
@@ -39,11 +45,16 @@ const Navbar = () => {
               <Search className="w-5 h-5 cursor-pointer" />
             </Link>
           </span>
-          <span className="relative">
-            <Shoppingcart />
+          <span>
+            <MessagerIcons/>
           </span>
+          {!isAdmin && (
+            <span className="relative">
+              <Shoppingcart />
+            </span>
+          )}
           <span className="relative">
-             <Auth/>
+            <Auth />
           </span>
         </div>
       </nav>

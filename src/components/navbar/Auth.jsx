@@ -48,12 +48,12 @@ const Auth = () => {
   };
 
   const adminDropDownMenus = [
-    { label: "Quản lý mục", path: "/admin-manager" },
-    { label: "Tất cả đơn hàng", path: "/admin-manager/managerOrderConfirmnit" },
-    { label: "Thông tin cá nhân", path: "/informations" },
+    { label: "Quản lý mục", path: "/admin-manager"},
+    { label: "Tất cả đơn hàng", path: "/admin-manager/quan_ly_don_hang" },
+    { label: "Thông tin cá nhân", path: "/thong_tin_ca_nhan" },
   ];    
   const userDropDownMenus = [
-    { label: "Thông tin cá nhân", path: "/informations" },
+    { label: "Thông tin cá nhân", path: "/thong_tin_ca_nhan" },
     { label: "Giỏ hàng của bạn", path: "/cart-manager" },
   ];
   const dropDownMenus = user?.role === "admin" ? adminDropDownMenus : userDropDownMenus;
@@ -96,7 +96,7 @@ const Auth = () => {
           )}
         </>
       ) : (
-        <Link to="/login">
+        <Link to="/dang_nhap">
           <User className="w-5 h-5 cursor-pointer" />
         </Link>
       )}

@@ -65,11 +65,11 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: "/login",
+        path: "/dang_nhap",
         element: <Login />,
     },
     {
-        path: "/register",
+        path: "/dang_ky",
         element: <Register />,
     },
     {
