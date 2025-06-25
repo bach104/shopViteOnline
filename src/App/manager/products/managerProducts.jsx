@@ -211,7 +211,7 @@ const ManagerProducts = () => {
                 onClick={handleDeleteProducts}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
-                Xóa sản phẩm
+                Xóa
               </button>
             )}
           </>

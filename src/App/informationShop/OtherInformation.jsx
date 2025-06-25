@@ -42,7 +42,6 @@ const OtherInformation = () => {
                         </div>
                     </div>
                     </div>
-
                 </div>
             </div>
        </div>

@@ -22,4 +22,3 @@ const information = () => {
   )
 }
 export default information
-// tài liệu ses

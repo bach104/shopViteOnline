@@ -1,7 +1,7 @@
-import { faHouse } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link, Outlet } from "react-router"
-import Footer from "./footer"
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link, Outlet } from "react-router";
+import Footer from "./footer";
 const CartManager = () => {
   return (
     <>
@@ -12,7 +12,7 @@ const CartManager = () => {
             <Link to="/" className="absolute text-white transition hover:opacity-80 btn-comeBack">
               <FontAwesomeIcon icon={faHouse} />
             </Link>
-            <h2 className="text-center text-white p-2 text-2xl font-bold">Giỏ hàng của bạn</h2>
+            <h2 className="text-center text-white p-2 text-2xl font-bold">Giỏ hàng</h2>
           </div>
         </div>
       <ul className="cartNavbar container-width flex justify-evenly ">
@@ -40,4 +40,3 @@ const CartManager = () => {
   )
 }
 export default CartManager
-

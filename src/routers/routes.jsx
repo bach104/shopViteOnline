@@ -14,7 +14,7 @@ import ShoppingCart from "../App/cart/ShoppingCart/ShoppingCart";
 import Confirmation from "../App/cart/Confirmation";
 import OnDelivery from "../App/cart/onDelivered";
 import Delivery from "../App/cart/Delivery";
-import Delivered from "../App/cart/Delivered";
+import Delivered from "../App/cart/orderSucsses";
 import AdminManager from "../components/manager/navabar";
 import ManagerProducts from "../App/manager/products/managerProducts";
 import ManagerBillOrder from "../App/manager/managerOrderBill";

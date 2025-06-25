@@ -1,15 +1,37 @@
+import { useEffect } from 'react';
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import ViewProducts from "./viewProducts";
 import SuggestedProducts from "./SuggestedProducts";
 import Comments from "./Comments";
-import { useParams } from "react-router-dom";
 
 const ShowProducts = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const shouldShowReview = sessionStorage.getItem('shouldShowReviewButton') === 'true';
+    const reviewProductId = sessionStorage.getItem('reviewProductId');
+
+    if (shouldShowReview && reviewProductId === id) {
+      navigate(location.pathname, { 
+        state: { fromOrder: true }, 
+        replace: true 
+      });
+    }
+
+    return () => {
+      sessionStorage.removeItem('shouldShowReviewButton');
+      sessionStorage.removeItem('reviewProductId');
+    };
+  }, [id, location.pathname, navigate]);
   return (
     <div>
       <ViewProducts />
-      <Comments productId={id} />
+      <Comments 
+        productId={id} 
+        fromOrder={location.state?.fromOrder || false} 
+      />
       <SuggestedProducts />
     </div>
   );

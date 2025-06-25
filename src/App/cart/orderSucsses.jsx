@@ -5,7 +5,7 @@ import { getBaseUrl } from "../../utils/baseURL";
 import { useSelector } from "react-redux";
 import OrderItem from "./base/OrderItem"; 
 
-const Delivered = () => {
+const OrderSuccess = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { user } = useSelector((state) => state.auth);
@@ -88,5 +88,4 @@ const Delivered = () => {
     </div>
   );
 };
-
-export default Delivered;
+export default OrderSuccess;

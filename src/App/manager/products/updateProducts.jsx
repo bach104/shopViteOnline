@@ -137,7 +137,7 @@ const UpdateProducts = ({ product, onClose }) => {
   const isMaxImagesReached = displayImages.length >= 15;
 
   return (
-    <div className="bg-gray-200 p-6 relative rounded-lg w-full container-height  mx-auto">
+    <div className="bg-gray-200 container-width p-6 relative rounded-lg w-full container-height  mx-auto">
       <FontAwesomeIcon
         icon={faXmark}
         className="absolute text-2xl transition hover:opacity-60 top-4 right-4 cursor-pointer"
@@ -302,7 +302,6 @@ const UpdateProducts = ({ product, onClose }) => {
             required
           />
         </div>
-
         <div className="mt-4">
           <label className="block font-semibold">Kích thước (cách nhau bằng dấu phẩy):</label>
           <input

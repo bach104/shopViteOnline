@@ -98,69 +98,78 @@ const ViewProducts = () => {
       </h2>
       <div className="p-4 grid grid-cols-4 gap-6">
         <div className="flex col-span-2 flex-col">
-        <div className="w-full h-96 bg-gray-100 flex items-center justify-center text-xl font-mono">
-          {videoUrl ? (
-            <video
-              src={videoUrl}
-              controls
-              className="h-full w-full object-cover"
-            />
-          ) : imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={product?.name}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div>Không có hình ảnh hoặc video</div>
-          )}
-        </div>
-        <div className="relative w-full mt-2">
-          {product?.images?.length > 4 && (
-            <>
-              <button
-                onClick={() => handleScroll(-1)}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-md z-10"
-              >
-                <i className="fa-solid fa-angle-left"></i>
-              </button>
-              <button
-                onClick={() => handleScroll(1)}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-md z-10"
-              >
-                <i className="fa-solid fa-angle-right"></i>
-              </button>
-            </>
-          )}
-          <div
-            ref={scrollRef}
-            className="flex gap-2 overflow-x-auto max-w-full whitespace-nowrap scroll-smooth no-scrollbar"
-          >
-            {videoUrl && (
-              <div className="h-28 w-36 flex-shrink-0">
-                <video
-                  src={videoUrl}
-                  controls
-                  className="h-full w-full object-cover"
-                />
-              </div>
+          <div className="w-full h-96 bg-gray-100 flex items-center justify-center text-xl font-mono">
+            {videoUrl ? (
+              <video
+                src={videoUrl}
+                controls
+                className="h-full w-full object-cover"
+              />
+            ) : imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={product?.name}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div>Không có hình ảnh hoặc video</div>
             )}
-            {product?.images?.map((img, index) => {
-              const imgUrl = `${getBaseUrl()}/${img.replace(/\\/g, "/")}`;
-              return (
-                <div key={index} className="h-28 w-36 flex-shrink-0">
-                  <img
-                    src={imgUrl}
-                    alt={`Ảnh ${index + 1}`}
+          </div>
+          <div className="relative w-full mt-2">
+            {product?.images?.length > 4 && (
+              <>
+                <button
+                  onClick={() => handleScroll(-1)}
+                  className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-md z-10"
+                >
+                  <i className="fa-solid fa-angle-left"></i>
+                </button>
+                <button
+                  onClick={() => handleScroll(1)}
+                  className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-md z-10"
+                >
+                  <i className="fa-solid fa-angle-right"></i>
+                </button>
+              </>
+            )}
+            <div
+              ref={scrollRef}
+              className="flex gap-2 overflow-x-auto max-w-full whitespace-nowrap scroll-smooth no-scrollbar"
+            >
+              {videoUrl && (
+                <div className="h-28 w-36 flex-shrink-0">
+                  <video
+                    src={videoUrl}
+                    controls
                     className="h-full w-full object-cover"
                   />
                 </div>
-              );
-            })}
+              )}
+              {product?.images?.map((img, index) => {
+                const imgUrl = `${getBaseUrl()}/${img.replace(/\\/g, "/")}`;
+                return (
+                  <div key={index} className="h-28 w-36 flex-shrink-0">
+                    <img
+                      src={imgUrl}
+                      alt={`Ảnh ${index + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="mt-2 flex gap-4 items-end">
+            <div className="text-5xl">
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+              <i className="fa-regular fa-star"></i>
+            </div>
+            <span>Lượt đánh giá: 0 đánh giá </span>
           </div>
         </div>
-        </div>
-
         <div className="col-span-2">
           <h2 className="text-3xl font-bold">{product?.name}</h2>
           <p className="mt-2 text-lg font-bold">
@@ -206,6 +215,10 @@ const ViewProducts = () => {
                 </button>
               ))}
             </div>
+          </div>
+          <div className="flex mt-2 gap-2">
+            <p className="bg-black text-white px-2 py-1 rounded-md">Kho: {product?.quantity}</p>
+            <p className="bg-black text-white px-2 py-1 rounded-md">Đã bán: {product?.sold}</p>
           </div>
           <div className="mt-2 flex items-center">
             <p className="text-sm font-semibold mr-2">Số lượng:</p>

@@ -44,7 +44,6 @@ const AddToCart = ({ productId, setCartCount }) => {
       toast.error(error?.data?.message || "Lỗi khi thêm vào giỏ hàng!", { autoClose: 1000, position: "top-right" });
     }
   };
-
   return (
     <button className="absolute right-3 top-3" onClick={handleAddToCart} disabled={isLoading}>
       <i className="fa-solid text-xl transition text-white fa-cart-shopping bg-black opacity-60 w-10 h-10 btn__add flex justify-center"></i>

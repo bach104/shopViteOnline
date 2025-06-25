@@ -1,10 +1,9 @@
-// Delivery.jsx
 import { useState } from "react";
 import DeliveryInformation from "./base/informationOrder";
 import { useGetUserOrdersQuery } from "../../redux/features/order/orderApi";
 import { getBaseUrl } from "../../utils/baseURL";
 import { useSelector } from "react-redux";
-import OrderItem from "./base/OrderItem"; // Import the shared component
+import OrderItem from "./base/OrderItem"; 
 
 const Delivery = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -30,7 +29,7 @@ const Delivery = () => {
   };
 
   const filteredOrders = orders.filter(order => 
-    order.status === 'Shop đang đóng gói' || 
+    order.status === 'shop đang đóng gói' || 
     order.status === 'đã giao cho bên vận chuyển'
   );
 
@@ -46,7 +45,6 @@ const Delivery = () => {
       </div>
     );
   }
-
   return (
     <div className="my-4 shoppingCart relative">
       <section className="container-width p-4">

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import OrderItem from "./OrderItemInformation";
 import PropTypes from "prop-types";
 
-const ConfirmationInformation = ({ order, onClose }) => {
+const InformationOrder = ({ order, onClose }) => {
   const [cancelReason, setCancelReason] = useState('');
   const [showCancelForm, setShowCancelForm] = useState(false);
   const [cancelSuccess, setCancelSuccess] = useState(false);
@@ -58,7 +58,11 @@ const ConfirmationInformation = ({ order, onClose }) => {
         <div className="space-y-4">
           <div className="space-y-3 shoppingContainer">
             {order.items?.map((item, index) => (
-              <OrderItem key={index} item={item} />
+              <OrderItem 
+                key={index} 
+                item={item} 
+                status={order.status} // Truyền status xuống OrderItem
+              />
             ))}
           </div>
 
@@ -182,7 +186,8 @@ const ConfirmationInformation = ({ order, onClose }) => {
     </div>
   );
 };
-ConfirmationInformation.propTypes = {
+
+InformationOrder.propTypes = {
   order: PropTypes.shape({
     _id: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.object),
@@ -201,4 +206,4 @@ ConfirmationInformation.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default ConfirmationInformation;
+export default InformationOrder;

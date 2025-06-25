@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
 import avatarImg from "../../../assets/img/avatar.png";
 import { getBaseUrl } from "../../../utils/baseURL";
+import { Link } from "react-router-dom";
 
-const OrderItem = ({ item }) => {
+const OrderItem = ({ item, status }) => {
   const getProductImage = (image) => {
     if (!image) return avatarImg;
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
-
+  const handleReviewClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <div className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm shadow-sm">
       <img 
@@ -29,7 +32,18 @@ const OrderItem = ({ item }) => {
         </p>
       </div>
       <div className="h-full flex items-end">
-        <button className="btn__click2">Đánh giá</button>
+        {status === 'đã nhận được hàng' && (
+          <Link
+            to={{
+              pathname: `/products/${item.productId}`,
+              state: { fromOrder: true } 
+            }}
+            onClick={handleReviewClick}
+            className="btn__click2"
+          >
+            Đánh giá
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -43,7 +57,9 @@ OrderItem.propTypes = {
     quantity: PropTypes.number,
     size: PropTypes.string,
     color: PropTypes.string,
+    productId: PropTypes.string.isRequired,
   }).isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default OrderItem;

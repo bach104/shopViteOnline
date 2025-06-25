@@ -20,10 +20,8 @@ const Comments = ({ productId }) => {
   const { user } = useSelector((state) => state.auth);
   const [localComments, setLocalComments] = useState([]);
 
-  // Sắp xếp bình luận khi nhận dữ liệu từ API
   useEffect(() => {
     if (!isLoading && !isError && data?.comments) {
-      // Tạo bản sao của mảng và sắp xếp theo thời gian tạo giảm dần (createdAt)
       const sortedComments = [...data.comments].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
@@ -33,7 +31,7 @@ const Comments = ({ productId }) => {
 
   const handleCommentClick = () => {
     if (!user) {
-      alert("Bạn cần đăng nhập để bình luận!");
+      alert("Bạn cần đăng nhập để đánh giá!");
       return;
     }
     setShowAddComments((prev) => !prev);
@@ -45,7 +43,7 @@ const Comments = ({ productId }) => {
 
   const handleAddComment = async (comment) => {
     if (!user) {
-      alert("Bạn cần đăng nhập để bình luận!");
+      alert("Bạn cần đăng nhập để đánh giá!");
       return;
     }
 
@@ -62,26 +60,21 @@ const Comments = ({ productId }) => {
       if (!commentWithId._id) {
         commentWithId._id = `temp-${Date.now()}`;
       }
-
-      // Thêm bình luận mới vào đầu danh sách
       setLocalComments((prevComments) => {
         const updatedComments = [commentWithId, ...prevComments];
-        // Nếu đang ở trang 1, cập nhật ngay lập tức
         if (page === 1) {
           return updatedComments;
         }
-        // Nếu đang ở các trang khác, vẫn thêm bình luận mới nhưng không hiển thị ngay
         return updatedComments;
       });
 
       setShowAddComments(false);
 
-      // Nếu đang ở các trang khác, thông báo cho người dùng quay lại trang 1
       if (page !== 1) {
-        alert("Bình luận mới đã được thêm. Vui lòng quay lại trang 1 để xem.");
+        alert("đánh giá mới đã được thêm. Vui lòng quay lại trang 1 để xem.");
       }
     } catch (error) {
-      console.error("Lỗi khi thêm bình luận:", error);
+      console.error("Lỗi khi thêm đánh giá:", error);
     }
   };
 
@@ -92,13 +85,13 @@ const Comments = ({ productId }) => {
         prevComments.filter((comment) => comment._id !== commentId)
       );
     } catch (error) {
-      console.error("Lỗi khi xoá bình luận:", error);
+      console.error("Lỗi khi xoá đánh giá:", error);
     }
   };
 
   const handleEditComment = async (commentId, newContent) => {
     if (!commentId || !newContent.trim()) {
-      console.error("ID bình luận hoặc nội dung không hợp lệ!");
+      console.error("ID đánh giá hoặc nội dung không hợp lệ!");
       return;
     }
     try {
@@ -114,13 +107,13 @@ const Comments = ({ productId }) => {
         )
       );
     } catch (error) {
-      console.error("Lỗi khi sửa bình luận:", error);
+      console.error("Lỗi khi sửa đánh giá:", error);
     }
   };
 
   const handleReplyComment = async (parentId, content) => {
     if (!user) {
-      alert("Bạn cần đăng nhập để trả lời bình luận!");
+      alert("Bạn cần đăng nhập để trả lời đánh giá!");
       return;
     }
 
@@ -149,7 +142,6 @@ const Comments = ({ productId }) => {
       setLocalComments((prevComments) =>
         prevComments.map((comment) => {
           if (comment._id === parentComment._id) {
-            // Sắp xếp các phản hồi theo thời gian tạo giảm dần (createdAt)
             const sortedReplies = [...(comment.replies || []), newReply].sort(
               (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
             );
@@ -179,12 +171,12 @@ const Comments = ({ productId }) => {
   return (
     <div className="max-width mx-auto bg-gray-200">
       <div className="flex p-4 justify-between items-center">
-        <h2 className="text-2xl font-bold">Bình luận sản phẩm</h2>
+        <h2 className="text-2xl font-bold">Đánh giá sản phẩm</h2>
         <p
           className="hover:text-blue-500 font-bold cursor-pointer"
           onClick={handleCommentClick}
         >
-          Bình luận
+          Đánh giá
         </p>
       </div>
       <div className="bg-white p-3 scroll__container">
@@ -196,11 +188,11 @@ const Comments = ({ productId }) => {
           />
         )}
         {isLoading ? (
-          <p>Đang tải bình luận...</p>
+          <p>Đang tải đánh giá...</p>
         ) : isError ? (
-          <p>Đã có lỗi xảy ra khi tải bình luận.</p>
+          <p>Đã có lỗi xảy ra khi tải đánh giá.</p>
         ) : localComments.length === 0 ? (
-          <p>Chưa có bình luận nào.</p>
+          <p>Chưa có đánh giá nào.</p>
         ) : (
           localComments.map((comment) => (
             <Comment
@@ -227,7 +219,7 @@ const Comments = ({ productId }) => {
             className="hover:text-blue-500 cursor-pointer transition"
             onClick={handleLoadMore}
           >
-            Xem thêm bình luận &gt;
+            Xem thêm đánh giá &gt;
           </p>
         )}
       </div>

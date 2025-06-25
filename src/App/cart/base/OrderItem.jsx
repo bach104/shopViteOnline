@@ -4,7 +4,7 @@ const OrderItem = ({ order, getProductImage, onViewDetails, statusColors = {} })
 
   const defaultStatusColors = {
     'đang giao': 'text-green-500',
-    'Shop đang đóng gói': 'text-blue-500',
+    'shop đang đóng gói': 'text-blue-500',
     'đã giao cho bên vận chuyển': 'text-purple-600',
     'đã nhận được hàng': 'text-green-700',
     'đang chờ xác nhận': 'text-yellow-500',

@@ -5,6 +5,7 @@ import { getBaseUrl } from "../../utils/baseURL";
 import { toast } from "react-toastify";
 import OrderItem from "./base/orerItems";
 import OrderSearch from "./base/searchOrder";
+import Pagination from "./base/Pagination";
 
 const statusOptions = [
   { value: "đang chờ xác nhận", label: "Đơn chờ xác nhận", color: "text-yellow-600", bgColor: "bg-yellow-100" },
@@ -188,31 +189,13 @@ const ManagerOrder = () => {
           </section>
         </div>
       </div>
-      {pagination.totalPages > 1 && !searchTerm && (
-        <div className="flex bg-black bg-opacity-70 justify-between p-2 gap-2">
-          <button
-            onClick={handlePrevPage}
-            disabled={page === 1}
-            className={`bg-white font-bold shadow-md px-4 py-2 rounded-md hover:opacity-90 transition text-black ${
-              page === 1 ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            Trang trước
-          </button>
-          <span className="flex items-center text-white">
-            Trang {page}/{pagination.totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={page === pagination.totalPages}
-            className={`bg-white font-bold shadow-md px-4 py-2 rounded-md hover:opacity-90 transition text-black ${
-              page === pagination.totalPages ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            Trang kế tiếp
-          </button>
-        </div>
-      )}
+      <Pagination
+        currentPage={page}
+        totalPages={pagination.totalPages}
+        onPrevPage={handlePrevPage}
+        onNextPage={handleNextPage}
+        searchTerm={searchTerm}
+      />
     </>
   );
 };

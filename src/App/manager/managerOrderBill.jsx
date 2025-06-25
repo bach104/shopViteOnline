@@ -3,7 +3,8 @@ import { useState, useMemo } from "react";
 import ManagerOrderInformation from "./base/managerOrderInformation";
 import { getBaseUrl } from "../../utils/baseURL";
 import OrderItem from "./base/orerItems";
-import OrderSearch from "./base/searchOrder"; // Import component tìm kiếm
+import OrderSearch from "./base/searchOrder";
+import Pagination from "./base/Pagination";
 
 const statusOptions = [
   { value: "all", label: "Tất cả hoá đơn", color: "text-gray-600", bgColor: "bg-gray-100" },
@@ -71,12 +72,12 @@ const ManagerOrderBill = () => {
     setStatusFilter(status);
     setPage(1);
     setIsDropdownOpen(false);
-    setSearchTerm(""); // Reset search term khi thay đổi trạng thái
+    setSearchTerm(""); 
   };
 
   const handleSearch = (term) => {
     setSearchTerm(term);
-    setPage(1); // Reset về trang 1 khi tìm kiếm
+    setPage(1); 
   };
 
   const selectedStatusLabel = statusOptions.find(opt => opt.value === statusFilter)?.label || "Tất cả đơn hàng";
@@ -97,7 +98,7 @@ const ManagerOrderBill = () => {
       <div className="Manager__display--Title flex justify-items-center justify-between">
         <h2 className="text-xl p-4">Quản lý hoá đơn</h2>
         <div className="flex px-4 items-center gap-3 z-50">
-          <OrderSearch onSearch={handleSearch} /> {/* Sử dụng component OrderSearch */}
+          <OrderSearch onSearch={handleSearch} />
           <div className="dropdown z-50 relative">
             <div 
               className="select bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
@@ -162,31 +163,13 @@ const ManagerOrderBill = () => {
           </section>
         </div>
       </div>
-      {pagination.totalPages > 1 && !searchTerm && (
-        <div className="flex bg-black bg-opacity-70 justify-between p-2 gap-2">
-          <button
-            onClick={handlePrevPage}
-            disabled={page === 1}
-            className={`bg-white font-bold shadow-md px-4 py-2 rounded-md hover:opacity-90 transition text-black ${
-              page === 1 ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            Trang trước
-          </button>
-          <span className="flex items-center text-white">
-            Trang {page}/{pagination.totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={page === pagination.totalPages}
-            className={`bg-white font-bold shadow-md px-4 py-2 rounded-md hover:opacity-90 transition text-black ${
-              page === pagination.totalPages ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            Trang kế tiếp
-          </button>
-        </div>
-      )}
+      <Pagination
+        currentPage={page}
+        totalPages={pagination.totalPages}
+        onPrevPage={handlePrevPage}
+        onNextPage={handleNextPage}
+        searchTerm={searchTerm}
+      />
     </>
   );
 };

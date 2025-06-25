@@ -5,6 +5,7 @@ import InformationAuth from "./base/informationAuth";
 import avatarImg from "../../assets/img/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "./base/Pagination";
 
 const ManagerAuths = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -225,24 +226,13 @@ const ManagerAuths = () => {
             )}
           </div>
         )}
-        <div className="flex gap-2">
-          {currentPage > 1 && (
-            <button
-              className="bg-white font-bold shadow-md px-4 py-2 rounded-md hover:opacity-90 transition text-black"
-              onClick={handlePreviousPage}
-            >
-              Trang trước
-            </button>
-          )}
-          {currentPage < totalPages && !isSearching && (
-            <button
-              className="bg-white font-bold shadow-md px-4 py-2 rounded-md hover:opacity-90 transition text-black"
-              onClick={handleNextPage}
-            >
-              Trang sau
-            </button>
-          )}
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrevPage={handlePreviousPage}
+          onNextPage={handleNextPage}
+          searchTerm={isSearching ? searchTerm : ""}
+        />
       </div>
     </>
   );

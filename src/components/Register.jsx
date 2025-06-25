@@ -60,7 +60,7 @@ const Register = () => {
 
       if (result.message) {
         alert(result.message);
-        navigate("/login");
+        navigate("/dang_nhap");
       }
     } catch (error) {
       const serverError = error.data || {};

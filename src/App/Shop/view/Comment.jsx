@@ -20,7 +20,7 @@ const Comment = ({ comment, onDelete, onEdit, onReply, isReply = false }) => {
 
   const handleReply = () => {
     if (!user) {
-      alert("Bạn cần đăng nhập để trả lời bình luận!");
+      alert("Bạn cần đăng nhập để trả lời đánh giá!");
       return;
     }
     setIsReplying((prev) => !prev);
