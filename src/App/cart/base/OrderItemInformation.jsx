@@ -8,9 +8,11 @@ const OrderItem = ({ item, status }) => {
     if (!image) return avatarImg;
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
   };
+
   const handleReviewClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <div className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm shadow-sm">
       <img 
