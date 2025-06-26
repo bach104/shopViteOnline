@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery } from "../../../redux/features/shop/productsApi";
 import UpdateProducts from "./updateProducts";
 import { getBaseUrl } from "../../../utils/baseURL";
+import { Link } from "react-router-dom";
 const InformationProducts = () => {
   const { id } = useParams();
   const { data: productData, isLoading, isError } = useGetProductByIdQuery(id);
@@ -96,8 +97,19 @@ const InformationProducts = () => {
           <div className="mt-4">
             <p><strong>Kích thước:</strong> {product.size.join(", ")}</p>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-between">
+            <Link 
+              to={{
+                pathname: `/products/${product._id}`,
+                state: { fromDetail: true } // hoặc bất kỳ state nào bạn muốn
+              }}
+              className="mt-6 px-4 py-2 bg-black text-white rounded"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              xem đánh giá
+            </Link>
             <button
+            
               className="mt-6 px-4 py-2 bg-black text-white rounded"
               onClick={handleEdit}
             >
@@ -121,4 +133,5 @@ const InformationProducts = () => {
     </>
   );
 };
+
 export default InformationProducts;
