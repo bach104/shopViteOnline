@@ -11,7 +11,6 @@ const AdminManager = () => {
                 <Link to="/" className=" text-white flex mt-4 w-10 h-full items-center transition hover:opacity-80 btn-comeBack">
                 <FontAwesomeIcon icon={faHouse} />
                 </Link>
-                <h2 className="text-white p-2 text-2xl font-bold">quản lý mục</h2>
             </div>
             </div>
         </header>

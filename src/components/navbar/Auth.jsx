@@ -48,8 +48,12 @@ const Auth = () => {
   };
 
   const adminDropDownMenus = [
-    { label: "Quản lý mục", path: "/admin-manager"},
+    { label: "Quản lý sản phẩm", path: "/admin-manager"},
+    { label: "Quản lý khách hàng", path: "/admin-manager/quan_ly_khach_hang" },
+    { label: "Quản lý đơn hàng", path: "/admin-manager/quan_ly_don_hang" },
     { label: "Tất cả đơn hàng", path: "/admin-manager/quan_ly_don_hang" },
+    { label: "Thống kê", path: "/admin-manager/quan_ly_nguoi_dung" },
+    { label: "Thống kê", path: "/admin-manager/thong_ke" },
     { label: "Thông tin cá nhân", path: "/thong_tin_ca_nhan" },
   ];    
   const userDropDownMenus = [
