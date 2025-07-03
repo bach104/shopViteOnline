@@ -110,8 +110,8 @@ const CartSummary = ({
   };
 
   const paymentMethods = [
-    { id: 'momo', label: 'Thanh toán MoMo', icon: 'qr_code' },
-    { id: 'cod', label: 'Thanh toán khi nhận hàng', icon: 'local_shipping' }
+    { id: 'momo', label: 'Thanh toán MoMo', icon: 'fa-qrcode' },
+    { id: 'cod', label: 'Thanh toán khi nhận hàng', icon: 'fa-money-check-dollar' }
   ];
 
   const getButtonText = () => {
@@ -124,7 +124,6 @@ const CartSummary = ({
   return (
     <>
       <div className="mx-auto cart__Pay p-4 mt-6 bg-black bg-opacity-90 text-white rounded-lg shadow-lg">
-        {/* Order Summary Section */}
         <div className="border-b border-gray-700 pb-4 mb-4">
           <h3 className="text-xl font-bold mb-3">TÓM TẮT ĐƠN HÀNG</h3>
           <div className="space-y-2">
@@ -146,8 +145,6 @@ const CartSummary = ({
             </div>
           </div>
         </div>
-
-        {/* Payment Methods Section */}
         <div className="mb-5">
           <h3 className="text-lg font-semibold mb-3">PHƯƠNG THỨC THANH TOÁN</h3>
           <div className="space-y-3">
@@ -160,10 +157,10 @@ const CartSummary = ({
                 onClick={() => !orderSuccess && setPaymentMethod(method.id)}
               >
                 <div className="flex items-center">
-                  <span className="material-icons-round mr-3">{method.icon}</span>
+                  <i className={`fa-solid mr-4 ${method.icon}`}></i>
                   <span>{method.label}</span>
                   {paymentMethod === method.id && (
-                    <span className="ml-auto text-green-400 material-icons-round">check_circle</span>
+                    <i className={`fa-solid ml-auto text-green-400 material-icons-round mr-4 ${method.icon}`}></i>
                   )}
                 </div>
               </div>
@@ -171,7 +168,6 @@ const CartSummary = ({
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col space-y-3">
           <button
             onClick={onClearSelection}
@@ -207,7 +203,6 @@ const CartSummary = ({
         </div>
       </div>
 
-      {/* Profile Update Modal */}
       {showProfileUpdateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-md w-full text-black">

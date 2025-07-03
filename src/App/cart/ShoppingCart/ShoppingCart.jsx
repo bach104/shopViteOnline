@@ -55,7 +55,6 @@ const ShoppingCart = () => {
     }
   };
 
-  // Calculate totals directly without intermediate variable
   const { totalQuantity, totalPrice } = cartData?.cartItems?.reduce(
     (acc, item) => {
       if (selectedItems.includes(item._id)) {
@@ -147,7 +146,6 @@ const ShoppingCart = () => {
             })
           )}
         </div>
-
         {isLoggedIn && cartData?.cartItems.length > 0 && (
           <div className="flex py-4 justify-between items-center">
             <p>Tổng số lượng đơn: {cartData?.totalItems || 0}</p>
@@ -173,7 +171,6 @@ const ShoppingCart = () => {
             </div>
           </div>
         )}
-
         {isEditing && selectedItems.length > 0 && (
           <div className="flex justify-center mt-4">
             <button

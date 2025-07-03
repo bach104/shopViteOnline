@@ -12,7 +12,7 @@ const ProductCards = ({ products, gridCols }) => {
   };
 
   return (
-    <div className={gridCols || "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 pt-5"}>
+    <div className={gridCols || "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4 pt-5"}>
       {products?.map((product) => {
         const imageUrl = product?.images?.[0]
           ? `${getBaseUrl()}/${product.images[0].replace(/\\/g, "/")}`
