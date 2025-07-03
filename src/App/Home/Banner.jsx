@@ -15,17 +15,16 @@ const Banner = () => {
 
     return () => clearInterval(intervalId); 
   },);
-
   return (
-    <div className="max-width p-4 mt-20 rounded-md header__container relative">
-      <div className="absolute z-10 bottom-5 sm:bottom-10 md:bottom-10 lg:bottom-20 left-5 sm:left-10 md:left-10 lg:left-20 w-full sm:w-auto">
-      <h4 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl text-white w-full sm:w-96 title mb-4 text-center sm:text-left">
-        Phong cách hiện đại trẻ trung
-      </h4>
-      <div className="flex justify-center sm:justify-start">
-          <Link className="btn" to='/products'>Khám phá ngay</Link>
+    <div className="max-width homeBanner p-4 mt-20 rounded-md header__container relative">
+      <div className="absolute homeHeader z-10 ">
+        <h4 className="homeHeader__title">
+          Phong cách hiện đại trẻ trung
+        </h4>
+        <div className="flex homeHeader__button">
+            <Link className="btn__header" to='/products'>Khám phá ngay</Link>
+        </div>
       </div>
-    </div>
       <div className="header__image w-full h-full">
         {banners.map((banner, index) => (
           <img

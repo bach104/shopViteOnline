@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import ViewProducts from "./viewProducts";
+import ViewProducts from "./InformationProduct/viewProducts";
 import SuggestedProducts from "./SuggestedProducts";
-import Comments from "./Comments";
+import Comments from "./comment/Comments";
 
 const ShowProducts = () => {
   const { id } = useParams();

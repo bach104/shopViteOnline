@@ -5,7 +5,7 @@ import {
   useAddCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
-} from "../../../redux/features/comment/commentApi";
+} from "../../../../redux/features/comment/commentApi";
 import AddComments from "./AddComments";
 import Comment from "./Comment";
 
@@ -67,9 +67,7 @@ const Comments = ({ productId }) => {
         }
         return updatedComments;
       });
-
       setShowAddComments(false);
-
       if (page !== 1) {
         alert("đánh giá mới đã được thêm. Vui lòng quay lại trang 1 để xem.");
       }
@@ -169,7 +167,7 @@ const Comments = ({ productId }) => {
   };
 
   return (
-    <div className="max-width mx-auto bg-gray-200">
+    <div className="container-width mx-auto bg-gray-200">
       <div className="flex p-4 justify-between items-center">
         <h2 className="text-2xl font-bold">Đánh giá sản phẩm</h2>
         <p
@@ -185,6 +183,7 @@ const Comments = ({ productId }) => {
             onClose={handleCloseComments}
             onSubmit={handleAddComment}
             user={user}
+            productId={productId}
           />
         )}
         {isLoading ? (

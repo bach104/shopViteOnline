@@ -30,7 +30,7 @@ const StoreName = () => {
     <>
       <section className="store__container relative">
         <StoreBanner />
-        <div className="absolute p-3 store__title top-10 left-10 z-10 rounded-md">
+        <div className="absolute  p-3 store__title top-10 left-10 z-10 rounded-md">
           <h4 className="text-5xl text-white">
             Thời trang mùa <span>{seasonName}</span>
           </h4>

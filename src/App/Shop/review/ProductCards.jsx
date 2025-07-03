@@ -12,25 +12,25 @@ const ProductCards = ({ products, gridCols }) => {
   };
 
   return (
-    <div className={gridCols || "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4 pt-5"}>
+    <div className={gridCols || "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 pt-5"}>
       {products?.map((product) => {
         const imageUrl = product?.images?.[0]
           ? `${getBaseUrl()}/${product.images[0].replace(/\\/g, "/")}`
           : null;
 
         return (
-          <div key={product._id} className="border transition product__hv relative rounded-lg shadow-md overflow-hidden">
+          <div key={product._id} className="border products transition product__hv relative rounded-lg shadow-md overflow-hidden">
             <Link
               to={`/products/${product._id}`}
               state={{ product }}
-              className="block"
+              className="block "
               onClick={handleProductClick} 
             >
               {imageUrl ? (
                 <img
                   src={imageUrl}
                   alt={product.name || "Sản phẩm"}
-                  className="w-full h-64 object-cover rounded-md"
+                  className="w-full products h-64 object-cover rounded-md"
                 />
               ) : (
                 <div className="w-full h-64 flex items-center justify-center bg-gray-200 rounded-md">
@@ -45,7 +45,9 @@ const ProductCards = ({ products, gridCols }) => {
                     <s className="text-gray-300 ml-2">{product.oldPrice.toLocaleString("vi-VN")}đ</s>
                   )}
                 </p>
-                <RatingStar rating={product.starRatings?.averageRating || 0} />
+                <div className="product__rating mb-0">
+                  <RatingStar rating={product.starRatings?.averageRating || 0} />
+                </div>
               </div>
             </Link>
             <AddToCart

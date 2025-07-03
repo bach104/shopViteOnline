@@ -14,7 +14,7 @@ const SuggestedProducts = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="container-width">
+    <div className="container-width pt-8">
       <h2 className="text-2xl w-full font-bold bg__div p-4">Sản phẩm gợi ý</h2>
       <div className="products__wrapper">
         <ProductCards
@@ -25,5 +25,4 @@ const SuggestedProducts = () => {
     </div>
   );
 };
-
 export default SuggestedProducts;

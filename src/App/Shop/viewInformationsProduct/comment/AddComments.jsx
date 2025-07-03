@@ -1,10 +1,14 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { useRateProductMutation } from "../../../../redux/features/shop/productsApi";
 
-const AddComments = ({ onClose, onSubmit, user }) => {
+const AddComments = ({ onClose, onSubmit, user, productId }) => {
   const [comment, setComment] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [star, setStar] = useState(0);
+  const [hoverStar, setHoverStar] = useState(0);
+  const [rateProduct] = useRateProductMutation();
 
   const handleCommentChange = (e) => {
     const inputValue = e.target.value;
@@ -14,7 +18,19 @@ const AddComments = ({ onClose, onSubmit, user }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleStarClick = (selectedStar) => {
+    setStar(selectedStar);
+  };
+
+  const handleStarHover = (hoverValue) => {
+    setHoverStar(hoverValue);
+  };
+
+  const handleStarLeave = () => {
+    setHoverStar(0);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!user.yourname) {
@@ -26,9 +42,27 @@ const AddComments = ({ onClose, onSubmit, user }) => {
       alert("Vui lòng nhập nội dung đánh giá!");
       return;
     }
-    onSubmit(comment);
-    setComment("");
-    setCharCount(0);
+
+    if (star === 0) {
+      alert("Vui lòng chọn số sao đánh giá!");
+      return;
+    }
+
+    try {
+      // Gửi đánh giá sao
+      await rateProduct({ productId, star }).unwrap();
+      
+      // Gửi nội dung đánh giá
+      onSubmit(comment);
+      
+      // Reset form
+      setComment("");
+      setCharCount(0);
+      setStar(0);
+    } catch (error) {
+      console.error("Lỗi khi đánh giá:", error);
+      alert("Đã có lỗi xảy ra khi đánh giá. Vui lòng thử lại!");
+    }
   };
 
   return (
@@ -43,11 +77,20 @@ const AddComments = ({ onClose, onSubmit, user }) => {
         />
         <form onSubmit={handleSubmit} className="flex gap-2 flex-col">
           <div className="text-3xl mb-3">
-            <i className="fa-regular fa-star"></i>
-            <i className="fa-regular fa-star"></i>
-            <i className="fa-regular fa-star"></i>
-            <i className="fa-regular fa-star"></i>
-            <i className="fa-regular fa-star"></i>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <i
+                key={value}
+                className={`fa-star cursor-pointer ${
+                  value <= (hoverStar || star) ? "fa-solid text-yellow-400" : "fa-regular"
+                }`}
+                onClick={() => handleStarClick(value)}
+                onMouseEnter={() => handleStarHover(value)}
+                onMouseLeave={handleStarLeave}
+              />
+            ))}
+            <span className="ml-2 text-sm text-gray-600">
+              {star > 0 ? `Bạn đã chọn ${star} sao` : "Vui lòng chọn số sao"}
+            </span>
           </div>
           <div className="relative">
             <textarea
@@ -57,6 +100,7 @@ const AddComments = ({ onClose, onSubmit, user }) => {
               id="text"
               value={comment}
               onChange={handleCommentChange}
+              required
             />
             <p className="absolute top-2 right-2 text-sm text-gray-500">
               {charCount}/500

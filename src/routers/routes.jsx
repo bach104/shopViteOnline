@@ -6,7 +6,7 @@ import Store from "../App/store/Store";
 import Products from "../App/Shop/search/ProductsSearch";
 import InformationShop from "../App/informationShop/information";
 import InformationAuth  from "../App/informationAuth/Information"
-import ShowProducts from "../App/Shop/view/showProducts";
+import ShowProducts from "../App/Shop/viewInformationsProduct/showProducts";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import CartManager from "../components/CartNavbar";

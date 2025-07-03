@@ -79,7 +79,6 @@ const Products = () => {
           Search
         </button>
       </div>
-      
       <div className="section__container rounded-md flex-col justify-between">
         <div>
           <h2 className="text-2xl text-center w-full rounded-t-md bg-title-color p-2 mb-3 font-bold">

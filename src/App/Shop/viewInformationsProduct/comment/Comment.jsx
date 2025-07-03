@@ -1,7 +1,7 @@
 import { useState } from "react";
-import avatarImg from "../../../assets/img/avatar.png";
+import avatarImg from "../../../../assets/img/avatar.png";
 import { useSelector } from "react-redux";
-import { getBaseUrl } from "../../../utils/baseURL";
+import { getBaseUrl } from "../../../../utils/baseURL";
 
 const Comment = ({ comment, onDelete, onEdit, onReply, isReply = false }) => {
   const { user } = useSelector((state) => state.auth);
@@ -44,7 +44,6 @@ const Comment = ({ comment, onDelete, onEdit, onReply, isReply = false }) => {
   const repliesToShow = showAllReplies
     ? comment.replies
     : comment.replies?.slice(0, initialRepliesToShow);
-
   return (
     <div className={`p-3 bg-gray-100 rounded-md mb-2 ${isReply ? "ml-6" : ""}`}>
       <div className="flex items-start space-x-3">

@@ -1,0 +1,102 @@
+@use "../../../variables/variables.scss" as *;
+.InformationProducts {
+  .InformationContainer {
+    .InforText{
+         &__description2{
+            display:none;
+        } 
+    }
+    .InforAllImg{
+            &__title,
+            &__price{
+                display:none;
+            }
+        }
+    
+    @media (max-width: 900px) {
+      > * {
+        grid-column: 1 / -1;
+        gap: 2;
+      }
+        .InforText{
+         
+            &__title,
+            &__price,
+            &__description{
+                display:none;
+            }
+            &__description2{
+                display:block;
+            }
+            &__size{
+                margin-top: 0;
+            }
+            &__btn{
+                width:100%;
+                display:flex;
+                justify-content: end;
+            }
+           
+        }
+        .InforAllImg{
+            &__title,
+            &__price{
+                display:flex;
+            }
+            &__star{
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-items: center;
+                &-rating{
+                    font-size: $font-Mobile2;
+                }
+            }
+        }
+    }
+     @media (max-width: 600px) {
+       
+        .InforAllImg{
+            &__screen{
+                height:250px;
+            }
+            &__star{
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-items: center;
+                &-rating{
+                    font-size: $font-Mobile2;
+                }
+            }
+        }
+         .InforText{
+            &__btn{
+                width:100%;
+                display:flex;
+                justify-content: end;
+                >button{
+                    width:100%
+                }
+            }
+        }
+        
+    }
+   
+   
+  }
+ 
+}
+
+@media (width>=601px) and (width<=900px) {
+    
+}
+@media (width<600px) {
+    .InforText{
+        &__btn{
+            width:100%;
+            display:flex;
+            justify-content: end;
+        }
+    }
+}
