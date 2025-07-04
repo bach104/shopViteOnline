@@ -59,7 +59,7 @@ const FilterComponent = ({ filters, setFilters }) => {
   )), [filters, handleFilterChange]);
 
   return (
-    <div className="w-1/4 bg__filter">
+    <div className="w-1/4 sectionCheckFilter bg__filter">
       <div className="bg__header flex justify-between items-center p-3.5">
         <h4 className="font-bold text-xl">Lọc theo</h4>
         <i className="fa-solid fa-filter"></i>

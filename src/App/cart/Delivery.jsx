@@ -48,10 +48,10 @@ const Delivery = () => {
   return (
     <div className="my-4 shoppingCart relative">
       <section className="container-width p-4">
-        <div className="flex justify-between pb-2">
+        <div className="flex shoppingCartHeader justify-between pb-2">
           <h2 className="text-2xl">Chờ giao hàng</h2>
           {isLoggedIn && filteredOrders.length > 0 && (
-            <p className="text-gray-500">
+            <p className="text-gray-500 shoppingCartHeader__count">
               Hiển thị {filteredOrders.length} đơn hàng đang xử lý
             </p>
           )}
