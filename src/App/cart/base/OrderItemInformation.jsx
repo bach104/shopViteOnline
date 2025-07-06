@@ -21,7 +21,7 @@ const OrderItem = ({ item, status }) => {
         alt={item.name || 'Product image'}
         onError={(e) => (e.target.src = avatarImg)}
       />
-      <div className="flex-1 shoppingItems__technology">
+      <div className="flex-1 orderInfor ">
         <h3 className="font-medium">{item.name || 'Sản phẩm'}</h3>
         <p className="text-sm">
           <b>Giá:</b> {((item.price || 0) * (item.quantity || 0)).toLocaleString()}đ

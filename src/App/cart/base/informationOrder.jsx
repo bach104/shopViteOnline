@@ -2,7 +2,6 @@ import { useCancelOrderMutation } from "../../../redux/features/order/orderApi";
 import { useState, useEffect } from "react";
 import OrderItem from "./OrderItemInformation";
 import PropTypes from "prop-types";
-
 const InformationOrder = ({ order, onClose }) => {
   const [cancelReason, setCancelReason] = useState('');
   const [showCancelForm, setShowCancelForm] = useState(false);
@@ -12,7 +11,6 @@ const InformationOrder = ({ order, onClose }) => {
   const totalProducts = order.items.reduce((sum, item) => sum + (item.quantity || 0), 0);
   const isOutOfStock = order.status === 'hết hàng';
   const isPendingConfirmation = order.status === 'đang chờ xác nhận';
-
   useEffect(() => {
     if (cancelSuccess) {
       const timer = setTimeout(() => {
@@ -22,7 +20,6 @@ const InformationOrder = ({ order, onClose }) => {
       return () => clearTimeout(timer);
     }
   }, [cancelSuccess, onClose]);
-
   const handleCancelOrder = async () => {
     if (isPendingConfirmation && !cancelReason.trim()) {
       alert('Vui lòng nhập lý do hủy đơn hàng');
@@ -61,7 +58,7 @@ const InformationOrder = ({ order, onClose }) => {
               <OrderItem 
                 key={index} 
                 item={item} 
-                status={order.status} // Truyền status xuống OrderItem
+                status={order.status} 
               />
             ))}
           </div>

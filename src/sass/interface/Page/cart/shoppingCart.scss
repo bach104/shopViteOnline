@@ -29,11 +29,28 @@
                     max-width:220px;
                 }
             }
+             .orderInfor{
+                >h3{
+                    display: -webkit-box;
+                    display: -moz-box;
+                    -webkit-box-orient: vertical;
+                    -moz-box-orient: vertical;
+                    box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    -moz-line-clamp: 2;
+                    line-clamp: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
         }
     }
 }
 @media (max-width: 600px){
     .shoppingCart{
+        >section{
+            padding:0.2rem;
+        }
         >section>.shoppingCartHeader{
             >h2{
                 font-size: 1.5rem;
@@ -43,10 +60,18 @@
             }
         }
         .shoppingContainer{
-            max-height: 25rem;
-            min-height: 25rem;
+            max-height:35rem;
+            min-height: 35rem;
             .shoppingItems{
                 height:6rem ;
+                .orderInfor{
+                    >h3{
+                      max-width: 20rem;
+                        white-space: nowrap;    
+                        overflow: hidden;       
+                        text-overflow: ellipsis;
+                    }
+                }
                 >img{
                     height: 5rem;
                     width: 5rem;

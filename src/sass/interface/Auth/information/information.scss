@@ -16,3 +16,17 @@
         border-radius: 6px;
     }
 }
+@media (width<=600px) {
+   
+    .informationAuth{
+        .inforMobile{
+            display: flex;
+            flex-direction: column;
+        }
+        .boxContainer{
+        >h2{
+            font-size:$font-title-Mobile;
+        }
+    }
+    }
+}
