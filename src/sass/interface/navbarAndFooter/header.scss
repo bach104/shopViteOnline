@@ -32,6 +32,10 @@
         .nav__links {
             display: none;
         }
+        .nav__logo>a:hover{
+             text-shadow:none;
+             transform:none;
+        }
     }
    
 }
