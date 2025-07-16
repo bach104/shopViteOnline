@@ -1,20 +1,26 @@
 .navbarMobile{
     display:none;
+    &__list{
+        max-width: 35rem;
+        position:fixed;
+        width:100%;
+        top:50px;
+        border-right:1px solid #0000;
+        height:100vh;
+        >li>a{
+            width:100%;
+            display:flex;
+            cursor: pointer;
+        }
+    
+        >li:hover{
+            background-color: rgba($color: #000000, $alpha: 0.1);
+        }
+    }
 }
 @media (max-width:900px){
     .navbarMobile{
         display:block;
-        &__menu{
-       
-        }
-        &__list{
-            width:45rem;
-            left:-70%;
-            >li>a{
-                width:100%;
-                padding:10px;
-                display:flex;
-            }
-        }
+      
     }
 }

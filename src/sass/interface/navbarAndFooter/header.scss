@@ -5,7 +5,7 @@
 .header{
     position: fixed;
     width: 100%;
-    top: 0;
+    top: -1px;
     border-bottom: 1px solid $bg-gray;
     .nav__links{
         @include flexHeader();
