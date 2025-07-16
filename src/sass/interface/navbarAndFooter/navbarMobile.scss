@@ -4,5 +4,17 @@
 @media (max-width:900px){
     .navbarMobile{
         display:block;
+        &__menu{
+       
+        }
+        &__list{
+            width:45rem;
+            left:-70%;
+            >li>a{
+                width:100%;
+                padding:10px;
+                display:flex;
+            }
+        }
     }
 }
