@@ -28,7 +28,7 @@
             transform: translateY(-3px);
         }
     }
-    @media (width < 900px) {
+    @media (max-width:900px) {
         .nav__links {
             display: none;
         }

@@ -21,7 +21,6 @@ const AddComments = ({ onClose, onSubmit, user, productId }) => {
   const handleStarClick = (selectedStar) => {
     setStar(selectedStar);
   };
-ư
   const handleStarHover = (hoverValue) => {
     setHoverStar(hoverValue);
   };

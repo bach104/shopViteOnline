@@ -109,7 +109,7 @@ const router = createBrowserRouter([
                     },
                 ]
             },
-            {path:"quan_ly_tai_khoan", element:<ManagerAuths/>},
+            {path:"quan_ly_khach_hang", element:<ManagerAuths/>},
             {path:"quan_ly_don_hang", element:<ManagerOrderConfirmnit/>},
             {path:"quan_ly_hoa_don", element:<ManagerBillOrder/>},
             {path:"thong_ke", element:<ManagerStatistical/>},

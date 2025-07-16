@@ -46,7 +46,6 @@ const Auth = () => {
     sessionStorage.clear();
     navigate("/");
   };
-
   const adminDropDownMenus = [
     { label: "Quản lý sản phẩm", path: "/admin-manager"},
     { label: "Quản lý khách hàng", path: "/admin-manager/quan_ly_khach_hang" },

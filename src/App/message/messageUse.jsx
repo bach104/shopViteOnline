@@ -18,7 +18,7 @@ const Messenger = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
-  const [showNameWarning, setShowNameWarning] = useState(false); // Thêm state cho cảnh báo
+  const [showNameWarning, setShowNameWarning] = useState(false);
   const fileInputRef = useRef(null);
   const emojiPickerRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -107,7 +107,7 @@ const Messenger = () => {
   const handleSendMessage = async () => {
     if (!hasUpdatedName) {
       setShowNameWarning(true);
-      setTimeout(() => setShowNameWarning(false), 3000); // Ẩn cảnh báo sau 3 giây
+      setTimeout(() => setShowNameWarning(false), 3000);
       return;
     }
 
@@ -175,7 +175,7 @@ const Messenger = () => {
           <Link to="/" className="pr-2">
             <FontAwesomeIcon icon={faHouse} />
           </Link>
-          <h2>Tất cả tin nhắn</h2>
+          <h2>Tin nhắn</h2>
         </div>
       </div>
       <div className="messenger container-width">

@@ -1,0 +1,12 @@
+.navbarMobile{
+    display:none;
+}
+@media (max-width:90rem){
+    .navbarMobile{
+        display:flex;
+    }
+    .nav__logo:hover{
+        text-shadow: -2px -2px 5px rgba(0, 0, 0, 0.4);
+        transform: translateY(-3px);
+    }
+}

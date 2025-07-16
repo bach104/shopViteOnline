@@ -57,7 +57,6 @@ const UpdateInformation = () => {
       }
 
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      // Sử dụng updateUserInfo thay vì setUser
       dispatch(updateUserInfo({ 
         user: updatedUser, 
         token: response.token || localStorage.getItem('token') 

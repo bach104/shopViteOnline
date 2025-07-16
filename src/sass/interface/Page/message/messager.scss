@@ -246,13 +246,5 @@
 @media (max-width: 768px) {
   .messenger {
     height: calc(100vh - 120px);
-
-    .chat-area {
-      .chat-body {
-        .chat-message {
-          max-width: 85%;
-        }
-      }
-    }
   }
 }

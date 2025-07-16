@@ -25,8 +25,8 @@ const ShowInformation = () => {
         <h2>Thông tin cá nhân</h2>
       </div>
       <div className="mt-5 boxContainer inforMobile">
-        <div className="mt-4  grid grid-cols-4 gap-4 mb-8">
-          <div className="flex flex-col items-center bg-gray-200 col-span-2">
+        <div className="mt-4 boxInfor  grid grid-cols-4 gap-4 mb-8">
+          <div className="flex boxInfor__avatar flex-col items-center bg-gray-200 col-span-2">
             <img
               src={avatarUrl}
               alt="Avatar"

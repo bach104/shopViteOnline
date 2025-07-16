@@ -25,7 +25,7 @@ const AdminManager = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to="quan_ly_tai_khoan" className="p-4 flex items-center gap-2 ">
+                        <Link to="quan_ly_khach_hang" className="p-4 flex items-center gap-2 ">
                         <FontAwesomeIcon className="w-4"  icon={faUsers} />
                             Quản lý khách hàng
                         </Link>

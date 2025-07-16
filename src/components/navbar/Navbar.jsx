@@ -5,18 +5,23 @@ import MessagerIcons from "./Messager";
 import Auth from "./Auth";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
+import NavbarMobile from "./navbarMobile"
 const Navbar = () => {
   const user = useSelector(selectCurrentUser);
   const isAdmin = user?.role === 'admin';
-
   return (
     <header className="header z-20 bg-white">
       <nav className="max-w-screen-2xl mx-auto px-4 flex items-center justify-between">
-        <nav className="nav__logo">
-          <Link className="transition" to="/">
-            ShopVite
-          </Link>
-        </nav>
+        <div className="flex items-center gap-3">
+          <nav className="navbarMobile">
+            <NavbarMobile/>
+          </nav>
+          <nav className="nav__logo">
+            <Link className="transition" to="/">
+              ShopVite
+            </Link>
+          </nav>
+        </div>
         <ul className="nav__links md:flex-none">
           <li>
             <Link className="hover:text-gray-400 transition" to="/">
