@@ -5,7 +5,7 @@ import { Link, Outlet } from "react-router"
 const AdminManager = () => {
   return (
     <div>
-        <header className="cartManager">
+        <header className="headerAdmin">
             <div className="bg-black opacity-80">
             <div className="items-center px-4 flex container-width">
                 <Link to="/" className=" text-white flex mt-4 w-10 h-full items-center transition hover:opacity-80 btn-comeBack">
