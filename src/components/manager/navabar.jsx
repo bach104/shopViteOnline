@@ -1,7 +1,6 @@
 import { faFile,faChartLine, faHouse, faShop, faUsers} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link, Outlet } from "react-router"
-
 const AdminManager = () => {
   return (
     <div>

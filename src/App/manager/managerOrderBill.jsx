@@ -5,7 +5,7 @@ import { getBaseUrl } from "../../utils/baseURL";
 import OrderItem from "./base/orerItems";
 import OrderSearch from "./base/searchOrder";
 import Pagination from "./base/Pagination";
-
+import MenuMobile from "./base/managerMenuMobile"
 const statusOptions = [
   { value: "all", label: "Tất cả hoá đơn", color: "text-gray-600", bgColor: "bg-gray-100" },
   { value: "thanh toán khi nhận hàng", label: "Thanh toán khi nhận hàng", color: "text-green-600" },
@@ -96,7 +96,10 @@ const ManagerOrderBill = () => {
   return (
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
-        <h2 className="text-xl p-4">Quản lý hoá đơn</h2>
+        <div className="flex items-center px-2">
+            <MenuMobile/>
+            <h2 className="text-xl p-4">Quản lý hoá đơn</h2>
+        </div>
         <div className="flex px-4 items-center gap-3 z-50">
           <OrderSearch onSearch={handleSearch} />
           <div className="dropdown z-50 relative">

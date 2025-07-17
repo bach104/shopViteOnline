@@ -17,7 +17,7 @@ const MobileProductItem = ({
         alt={product.name}
         className="h-28 w-28 object-cover border border-black flex rounded-md"
       />
-      <div className="w-full">
+      <div className="w-full flex flex-col justify-evenly h-full">
         <div className="flex justify-between flex-col">
           <p className="line__limit--one"><b>Tên sản phẩm:</b> {product.name}</p>
           <div>
@@ -28,7 +28,7 @@ const MobileProductItem = ({
             </p>
           </div>
         </div>
-        <div className="flex flex-col justify-between h-full items-end">
+        <div className="flex justify-between h-full items-end">
           <input 
             type="checkbox" 
             className="h-5 w-5"

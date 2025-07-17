@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import OrderItem from "./base/orerItems";
 import OrderSearch from "./base/searchOrder";
 import Pagination from "./base/Pagination";
-
+import MenuMobile from "./base/managerMenuMobile"
 const statusOptions = [
   { value: "đang chờ xác nhận", label: "Đơn chờ xác nhận", color: "text-yellow-600", bgColor: "bg-yellow-100" },
   { value: "shop đang đóng gói", label: "Đơn chờ đóng gói", color: "text-blue-600", bgColor: "bg-blue-100" },
@@ -121,7 +121,10 @@ const ManagerOrder = () => {
   return (
     <>
       <div className="Manager__display--Title flex justify-items-center justify-between">
-        <h2 className="text-xl p-4">Quản lý đơn hàng</h2>
+        <div className="flex items-center px-2">
+            <MenuMobile/>
+            <h2 className="text-xl p-4">Quản lý đơn hàng</h2>
+        </div>
         <div className="flex px-4 items-center z-50 gap-4">
           <OrderSearch onSearch={handleSearch} />
           <div className="dropdown z-50 relative">

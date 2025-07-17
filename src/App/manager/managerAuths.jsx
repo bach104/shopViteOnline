@@ -6,6 +6,7 @@ import avatarImg from "../../assets/img/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "./base/Pagination";
+import MenuMobile from "./base/managerMenuMobile";
 
 const ManagerAuths = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -133,7 +134,11 @@ const ManagerAuths = () => {
   return (
     <>
       <div className="Manager__display--Title flex justify-between">
-        <h2 className="text-xl p-4">Quản lý tài khoản</h2>
+        <div className="flex items-center px-2">
+            <MenuMobile/>
+            <h2 className="text-xl p-4">Quản lý tài khoản</h2>
+        </div>
+   
         <input
           type="text"
           id="search"

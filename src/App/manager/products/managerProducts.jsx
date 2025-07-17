@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons";
 import MobileProductItem from "./MobileProductItem.jsx";
 import DesktopProductItem from "./DesktopProductItem";
-
+import MenuMobile from "../base/managerMenuMobile.jsx";
 const ManagerProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -115,7 +115,10 @@ const ManagerProducts = () => {
   return (
     <>
       <div className="Manager__display--Title flex justify-between">
-        <h2 className="text-xl p-4">Quản lý sản phẩm</h2>
+        <div className="flex items-center px-2">
+          <MenuMobile/>
+          <h2 className="text-xl p-4">Quản lý sản phẩm</h2>
+        </div>
         <input
           type="text"
           id="search"
