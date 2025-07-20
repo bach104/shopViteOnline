@@ -18,7 +18,7 @@ import Delivered from "../App/cart/orderSucsses";
 import AdminManager from "../components/manager/navabar";
 import ManagerProducts from "../App/manager/products/managerProducts";
 import ManagerBillOrder from "../App/manager/managerOrderBill";
-import ManagerAuths from "../App/manager/managerAuths";
+import ManagerAuths from "../App/manager/managerAuth/managerAuths";
 import ManagerOrderConfirmnit from "../App/manager/managerOrder";
 import ManagerStatistical from "../App/manager/StatisticalDashboard/managerStatistical";
 import InformationProducts from "../App/manager/products/informationProducts";

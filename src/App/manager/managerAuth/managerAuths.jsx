@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
-import { useGetUsersQuery, useRemoveUserMutation } from "../../redux/features/auth/authApi";
-import { getBaseUrl } from "../../utils/baseURL";
-import InformationAuth from "./base/informationAuth";
-import avatarImg from "../../assets/img/avatar.png";
+import { useState, useEffect, Fragment } from "react";
+import { useGetUsersQuery, useRemoveUserMutation } from "../../../redux/features/auth/authApi";
+import { getBaseUrl } from "../../../utils/baseURL";
+import InformationAuth from "../base/informationAuth";
+import avatarImg from "../../../assets/img/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "./base/Pagination";
-import MenuMobile from "./base/managerMenuMobile";
+import Pagination from "../base/Pagination";
+import MenuMobile from "../base/managerMenuMobile";
+import DesktopManagerItems from "./DesktopAuthItems";
+import MobileManagerItems from "./MobileAuthItems";
 
 const ManagerAuths = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,11 +54,14 @@ const ManagerAuths = () => {
 
   const handleBackToList = () => {
     setViewMode('list');
+    setSelectedUser(null);
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-    setSearchTerm("");
+    if (currentPage < (data?.totalPages || 1)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+      setSearchTerm("");
+    }
   };
 
   const handlePreviousPage = () => {
@@ -80,40 +85,34 @@ const ManagerAuths = () => {
   const toggleEditMode = () => {
     if (isEditing && selectedUsers.length > 0) {
       setSelectedUsers([]);
-      setIsEditing(false);
-    } else {
-      setIsEditing(!isEditing);
-      if (!isEditing) {
-        setSelectedUsers([]);
-      }
     }
+    setIsEditing(!isEditing);
   };
 
   const handleSelectUser = (userId) => {
-    setSelectedUsers(prev => {
-      if (prev.includes(userId)) {
-        return prev.filter(id => id !== userId);
-      } else {
-        return [...prev, userId];
-      }
-    });
+    setSelectedUsers(prev => 
+      prev.includes(userId) 
+        ? prev.filter(id => id !== userId) 
+        : [...prev, userId]
+    );
   };
 
   const handleDeleteUsers = async () => {
     if (selectedUsers.length === 0) return;
+    
     try {
       const response = await removeUser({ userIds: selectedUsers });
-      if (response.data?.message) {
+      
+      if (response.data?.success) {
         setDeleteSuccess(true);
-        
         setTimeout(() => {
           setDeleteSuccess(false);
           setSelectedUsers([]);
           setIsEditing(false);
           refetch();
         }, 1000);
-      } else if (response.error) {
-        alert(response.error.data?.message || "Đã xảy ra lỗi khi xóa người dùng");
+      } else {
+        alert(response.error?.data?.message || "Đã xảy ra lỗi khi xóa người dùng");
       }
     } catch (error) {
       console.error("Lỗi khi xóa người dùng:", error);
@@ -132,13 +131,12 @@ const ManagerAuths = () => {
   const displayUsers = isSearching ? filteredUsers : data?.users || [];
 
   return (
-    <>
-      <div className="Manager__display--Title flex justify-between">
-        <div className="flex items-center px-2">
-            <MenuMobile/>
-            <h2 className="text-xl p-4">Quản lý tài khoản</h2>
+    <div className="ManagerAuths">
+      <div className="Manager__display--Title flex justify-between items-center">
+        <div className="flex items-center px-2 gap-1">
+          <MenuMobile/>
+          <h2 className="text-xl p-4">Quản lý tài khoản</h2>
         </div>
-   
         <input
           type="text"
           id="search"
@@ -148,68 +146,44 @@ const ManagerAuths = () => {
           onChange={handleSearchChange}
         />
       </div>
-      <div className="Manager__display--Box gap-6 p-4">
+
+      <div className="Manager__display--Box mobile gap-6 p-4">
         {displayUsers.length === 0 ? (
           <div className="text-center py-8">
             <p className="text-lg">Không tìm thấy người dùng nào phù hợp</p>
           </div>
         ) : (
           displayUsers.map((user) => (
-            <nav key={user._id} className="Manager__display--product rounded-md h-36 justify-between p-2">
-              <div className="flex gap-2">
-                <img
-                  src={getAvatarUrl(user)}
-                  alt={user.username}
-                  className="h-32 w-32 object-cover border border-black rounded-s"
-                />
-                <div className="flex justify-between flex-col">
-                  <h4>
-                    <b>Tên tài khoản: </b>
-                    {user.username}
-                  </h4>
-                  <div>
-                    <p>
-                      <b>Họ tên: </b>
-                      {user.yourname || "Chưa cập nhật"}
-                    </p>
-                    <p>
-                      <b>Email:</b> {user.email}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col justify-between items-end h-full">
-                {isEditing && (
-                  <input 
-                    type="checkbox" 
-                    className="w-5 h-5 cursor-pointer"
-                    checked={selectedUsers.includes(user._id)}
-                    onChange={() => handleSelectUser(user._id)}
-                  />
-                )}
-                <div className="flex items-end h-full">
-                    <button
-                    onClick={() => handleViewInfo(user)}
-                    className="flex bg-black bg-opacity-70 hover:bg-opacity-90 transition items-center text-white px-4 py-2 rounded-sm"
-                    >
-                    Xem thông tin
-                    </button>
-                </div>
-              </div>
-            </nav>
+            <Fragment key={`user-${user._id}`}>
+              <DesktopManagerItems
+                user={user}
+                getAvatarUrl={getAvatarUrl}
+                isEditing={isEditing}
+                selectedUsers={selectedUsers}
+                handleSelectUser={handleSelectUser}
+                handleViewInfo={handleViewInfo}
+              />
+              <MobileManagerItems
+                user={user}
+                getAvatarUrl={getAvatarUrl}
+                isEditing={isEditing}
+                selectedUsers={selectedUsers}
+                handleSelectUser={handleSelectUser}
+                handleViewInfo={handleViewInfo}
+              />
+            </Fragment>
           ))
         )}
       </div>
       
       <div className="flex bg-black opacity-70 justify-between p-2 gap-2">
         <button
-          className="text-white hover:opacity-50 px-4 py-2 rounded-sm"
+          className={`text-white hover:opacity-50 px-4 py-2 rounded-sm ${isEditing ? 'bg-gray-600' : ''}`}
           onClick={toggleEditMode}
         >
-          {isEditing ? 
-            (selectedUsers.length > 0 ? "Huỷ" : "Xong") 
-            : "Xoá"}
+          {isEditing ? (selectedUsers.length > 0 ? "Huỷ" : "Xong") : "Xoá"}
         </button>
+        
         {isEditing && selectedUsers.length > 0 && (
           <div>
             {deleteSuccess ? (
@@ -226,11 +200,12 @@ const ManagerAuths = () => {
                 onClick={handleDeleteUsers}
               >
                 <FontAwesomeIcon icon={faTrashCan} />
-                Xóa người dùng
+                Xóa {selectedUsers.length} người dùng
               </button>
             )}
           </div>
         )}
+        
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -239,7 +214,7 @@ const ManagerAuths = () => {
           searchTerm={isSearching ? searchTerm : ""}
         />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -13,7 +13,7 @@ const NavbarMobile = () => {
   };
 
   return (
-    <div className="relative navbarMobile__menu">
+    <div className="menuManagerMobile navbarMobile__menu">
       <nav 
         className="cursor-pointer text-2xl"
         onClick={toggleMenu}
@@ -21,8 +21,8 @@ const NavbarMobile = () => {
         <FontAwesomeIcon icon={faBars} />
       </nav>
       <ul 
-        className={`absolute navbarMobile__list bg-white left-0 top-0 transition-all duration-300 ease-in-out ${
-          isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
+        className={`navbarMobile__list navbarMobile__list--manager ${
+          isMenuOpen ? 'opened' : ''
         }`}
       >
         <li className="flex items-center" onClick={closeMenu}>

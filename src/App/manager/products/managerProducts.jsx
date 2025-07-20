@@ -113,9 +113,9 @@ const ManagerProducts = () => {
   const displayProducts = isSearching ? filteredProducts : data.products;
 
   return (
-    <>
+    <div className="relative">
       <div className="Manager__display--Title flex justify-between">
-        <div className="flex items-center px-2">
+        <div className="flex gap-1 items-center px-2">
           <MenuMobile/>
           <h2 className="text-xl p-4">Quản lý sản phẩm</h2>
         </div>
@@ -136,9 +136,8 @@ const ManagerProducts = () => {
           </div>
         ) : (
           displayProducts.map((product, index) => (
-            <>
+            <div key={`product-${product._id}`}> {/* or use index if _id is not available */}
               <DesktopProductItem 
-                key={`desktop-${index}`}
                 product={product}
                 index={index}
                 isEditing={isEditing}
@@ -147,14 +146,13 @@ const ManagerProducts = () => {
                 navigateToDetail={navigateToDetail}
               />
               <MobileProductItem 
-                key={`mobile-${index}`}
                 product={product}
                 isEditing={isEditing}
                 selectedProducts={selectedProducts}
                 handleCheckboxChange={handleCheckboxChange}
                 navigateToDetail={navigateToDetail}
               />
-            </>
+            </div>
           ))
         )}
       </div>
@@ -220,7 +218,7 @@ const ManagerProducts = () => {
         </div>
       )}
       <Outlet />
-    </>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@ import { useGetAllOrdersQuery } from "../../redux/features/order/orderApi";
 import { useState, useMemo } from "react";
 import ManagerOrderInformation from "./base/managerOrderInformation";
 import { getBaseUrl } from "../../utils/baseURL";
-import OrderItem from "./base/orerItems";
+import OrderItem from "./base/orerItemsDesktop";
 import OrderSearch from "./base/searchOrder";
 import Pagination from "./base/Pagination";
 import MenuMobile from "./base/managerMenuMobile"

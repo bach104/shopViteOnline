@@ -9,7 +9,7 @@ const OrderSearch = ({ onSearch }) => {
     onSearch(value);
   };
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex ManagerSearch__Search items-center gap-2">
       <input
         type="text"
         placeholder="Tìm kiếm mã đơn hàng"

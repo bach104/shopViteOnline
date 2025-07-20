@@ -64,18 +64,32 @@
         }
     }
 }
-.headerAdmin{
+.menuManagerMobile{
+    display:none;
+    >ul{
+        position:absolute;
+        top:54px;
+        left:0;
+        background-color: #fff;
+        width:100%;
+        z-index: 100;
 
+    }
 }
 @media (max-width: 900px) {
     .headerAdmin{
-
+        display: none;
+    }
+    .menuManagerMobile{
+        display:block;
+       
     }
     .Manager__admin{
         .Manager__item{
             display:none;
         }
         .Manager__display{
+            border-radius: 0px;
             &--product{
                 height:120px;
                 .ProInfor{
@@ -101,6 +115,9 @@
                     }
                 }
             }
+            &--Box.mobile{
+                padding: 0.5rem;
+            }
         }
     }
 }
@@ -110,7 +127,6 @@
     }
      .Manager__admin{
         .Manager__display{
-            border-radius: 0px;
             &--Tablet{
                 display:none;
             }
@@ -119,6 +135,32 @@
             }
             &--Box.mobile{
                 padding: 0.5rem;
+            }
+            &--Title{
+                .search__mobile{
+                    display:flex;
+                }
+                .ManagerSearch{
+                    width:100%;
+                    &__Search{
+                        width:100%;
+                        >input{
+                            width:100%;
+                        }
+                    }
+                    &__Lish{
+                        width:100%;
+                        display:flex;
+                        justify-content: end;
+                        padding-bottom:1rem;
+                        .select{
+                            width:100%;
+                            .menu{
+
+                            }
+                        }
+                    }
+                }
             }
         }
     }

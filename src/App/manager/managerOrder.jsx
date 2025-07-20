@@ -3,10 +3,13 @@ import { useState, useMemo } from "react";
 import ManagerOrderInformation from "./base/managerOrderInformation";
 import { getBaseUrl } from "../../utils/baseURL";
 import { toast } from "react-toastify";
-import OrderItem from "./base/orerItems";
+import OrderItemDesktop from "./base/orerItemsDesktop";
+import OrderItemMobile from "./base/orerItemsMobile";
 import OrderSearch from "./base/searchOrder";
 import Pagination from "./base/Pagination";
-import MenuMobile from "./base/managerMenuMobile"
+import MenuMobile from "./base/managerMenuMobile";
+import { useMediaQuery } from "react-responsive";
+
 const statusOptions = [
   { value: "đang chờ xác nhận", label: "Đơn chờ xác nhận", color: "text-yellow-600", bgColor: "bg-yellow-100" },
   { value: "shop đang đóng gói", label: "Đơn chờ đóng gói", color: "text-blue-600", bgColor: "bg-blue-100" },
@@ -24,6 +27,8 @@ const ManagerOrder = () => {
   const [processingOrderId, setProcessingOrderId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
   const { data, isLoading, isError, refetch } = useGetAllOrdersQuery({
     page,
     status: statusFilter
@@ -120,16 +125,16 @@ const ManagerOrder = () => {
 
   return (
     <>
-      <div className="Manager__display--Title flex justify-items-center justify-between">
+      <div className="Manager__display--Title flex justify-items-center flex-wrap justify-between">
         <div className="flex items-center px-2">
             <MenuMobile/>
             <h2 className="text-xl p-4">Quản lý đơn hàng</h2>
         </div>
-        <div className="flex px-4 items-center z-50 gap-4">
+        <div className="flex px-4 ManagerSearch flex-wrap items-center z-50 gap-4">
           <OrderSearch onSearch={handleSearch} />
-          <div className="dropdown z-50 relative">
+          <div className="dropdown ManagerSearch__Lish z-50 relative">
             <div 
-              className="select bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
+              className="select  bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <span className="selected">{selectedStatusLabel}</span>
@@ -178,15 +183,27 @@ const ManagerOrder = () => {
               </div>
             ) : (
               pendingOrders.map((order) => (
-                <OrderItem 
-                  key={order._id}
-                  order={order}
-                  getProductImage={getProductImage}
-                  onViewDetails={handleViewDetails}
-                  onConfirmOrder={handleConfirmOrder}
-                  isUpdating={processingOrderId === order._id}
-                  mode="status" 
-                />
+                isMobile ? (
+                  <OrderItemMobile
+                    key={order._id}
+                    order={order}
+                    getProductImage={getProductImage}
+                    onViewDetails={handleViewDetails}
+                    onConfirmOrder={handleConfirmOrder}
+                    isUpdating={processingOrderId === order._id}
+                    mode="status" 
+                  />
+                ) : (
+                  <OrderItemDesktop
+                    key={order._id}
+                    order={order}
+                    getProductImage={getProductImage}
+                    onViewDetails={handleViewDetails}
+                    onConfirmOrder={handleConfirmOrder}
+                    isUpdating={processingOrderId === order._id}
+                    mode="status" 
+                  />
+                )
               ))
             )}
           </section>
