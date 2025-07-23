@@ -42,4 +42,9 @@
     height: 450px;
     margin-top: 5rem;
     font-weight: bold;
+    &--mobile{
+        @media(max-width:900px){
+            display:none;
+        }
+    }
 }

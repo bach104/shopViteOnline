@@ -3,8 +3,8 @@ import { useGetProductsQuery } from "../../redux/features/shop/productsApi";
 import StoreBanner from "../../components/StoreBanner";
 import ProductCards from "../Shop/review/ProductCards";
 import Btn from "../../components/Btn";
-import Filter from "../../components/Filter";
-
+import Filter from "../../components/filter/Filter";
+import FilterMobile from "../../components/filter/FilterMobile";
 const Store = () => {
   const [filters, setFilters] = useState({
     material: new Set(),
@@ -40,19 +40,19 @@ const Store = () => {
 
   return (
     <>
-      <section className="store__container relative">
+      <section className="store__container store__container--mobile relative">
         <StoreBanner />
         <div className="absolute p-3 store__title top-10 left-10 z-10 rounded-md">
           <h4 className="text-5xl text-white">Cửa hàng</h4>
           <p className="text-white mt-3">Hãy lựa chọn theo phong cách của bạn</p>
         </div>
       </section>
-
       <div className="flex gap-4 p-4 section__container rounded-md">
         <Filter filters={filters} setFilters={setFilters} />
         <div className="flex-1">
-          <div className="bg__header p-4">
+          <div className="bg__header flex items-center relative justify-between p-4">
             <h4 className="font-bold">Danh sách sản phẩm</h4>
+            <FilterMobile filters={filters} setFilters={setFilters}/>
           </div>
           {isLoading ? (
             <p className="text-center p-4">Đang tải sản phẩm...</p>
