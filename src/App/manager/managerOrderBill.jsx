@@ -2,10 +2,12 @@ import { useGetAllOrdersQuery } from "../../redux/features/order/orderApi";
 import { useState, useMemo } from "react";
 import ManagerOrderInformation from "./base/managerOrderInformation";
 import { getBaseUrl } from "../../utils/baseURL";
-import OrderItem from "./base/orerItemsDesktop";
+import OrderDesktop from "./base/orerItemsDesktop";
+import OrderMobile from "./base/orerItemsMobile";
 import OrderSearch from "./base/searchOrder";
 import Pagination from "./base/Pagination";
-import MenuMobile from "./base/managerMenuMobile"
+import MenuMobile from "./base/managerMenuMobile";
+import { useMediaQuery } from 'react-responsive';
 const statusOptions = [
   { value: "all", label: "Tất cả hoá đơn", color: "text-gray-600", bgColor: "bg-gray-100" },
   { value: "thanh toán khi nhận hàng", label: "Thanh toán khi nhận hàng", color: "text-green-600" },
@@ -18,7 +20,7 @@ const ManagerOrderBill = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   const { data, isLoading, isError } = useGetAllOrdersQuery({
     page,
     ...(statusFilter !== "all" && { paymentMethod: statusFilter })
@@ -42,7 +44,6 @@ const ManagerOrderBill = () => {
       pageOrdersCount: 0
     };
   }, [data]);
-
   const getProductImage = (image) => {
     if (!image) return "";
     return `${getBaseUrl()}/${image.replace(/\\/g, "/")}`;
@@ -95,16 +96,16 @@ const ManagerOrderBill = () => {
 
   return (
     <>
-      <div className="Manager__display--Title flex justify-items-center justify-between">
+      <div className="Manager__display--Title flex justify-items-center flex-wrap justify-between">
         <div className="flex items-center px-2">
             <MenuMobile/>
             <h2 className="text-xl p-4">Quản lý hoá đơn</h2>
         </div>
-        <div className="flex px-4 items-center gap-3 z-50">
+        <div className="flex px-4 ManagerSearch flex-wrap items-center z-50 gap-4">
           <OrderSearch onSearch={handleSearch} />
-          <div className="dropdown z-50 relative">
+          <div className="dropdown ManagerSearch__Lish z-50 relative">
             <div 
-              className="select bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
+              className="select  bg-black bg-opacity-70 text-white px-4 py-2 rounded-sm cursor-pointer flex items-center justify-between"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <span className="selected">{selectedStatusLabel}</span>
@@ -132,7 +133,6 @@ const ManagerOrderBill = () => {
           </div>
         </div>
       </div>
-      
       <div className="Manager__display--Box p-4">
         <div className="shoppingCart">
           <section>
@@ -154,13 +154,23 @@ const ManagerOrderBill = () => {
               </div>
             ) : (
               pendingOrders.map((order) => (
-                <OrderItem 
-                  key={order._id}
-                  order={order}
-                  getProductImage={getProductImage}
-                  onViewDetails={handleViewDetails}
-                  mode="payment" 
-                />
+                isMobile ? (
+                  <OrderMobile 
+                    key={order._id}
+                    order={order}
+                    getProductImage={getProductImage}
+                    onViewDetails={handleViewDetails}
+                    mode="payment" 
+                  />
+                ) : (
+                  <OrderDesktop 
+                    key={order._id}
+                    order={order}
+                    getProductImage={getProductImage}
+                    onViewDetails={handleViewDetails}
+                    mode="payment" 
+                  />
+                )
               ))
             )}
           </section>

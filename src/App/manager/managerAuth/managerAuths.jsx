@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { useGetUsersQuery, useRemoveUserMutation } from "../../../redux/features/auth/authApi";
 import { getBaseUrl } from "../../../utils/baseURL";
-import InformationAuth from "../base/informationAuth";
+import InformationAuth from "./informationAuth";
 import avatarImg from "../../../assets/img/avatar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faCheck } from "@fortawesome/free-solid-svg-icons";

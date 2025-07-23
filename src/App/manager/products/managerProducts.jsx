@@ -113,22 +113,21 @@ const ManagerProducts = () => {
   const displayProducts = isSearching ? filteredProducts : data.products;
 
   return (
-    <div className="relative">
-      <div className="Manager__display--Title flex justify-between">
-        <div className="flex gap-1 items-center px-2">
+    <>
+      <div className="Manager__display--Title flex px-4 first-letter justify-between">
+        <div className="flex gap-3 items-center">
           <MenuMobile/>
-          <h2 className="text-xl p-4">Quản lý sản phẩm</h2>
+          <h2 className="text-xl">Quản lý sản phẩm</h2>
         </div>
         <input
           type="text"
           id="search"
-          className="w-1/3 p-2 mx-4 my-2 text-black rounded-md"
+          className="w-1/3 p-2 my-2  text-black rounded-md"
           placeholder="Tìm kiếm sản phẩm"
           value={searchTerm}
           onChange={handleSearchChange}
         />
       </div>
-      
       <div className="Manager__display--Box gap-6 mobile p-4">
         {displayProducts.length === 0 ? (
           <div className="text-center py-8">
@@ -136,7 +135,7 @@ const ManagerProducts = () => {
           </div>
         ) : (
           displayProducts.map((product, index) => (
-            <div key={`product-${product._id}`}> {/* or use index if _id is not available */}
+            <div key={`product-${product._id}`}>
               <DesktopProductItem 
                 product={product}
                 index={index}
@@ -218,7 +217,7 @@ const ManagerProducts = () => {
         </div>
       )}
       <Outlet />
-    </div>
+    </>
   );
 };
 

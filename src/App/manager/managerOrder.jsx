@@ -27,7 +27,7 @@ const ManagerOrder = () => {
   const [processingOrderId, setProcessingOrderId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobile = useMediaQuery({ maxWidth: 600 });
 
   const { data, isLoading, isError, refetch } = useGetAllOrdersQuery({
     page,

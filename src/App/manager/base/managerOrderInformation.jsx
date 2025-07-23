@@ -60,13 +60,15 @@ const ManagerOrderInformation = ({ order, onClose }) => {
         <section className=" bg-white flex flex-col Manager__display--Box justify-between">
             <div className="space-y-4 p-4 ">
                 {order.items.map((item, index) => (
-                <div key={index} className="Manager__display--product  gap-4 h-36 justify-between p-2 ">
-                    <img 
-                    src={getProductImage(item.image)} 
-                    className="h-32 w-32 object-cover border border-black rounded-s" 
-                    alt={item.name}
-                    onError={(e) => (e.target.src = avatarImg)}
-                    />
+                <div key={index} className="Manager__display--information  gap-4 h-auto justify-between p-2 ">
+                    <div>
+                        <img 
+                        src={getProductImage(item.image)} 
+                        className="h-full w-32 object-cover border border-black rounded-s" 
+                        alt={item.name}
+                        onError={(e) => (e.target.src = avatarImg)}
+                        />
+                    </div>
                     <div className="flex-1 shoppingItems__technology">
                         <h3 className="font-medium">{item.name}</h3>
                         <p className="text-sm">

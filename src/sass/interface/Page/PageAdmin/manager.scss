@@ -45,7 +45,6 @@
             min-height: 900px;
             max-height: 900px;
         }
-      
         &--product{
             display:flex;
             border:1px solid black;
@@ -59,21 +58,21 @@
                 }
             }
         }
+        &--information{
+            display:flex;
+            border:1px solid black;
+            margin-top: 12px;
+            &:first-child{
+                margin-top:0;
+            }
+            >img{
+                height:100%;
+                display:block;
+            }
+        }
         &--Mobile{
             display:none;
         }
-    }
-}
-.menuManagerMobile{
-    display:none;
-    >ul{
-        position:absolute;
-        top:54px;
-        left:0;
-        background-color: #fff;
-        width:100%;
-        z-index: 100;
-
     }
 }
 @media (max-width: 900px) {
@@ -155,9 +154,6 @@
                         padding-bottom:1rem;
                         .select{
                             width:100%;
-                            .menu{
-
-                            }
                         }
                     }
                 }

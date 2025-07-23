@@ -14,26 +14,45 @@ const OrderItem = ({ item, status }) => {
   };
 
   return (
-    <div className="flex shoppingItems gap-2 h-32 bg__select p-2 rounded-sm shadow-sm">
-      <img 
-        src={getProductImage(item.image)} 
-        className="w-28 border border-black h-full object-cover rounded-s" 
-        alt={item.name || 'Product image'}
-        onError={(e) => (e.target.src = avatarImg)}
-      />
-      <div className="flex-1 orderInfor ">
-        <h3 className="font-medium">{item.name || 'Sản phẩm'}</h3>
-        <p className="text-sm">
-          <b>Giá:</b> {((item.price || 0) * (item.quantity || 0)).toLocaleString()}đ
-        </p>
-        <p className="text-sm">
-          <b>Số lượng:</b> {item.quantity || 0}
-        </p>
-        <p className="text-sm">
-          <b>Size:</b> {item.size || 'N/A'} | <b>Màu:</b> {item.color || 'N/A'}
-        </p>
+    <div className="flex shoppingItems gap-2 h-auto bg__select p-2 rounded-sm shadow-sm">
+      <div className="w-28">
+        <img 
+          src={getProductImage(item.image)} 
+          className="w-28 border border-black h-full object-cover rounded-s" 
+          alt={item.name || 'Product image'}
+          onError={(e) => (e.target.src = avatarImg)}
+        />
       </div>
-      <div className="h-full flex items-end">
+      <div className="flex-1">
+        <div className="orderInfor ">
+          <h3 className="font-medium">{item.name || 'Sản phẩm'}</h3>
+          <p className="text-sm">
+            <b>Giá:</b> {((item.price || 0) * (item.quantity || 0)).toLocaleString()}đ
+          </p>
+          <p className="text-sm">
+            <b>Số lượng:</b> {item.quantity || 0}
+          </p>
+          <p className="text-sm">
+            <b>Size:</b> {item.size || 'N/A'} | <b>Màu:</b> {item.color || 'N/A'}
+          </p>
+        </div>
+         <div className="btn__cart--mobile w-full justify-end">
+            {status === 'đã nhận được hàng' && (
+              <Link
+                to={{
+                  pathname: `/products/${item.productId}`,
+                  state: { fromOrder: true } 
+                }}
+                onClick={handleReviewClick}
+                className="btn__click2"
+              >
+                Đánh giá
+              </Link>
+            )}
+          </div>
+      </div>
+      <div className="btn__cart--desktop">
+        <div className="h-full flex items-end">
         {status === 'đã nhận được hàng' && (
           <Link
             to={{
@@ -46,6 +65,7 @@ const OrderItem = ({ item, status }) => {
             Đánh giá
           </Link>
         )}
+        </div>
       </div>
     </div>
   );

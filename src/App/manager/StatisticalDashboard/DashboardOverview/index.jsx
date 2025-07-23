@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useRef, useEffect,useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Row, Col, ButtonGroup, Button } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import { 
   ResponsiveContainer, 
   ComposedChart, 
@@ -18,6 +18,24 @@ import KPICard from './KPICard';
 const DashboardOverview = ({ data, filterByDateRange }) => {
   const [timeRange, setTimeRange] = useState('day');
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Đóng dropdown khi click bên ngoài
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSelect = (value) => {
+    setTimeRange(value);
+    setShowDropdown(false);
+  };
 
   const chartData = useMemo(() => {
     const baseData = timeRange === 'day' 
@@ -41,11 +59,10 @@ const DashboardOverview = ({ data, filterByDateRange }) => {
   }, [timeRange, data, filterByDateRange]);
 
   return (
-    <div className="statistical-dashboard">
-      <div className="statistical__header mb-4">
+    <div className="statistical__mobile">
+      <div className="statistical__header flex mb-4">
         <h2 className="statistical__header-title">Bảng điều khiển thống kê</h2>
       </div>
-
       <Row className="mb-4 gap-4 statistical__kpi">
         <Col className="statistical__kpi-item" md={3}>
           <KPICard 
@@ -87,39 +104,58 @@ const DashboardOverview = ({ data, filterByDateRange }) => {
 
       <Card className="chart-card mb-4 shadow-sm">
         <Card.Header className="chart-card__header">
-          <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <h5 className="mb-0">Phân tích tổng hợp</h5>
-            <div className="d-flex mt-2 mt-md-0">
-              <ButtonGroup size="sm gap-4 flex">
-                <Button 
-                  variant={timeRange === 'day' ? 'primary' : 'outline-secondary'}
-                  onClick={() => setTimeRange('day')}
+          <Row className="align-items-center">
+            <Col xs={12} md={6}>
+              <h5 className="statistical__header-title">Phân tích tổng hợp</h5>
+            </Col>
+            <Col xs={12} md={6} className="mt-2 mt-md-0">
+              <div className="flex gap-2 align-items-center justify-content-md-end">
+                <div className="relative" ref={dropdownRef}>
+                  <div 
+                    className="border-black border rounded px-2 py-1 bg-white"
+                    style={{ width: '150px' }}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                  >
+                    {timeRange === 'day' ? 'Ngày' : 
+                     timeRange === 'week' ? 'Tuần' : 'Tháng'}
+                  </div>
+                  {showDropdown && (
+                    <ul 
+                      className="border statistical-dashboard__menu dar bg-white border-black show absolute"
+                      style={{ width: '100%', zIndex: 1000 }}
+                    >
+                      <li
+                        className={`dropdown-item ${timeRange === 'day' ? 'active' : ''}`}
+                        onClick={() => handleSelect('day')}
+                      >
+                          Ngày
+                      </li>
+                      <li
+                        className={`dropdown-item ${timeRange === 'week' ? 'active' : ''}`}
+                        onClick={() => handleSelect('week')}
+                      >
+                          Tuần
+                      </li>
+                      <li
+                        className={`dropdown-item ${timeRange === 'month' ? 'active' : ''}`}
+                        onClick={() => handleSelect('month')}
+                      >
+                          Tháng
+                      </li>
+                    </ul>
+                  )}
+                </div>
+                
+                <button
+                  size="sm" 
+                  className="border-black border rounded px-2 py-1 bg-white"
+                  onClick={() => setShowSecondaryAxis(!showSecondaryAxis)}
                 >
-                  Ngày
-                </Button>
-                <Button 
-                  variant={timeRange === 'week' ? 'primary' : 'outline-secondary'}
-                  onClick={() => setTimeRange('week')}
-                >
-                  Tuần
-                </Button>
-                <Button 
-                  variant={timeRange === 'month' ? 'primary' : 'outline-secondary'}
-                  onClick={() => setTimeRange('month')}
-                >
-                  Tháng
-                </Button>
-                <Button 
-                    variant="outline-secondary" 
-                    size="sm" 
-                    className="ms-2"
-                    onClick={() => setShowSecondaryAxis(!showSecondaryAxis)}
-                >
-                    {showSecondaryAxis ? 'Ẩn trục phụ' : 'Hiện trục phụ'}
-                </Button>
-              </ButtonGroup>
-            </div>
-          </div>
+                  {showSecondaryAxis ? 'Ẩn trục phụ' : 'Hiện trục phụ'}
+                </button>
+              </div>
+            </Col>
+          </Row>
         </Card.Header>
         <Card.Body className="chart-card__body">
           <div style={{ height: '400px' }}>

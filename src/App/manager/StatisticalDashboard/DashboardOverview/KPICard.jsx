@@ -24,13 +24,15 @@ const KPICard = ({ title, value, growth, icon, color }) => {
           <div>
             <h6 className="kpi-card__title">{title}</h6>
             <h3 className="kpi-card__value">{value}</h3>
-            <span className={`text-${isPositive ? 'success' : 'danger'} d-flex align-items-center`}>
-              <IconComponent className="me-1" />
-              {Math.abs(growth).toFixed(1)}%
-            </span>
-          </div>
-          <div className={`kpi-card__icon kpi-card__icon--${color}`}>
-            <IconComponent size={20} />
+            <div className="kpi-card__growth items-center gap-2">
+              <span className={`text-${isPositive ? 'success' : 'danger'} d-flex align-items-center`}>
+                <IconComponent className="me-1" />
+                {Math.abs(growth).toFixed(1)}%
+              </span>
+              <div className={`kpi-card__icon kpi-card__icon--${color}`}>
+                <IconComponent size={20} />
+              </div>
+            </div>
           </div>
         </div>
       </Card.Body>

@@ -31,7 +31,7 @@ const OrderItemDesktop = ({
   return (
     <>
       <div className="Manager__display--product Manager__display--Tablet flex h-36 gap-4 justify-between p-2 mb-4 rounded-md shadow-sm hover:shadow-md transition-shadow ">
-        <div className="flex items-center">
+        <div className="flex ProInfor items-center">
           {firstProductImage ? (
             <img 
               src={firstProductImage}

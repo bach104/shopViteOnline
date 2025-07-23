@@ -87,3 +87,16 @@
 .btn__iconClick:hover{
     color: $btn-click;
 }
+.btn__cart{
+    &--mobile{
+        display:none;
+        @media (max-width: 600px) {
+            display:flex;
+        }
+    }
+    &--desktop{
+        @media (max-width: 600px) {
+            display:none;
+        }
+    }
+}

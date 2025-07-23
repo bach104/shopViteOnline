@@ -50,7 +50,6 @@ const InformationProducts = () => {
               })}
             </div>
           </div>
-
           <div className="mt-4">
             <p className="font-semibold">Video:</p>
             <div className="w-40 h-32 bg-gray-300 flex items-center justify-center">

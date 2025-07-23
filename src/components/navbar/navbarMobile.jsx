@@ -15,7 +15,7 @@ const NavbarMobile = () => {
   };
 
   return (
-    <div className="relative navbarMobile__menu">
+    <div className="relative  navbarMobile__menu">
       <nav 
         className="cursor-pointer text-2xl"
         onClick={toggleMenu}
@@ -24,7 +24,7 @@ const NavbarMobile = () => {
       </nav>
       
       <ul 
-        className={`absolute navbarMobile__list bg-white left-0 top-0 transition-all duration-300 ease-in-out ${
+        className={`navbarMobile__list bg-white transition-all duration-300 ease-in-out ${
           isMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
         }`}
       >

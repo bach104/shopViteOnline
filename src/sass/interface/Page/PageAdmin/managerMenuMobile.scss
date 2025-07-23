@@ -1,0 +1,27 @@
+.managerMobile {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width:100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 100;
+  transition: all 0.3s ease;
+  box-shadow: 2px 0 5px rgba(216, 69, 69, 0.1);
+  
+  &.open {
+    left: 0;
+  }
+
+  > li > a:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+  }
+}
+   
+.manager__Mobile{
+    display:none;
+    @media (max-width: 900px) {
+        display:block;
+    }
+}
