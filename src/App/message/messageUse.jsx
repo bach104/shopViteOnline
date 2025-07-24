@@ -29,19 +29,14 @@ const Messenger = () => {
   function getSafeData(response, defaultValue = []) {
   return response && response.data ? response.data : defaultValue;
 }
-
   const messages = getSafeData(messagesData);
-
   const hasUpdatedName = currentUser?.yourname && currentUser.yourname.trim() !== '';
-
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {

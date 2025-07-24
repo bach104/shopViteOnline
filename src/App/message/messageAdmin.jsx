@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaSmile, FaThumbsUp } from "react-icons/fa";
 import { BsFillImageFill } from "react-icons/bs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faPaperPlane, faTimes, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faPaperPlane, faTimes, faMagnifyingGlass, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import EmojiPicker from "emoji-picker-react";
 import { useSelector } from "react-redux";
@@ -26,6 +26,9 @@ const Messenger = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedChat, setSelectedChat] = useState(null);
+  const [showChatArea, setShowChatArea] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 600);
+  const [isSending, setIsSending] = useState(false);
   
   const fileInputRef = useRef(null);
   const emojiPickerRef = useRef(null);
@@ -54,6 +57,26 @@ const Messenger = () => {
     if (avatarPath.startsWith('http')) return avatarPath;
     return `${getBaseUrl()}/uploads/${avatarPath}`;
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobileView = window.innerWidth <= 600;
+      setIsMobileView(mobileView);
+      
+      if (!mobileView) {
+        setShowChatArea(true);
+      } else if (!selectedChat) {
+        setShowChatArea(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [selectedChat]);
 
   useEffect(() => {
     if (conversations.length > 0 && !selectedChat) {
@@ -115,20 +138,44 @@ const Messenger = () => {
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     
-    if (files.length > 0) {
-      const newSelectedImages = [...selectedImages, ...files];
+    // Validate file types and sizes
+    const validFiles = files.filter(file => {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      
+      if (!validTypes.includes(file.type)) {
+        alert('Chỉ chấp nhận file ảnh (JPEG, PNG, GIF)');
+        return false;
+      }
+      
+      if (file.size > maxSize) {
+        alert('Kích thước file quá lớn (tối đa 5MB)');
+        return false;
+      }
+      
+      return true;
+    });
+    
+    if (validFiles.length > 0) {
+      const newSelectedImages = [...selectedImages, ...validFiles];
       setSelectedImages(newSelectedImages);
       
-      const newImagePreviews = files.map(file => URL.createObjectURL(file));
+      const newImagePreviews = validFiles.map(file => URL.createObjectURL(file));
       setImagePreviews(prev => [...prev, ...newImagePreviews]);
       
       setIsInputFocused(true);
     }
+    
+    // Reset file input to allow selecting same file again
+    e.target.value = null;
   };
 
   const removeImage = (index) => {
     const newSelectedImages = [...selectedImages];
     const newImagePreviews = [...imagePreviews];
+    
+    // Revoke object URL to prevent memory leaks
+    URL.revokeObjectURL(newImagePreviews[index]);
     
     newSelectedImages.splice(index, 1);
     newImagePreviews.splice(index, 1);
@@ -141,51 +188,80 @@ const Messenger = () => {
     }
   };
 
+  const handleSelectChat = (conversation) => {
+    setSelectedChat(conversation);
+    if (isMobileView) {
+      setShowChatArea(true);
+    }
+  };
+
+  const handleBackToList = () => {
+    setShowChatArea(false);
+  };
+
   const handleSendMessage = async () => {
     const hasText = inputValue.trim().length > 0;
     const hasImages = selectedImages.length > 0;
 
-    if (hasText || hasImages) {
-      try {
-        let payload;
-        
-        if (hasImages) {
-          const formData = new FormData();
-          if (hasText) {
-            formData.append('text', inputValue.trim());
-          }
-          selectedImages.forEach(image => formData.append('images', image));
-          if (selectedChat?.userId) {
-            formData.append('receiverId', selectedChat.userId);
-          }
-          payload = formData;
-        } else {
-          payload = { 
-            text: inputValue.trim(),
-            receiverId: selectedChat?.userId 
-          };
+    if (!hasText && !hasImages) return;
+    
+    if (!selectedChat?.userId) {
+      console.error('No recipient selected');
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      let payload;
+      
+      if (hasImages) {
+        const formData = new FormData();
+        if (hasText) {
+          formData.append('text', inputValue.trim());
         }
-        
-        await sendMessage(payload).unwrap();
-        
-        setInputValue("");
-        setSelectedImages([]);
-        setImagePreviews([]);
-        setIsInputFocused(false);
-      } catch (error) {
-        console.error('Failed to send message:', error);
+        selectedImages.forEach(image => formData.append('images', image));
+        formData.append('receiverId', selectedChat.userId);
+        payload = formData;
+      } else {
+        payload = { 
+          text: inputValue.trim(),
+          receiverId: selectedChat.userId 
+        };
       }
+      
+      await sendMessage(payload).unwrap();
+      
+      setInputValue("");
+      setSelectedImages([]);
+      setImagePreviews([]);
+      setIsInputFocused(false);
+    } catch (error) {
+      console.error('Failed to send message:', {
+        status: error.status,
+        data: error.data,
+        originalError: error
+      });
+      alert('Gửi tin nhắn thất bại. Vui lòng thử lại.');
+    } finally {
+      setIsSending(false);
     }
   };
 
   const handleSendLike = async () => {
+    if (!selectedChat?.userId) {
+      console.error('No recipient selected');
+      return;
+    }
+
     try {
       await sendMessage({ 
         text: "👍",
-        receiverId: selectedChat?.userId 
+        receiverId: selectedChat.userId 
       }).unwrap();
     } catch (error) {
       console.error('Failed to send like:', error);
+      alert('Gửi like thất bại. Vui lòng thử lại.');
     }
   };
 
@@ -216,8 +292,9 @@ const Messenger = () => {
           <h2>Tất cả tin nhắn</h2>
         </div>
       </div>
+
       <div className="messenger flex container-width">
-        <div className="sidebar">
+        <div className={`sidebar ${isMobileView && showChatArea ? 'mobile-hidden' : ''}`}>
           <h2 className="chats-label text-2xl font-bold">Chats</h2>
           <div className="search-bar my-4">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -233,7 +310,7 @@ const Messenger = () => {
               <div 
                 className={`chat-item ${selectedChat?.userId === conversation.userId ? 'active' : ''}`} 
                 key={conversation.userId}
-                onClick={() => setSelectedChat(conversation)}
+                onClick={() => handleSelectChat(conversation)}
               >
                 <img
                   src={getAvatarUrl(conversation.avatar)}
@@ -254,10 +331,16 @@ const Messenger = () => {
             ))}
           </div>
         </div>
-        <div className="chat-area">
+        
+        <div className={`chat-area ${isMobileView && !showChatArea ? 'mobile-hidden' : ''}`}>
           {selectedChat ? (
             <>
               <div className="chat-header">
+                {isMobileView && (
+                  <button className="mobile-back-button" onClick={handleBackToList}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                  </button>
+                )}
                 <img 
                   src={getAvatarUrl(selectedChat.avatar)} 
                   alt="avatar"
@@ -268,6 +351,7 @@ const Messenger = () => {
                 />
                 <span>{selectedChat.yourname}</span>
               </div>
+              
               <div className="chat-body">
                 {messagesLoading ? (
                   <div>Loading messages...</div>
@@ -338,6 +422,7 @@ const Messenger = () => {
                         <button 
                           className="remove-image-btn"
                           onClick={() => removeImage(index)}
+                          disabled={isSending}
                         >
                           <FontAwesomeIcon icon={faTimes} />
                         </button>
@@ -346,11 +431,13 @@ const Messenger = () => {
                   </div>
                 )}
               </div>
+              
               <div className="chat-input">
                 <div className="relative">
                   <BsFillImageFill 
                     className="btn__iconClick"
                     onClick={() => fileInputRef.current.click()}
+                    disabled={isSending}
                   />
                   <input
                     type="file"
@@ -359,6 +446,7 @@ const Messenger = () => {
                     accept="image/*"
                     multiple
                     style={{ display: 'none' }}
+                    disabled={isSending}
                   />
                 </div>
                 <div className="chat-enterText">
@@ -369,12 +457,14 @@ const Messenger = () => {
                     onBlur={handleInputBlur}
                     onChange={handleInputChange}
                     value={inputValue}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    onKeyPress={(e) => e.key === 'Enter' && !isSending && handleSendMessage()}
+                    disabled={isSending}
                   />
                   <div className="chat-enterText__iconClick" ref={emojiPickerRef}>
                     <FaSmile 
-                      onClick={() => setShowEmojiPicker(!showEmojiPicker)} 
+                      onClick={() => !isSending && setShowEmojiPicker(!showEmojiPicker)} 
                       className="cursor-pointer"
+                      disabled={isSending}
                     />
                     {showEmojiPicker && (
                       <div className="absolute bottom-10 right-0 z-10">
@@ -391,13 +481,14 @@ const Messenger = () => {
                 {!isInputFocused && !inputValue.trim() && selectedImages.length === 0 ? (
                   <FaThumbsUp 
                     className="btn__iconClick" 
-                    onClick={handleSendLike}
+                    onClick={!isSending ? handleSendLike : undefined}
+                    disabled={isSending}
                   />
                 ) : (
                   <FontAwesomeIcon 
-                    className="btn__iconClick" 
+                    className={`btn__iconClick ${isSending ? 'opacity-50' : ''}`} 
                     icon={faPaperPlane} 
-                    onClick={handleSendMessage}
+                    onClick={!isSending ? handleSendMessage : undefined}
                   />
                 )}
               </div>

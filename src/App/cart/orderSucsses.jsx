@@ -13,12 +13,10 @@ const OrderSuccess = () => {
   const { data: orders = [], isLoading, error } = useGetUserOrdersQuery(undefined, {
     skip: !isLoggedIn
   });
-
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
     setShowDetails(true);
   };
-
   const handleCloseDetails = () => {
     setShowDetails(false);
   };

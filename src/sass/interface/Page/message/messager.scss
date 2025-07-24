@@ -179,7 +179,6 @@
         }
       }
     }
-
     .chat-input {
       padding: 10px 15px;
       background-color: #f0f2f5;
@@ -248,3 +247,155 @@
     height: calc(100vh - 120px);
   }
 }
+
+@media (max-width: 600px) {
+  .messenger {
+    .sidebar{
+      width:100%;
+    }
+ 
+  }
+}
+/* Các style cơ bản */
+.messenger {
+  height: calc(100vh - 60px);
+  display: flex;
+}
+
+.sidebar {
+  width: 350px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  background: #fff;
+  transition: transform 0.3s ease;
+}
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f0f2f5;
+}
+
+.chat-header {
+  padding: 15px;
+  background: #f0f2f5;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.chat-header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.chat-input {
+  padding: 10px;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #ddd;
+}
+
+/* Style cho mobile */
+@media (max-width: 600px) {
+  .messenger {
+    position: relative;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+  }
+  
+  .sidebar.mobile-hidden {
+    transform: translateX(-100%);
+  }
+  
+  .chat-area {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .chat-area.mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-back-button {
+    margin-right: 15px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .chat-list .chat-item {
+    padding: 12px;
+    cursor: pointer;
+  }
+  
+  .chat-list .chat-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Các style khác giữ nguyên */
+
+
+
+.chat-item {
+  display: flex;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.chat-item.active {
+  background-color: #e5efff;
+}
+
+.chat-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.chat-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.chat-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-last {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Các style khác cho tin nhắn, input... */
